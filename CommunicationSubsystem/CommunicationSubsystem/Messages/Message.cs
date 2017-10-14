@@ -1,8 +1,10 @@
 ﻿using System;
 
-namespace CommunicationSubsystem
+namespace CommunicationSubsystem.Messages
 {
-    public class Class1
+    public abstract class Message
     {
+        protected int MessageID { get; set; }
+
     }
 }
