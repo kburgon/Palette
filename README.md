@@ -1,2 +1,2 @@
 # Palette
-A collaborative drawing board for drawing as a team.
+A collaborative drawing board for team creativity.
