@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunicationSubsystem", "CommunicationSubsystem\CommunicationSubsystem.csproj", "{2460E5F2-2673-4E6E-ACF9-3C6BEBCDE060}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunicationSubsystem", "CommunicationSubsystem\CommunicationSubsystem.csproj", "{2460E5F2-2673-4E6E-ACF9-3C6BEBCDE060}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunicationSubsystem-Test", "UnitTestProject1\CommunicationSubsystem-Test.csproj", "{D4E26C57-C01C-4788-9714-2C6224E3AD3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunicationSubsystem-Test", "CommunicationSubsystem-Test\CommunicationSubsystem-Test.csproj", "{D4E26C57-C01C-4788-9714-2C6224E3AD3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
