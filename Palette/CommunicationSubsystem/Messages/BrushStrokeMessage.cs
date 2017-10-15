@@ -7,6 +7,6 @@ namespace CommunicationSubsystem.Messages
     {
         public int CanvasId { get; set; }
         public string BrushType { get; set; }
-        public IEnumerable<Tuple<int, int>> Points { get; set; }
+        public List<Tuple<int, int>> Points { get; set; }
     }
 }
