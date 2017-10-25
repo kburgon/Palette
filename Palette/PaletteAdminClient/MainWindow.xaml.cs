@@ -41,5 +41,23 @@ namespace PaletteAdminClient
             CanvasIdConnectGrid.Visibility = Visibility.Visible;
             OpenCanvasEntryButton.Visibility = Visibility.Hidden;
         }
+
+        private void CancelAdminLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            AdminLoginCredentialsGrid.Visibility = Visibility.Hidden;
+            OpenAdminLoginCredentialsButton.Visibility = Visibility.Visible;
+        }
+
+        private void SubmitAdminLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            PaletteClientTabItem.Visibility = Visibility.Visible;
+            AdminClientTabItem.Visibility = Visibility.Visible;
+        }
+
+        private void OpenAdminLoginCredentialsButton_Click(object sender, RoutedEventArgs e)
+        {
+            AdminLoginCredentialsGrid.Visibility = Visibility.Visible;
+            OpenAdminLoginCredentialsButton.Visibility = Visibility.Hidden;
+        }
     }
 }
