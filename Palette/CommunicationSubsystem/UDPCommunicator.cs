@@ -7,36 +7,67 @@ using System.Threading.Tasks;
 
 namespace CommunicationSubsystem
 {
-    class UDPCommunicator
+    public class UDPCommunicator
     {
-        protected UdpClient udpClient;
+        private UdpClient udpClientReceiver;
+        private UdpClient udpClientSender;
         private Task _task;
         private bool _keepGoing;
-        public IPAddress address { get; set; }
-        public int port { get; set; }
-        public int timeout { get; set; }
+        private IPAddress address { get; set; }
+        private int port { get; set; }
+
+        public void SetAddress(IPAddress a)
+        {
+            address = a;
+        }
+
+        public void SetPort(int p)
+        {
+            port = p;
+        }
+
+        public IPAddress GetAddress()
+        {
+            return address;
+        }
+
+        public int GetPort()
+        {
+            return port;
+        }
 
         public void Send(Envelope envelope)
         {
 
         }
 
-        public Envelope Receive()
+        public Envelope Receive(int timeout)
         {
-            bool endReceive = false;
-            while (!endReceive)
+            Envelope newEnv = null;
+            udpClientReceiver = null;
+            byte[] bytes;
+            try
             {
+                udpClientReceiver = new UdpClient(port);
+                udpClientReceiver.Client.ReceiveTimeout = timeout;
+            }
+            catch (SocketException) { }
+
+            if(udpClientReceiver != null)
+            {
+                IPEndPoint ep = new IPEndPoint(IPAddress.Any, port);
                 try
                 {
+                    bytes = udpClientReceiver.Receive(ref ep);
                 }
-                catch (SocketException e)
+                catch(SocketException e)
                 {
                     if (e.SocketErrorCode != SocketError.TimedOut)
                         throw;
                 }
             }
 
-            return null;
+            return newEnv;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommunicationSubsystem
 {
-    class EnvelopeQueueDictionary
+    public class EnvelopeQueueDictionary
     {
 
         protected Dictionary<string, EnvelopeQueue> envelopeQueueDict = new Dictionary<string, EnvelopeQueue>();

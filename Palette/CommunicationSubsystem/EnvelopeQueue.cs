@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommunicationSubsystem
 {
-    class EnvelopeQueue
+    public class EnvelopeQueue
     {
         private int _count;
         private object _myLock = new object();
