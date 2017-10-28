@@ -8,7 +8,16 @@ namespace CommunicationSubsystem.Conversations.StateConversations
     {
         public override void Execute()
         {
-            throw new NotImplementedException();
+            ProcessReceivedMessage();
+            CreateAuthRequest();
+            ProcessAuthReply();
+            CreateFirstUpdatedState();
+            CreateRequest();
+            ProcessReply();
+            CreateSecondUpdatedState();
+
+            // TODO: Add handling for conversation failures.
+            //ProcessFailure();
         }
 
         protected abstract void ProcessReceivedMessage();

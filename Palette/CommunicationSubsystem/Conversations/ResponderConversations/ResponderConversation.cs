@@ -8,7 +8,11 @@ namespace CommunicationSubsystem.Conversations.ResponderConversations
     {
         public override void Execute()
         {
-            throw new NotImplementedException();
+            ProcessReceivedMessage();
+            CreateReply();
+
+            // TODO: Add handling for conversation failures.
+            //ProcessFailure();
         }
         protected abstract void ProcessReceivedMessage();
         protected abstract void CreateReply();
