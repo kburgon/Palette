@@ -4,7 +4,9 @@ using System.Text;
 
 namespace CommunicationSubsystem.Conversations
 {
-    public class Conversation
+    public abstract class Conversation
     {
+        public abstract void Execute();
+        protected abstract void ProcessFailure();
     }
 }
