@@ -13,4 +13,8 @@
     <Compile Include="Conversations\ISM\UnassignCanvasConversation.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Messages\Messages.csproj" />
+  </ItemGroup>
+
 </Project>
