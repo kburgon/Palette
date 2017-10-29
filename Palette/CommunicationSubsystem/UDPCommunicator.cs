@@ -4,6 +4,8 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.IO;
+using CommunicationSubsystem.Messages;
 
 namespace CommunicationSubsystem
 {
@@ -36,16 +38,23 @@ namespace CommunicationSubsystem
             return port;
         }
 
-        public void Send(Envelope envelope)
+        public void Send(Envelope env)
         {
+            IPEndPoint ep = env.remoteEP;
 
+            if (env != null)
+            {
+                byte[] b = env.message.Encode();
+                udpClientSender.Send(b, b.Length, ep);
+            }
         }
 
         public Envelope Receive(int timeout)
         {
             Envelope newEnv = null;
+            Message newMessage = null;
             udpClientReceiver = null;
-            byte[] bytes;
+            byte[] bytes = null;
             try
             {
                 udpClientReceiver = new UdpClient(port);
@@ -64,6 +73,40 @@ namespace CommunicationSubsystem
                 {
                     if (e.SocketErrorCode != SocketError.TimedOut)
                         throw;
+                }
+            }
+
+            if(bytes != null)
+            {
+                MemoryStream stream = new MemoryStream(bytes);
+                MemoryStream tempStream = new MemoryStream(bytes);
+                int messageId = newMessage.DecodeShort(tempStream);
+                int messageType = newMessage.DecodeShort(tempStream);
+
+                switch (messageType)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                    case 10:
+                        break;
+                    case 11:
+                        break;
                 }
             }
 
