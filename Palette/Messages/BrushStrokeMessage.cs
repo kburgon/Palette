@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CommunicationSubsystem.Messages
+namespace Messages
 {
     public class BrushStrokeMessage : Message
     {

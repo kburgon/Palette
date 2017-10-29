@@ -1,4 +1,4 @@
-﻿namespace CommunicationSubsystem.Messages
+﻿namespace Messages
 {
     class TokenVerifyMessage : Message
     {

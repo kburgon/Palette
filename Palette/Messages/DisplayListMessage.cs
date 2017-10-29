@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CommunicationSubsystem.Messages
+namespace Messages
 {
     public class DisplayListMessage : Message
     {

@@ -1,4 +1,4 @@
-﻿namespace CommunicationSubsystem.Messages
+﻿namespace Messages
 {
     public class RegisterDisplayMessage : Message
     {
