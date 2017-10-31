@@ -48,7 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageTests.cs" />
+    <Compile Include="MessageEncodeDecodeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +58,10 @@
     <ProjectReference Include="..\CommunicationSubsystem\CommunicationSubsystem.csproj">
       <Project>{2460e5f2-2673-4e6e-acf9-3c6bebcde060}</Project>
       <Name>CommunicationSubsystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Messages\Messages.csproj">
+      <Project>{cae99195-e7f6-409e-a0c7-c03bd5eb7dfc}</Project>
+      <Name>Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
