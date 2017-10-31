@@ -6,7 +6,7 @@ namespace CommunicationSubsystem.Conversations.ResponderConversations
 {
     public abstract class ResponderConversation : Conversation
     {
-        public override void Execute()
+        protected override void StartConversation()
         {
             ProcessReceivedMessage();
             CreateReply();

@@ -9,13 +9,15 @@ namespace Messages
 
         public override Message Decode(MemoryStream stream)
         {
-            UnassignMessage message = new UnassignMessage();
+            UnassignMessage message = new UnassignMessage
+            {
+                MessageID = DecodeShort(stream),
+                MessageType = DecodeShort(stream),
+                AuthToken = DecodeString(stream),
+                DisplayId = DecodeShort(stream),
+                State = DecodeString(stream)
+            };
 
-            message.MessageID = DecodeShort(stream);
-            message.MessageType = DecodeShort(stream);
-            message.AuthToken = DecodeString(stream);
-            message.DisplayId = DecodeShort(stream);
-            message.State = DecodeString(stream);
 
             return message;
         }

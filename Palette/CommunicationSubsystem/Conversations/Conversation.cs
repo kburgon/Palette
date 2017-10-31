@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Messages;
 
 namespace CommunicationSubsystem.Conversations
@@ -9,7 +10,14 @@ namespace CommunicationSubsystem.Conversations
     {
         public Tuple<short, short> ConversationId { get; set; }
 
-        public abstract void Execute();
+        protected Task _conversationExecution;
+
+        public void Execute()
+        {
+            _conversationExecution = Task.Factory.StartNew(StartConversation);
+        }
+
+        protected abstract void StartConversation();
 
         protected abstract void ProcessFailure();
 

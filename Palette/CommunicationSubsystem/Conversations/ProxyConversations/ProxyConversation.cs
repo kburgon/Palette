@@ -6,7 +6,7 @@ namespace CommunicationSubsystem.Conversations.ProxyConversations
 {
     public class ProxyConversation : Conversation
     {
-        public override void Execute()
+        protected override void StartConversation()
         {
             ProcessReceivedMessage();
             CreateRequest();

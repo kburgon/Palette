@@ -12,7 +12,7 @@ namespace CommunicationSubsystem.Conversations.MulticastReponderConversations
             throw new NotImplementedException();
         }
 
-        public override void Execute()
+        protected override void StartConversation()
         {
             ProcessReceivedMessage();
             CreateMulticast();

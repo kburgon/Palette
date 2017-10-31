@@ -6,7 +6,7 @@ namespace CommunicationSubsystem.Conversations.StateConversations
 {
     public abstract class StateConversation : Conversation
     {
-        public override void Execute()
+        protected override void StartConversation()
         {
             ProcessReceivedMessage();
             CreateAuthRequest();

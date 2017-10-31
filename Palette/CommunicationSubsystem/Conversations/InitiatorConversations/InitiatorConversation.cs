@@ -6,7 +6,7 @@ namespace CommunicationSubsystem.Conversations.InitiatorConversations
 {
     public abstract class InitiatorConversation : Conversation
     {
-        public override void Execute()
+        protected override void StartConversation()
         {
             throw new NotImplementedException();
         }

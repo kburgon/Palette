@@ -75,7 +75,8 @@ namespace CommunicationSubsystem
 
                 if (env != null)
                 {
-                    _conversationFactory.CreateFromMessageType(env.message);
+                    var conversationToAdd = _conversationFactory.CreateFromMessageType(env.message);
+                    
                     EnqueueEnvelope(env);
                 }
             }
