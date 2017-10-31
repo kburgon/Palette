@@ -8,7 +8,7 @@ namespace CommunicationSubsystem
 {
     public class Envelope
     {
-        public IPEndPoint remoteEP { get; set; }
-        public Message message { get; set; }
+        public IPEndPoint RemoteEP { get; set; }
+        public Message Message { get; set; }
     }
 }

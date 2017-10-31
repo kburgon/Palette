@@ -26,7 +26,7 @@ namespace CommunicationSubsystem
 
         public void EnqueueEnvelope(Envelope env)
         {
-            EnvelopeQueue queue = GetQueue(env.message.ConversationId);
+            EnvelopeQueue queue = GetQueue(env.Message.ConversationId);
             if(env != null)
                 queue.Enqueue(env);
         }
@@ -75,8 +75,8 @@ namespace CommunicationSubsystem
 
                 if (env != null)
                 {
-                    envQueue = GetQueue(env.message.ConversationId);
-                    _conversationFactory.CreateFromMessageType(env.message);
+                    envQueue = GetQueue(env.Message.ConversationId);
+                    _conversationFactory.CreateFromMessageType(env.Message);
                     EnqueueEnvelope(env);
                 }
             }

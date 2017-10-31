@@ -9,11 +9,14 @@ namespace CommunicationSubsystem.Conversations
     public abstract class Conversation
     {
         public Tuple<short, short> ConversationId { get; set; }
+        public EnvelopeQueue EnvelopeQueue { get; set; }
 
         protected Task _conversationExecution;
+        protected static UDPCommunicator _communicator;
 
         public void Execute()
         {
+            _communicator = new UDPCommunicator();
             _conversationExecution = Task.Factory.StartNew(StartConversation);
         }
 

@@ -24,31 +24,6 @@ namespace CommunicationSubsystem.ConversationFactories
             return (Conversation)Activator.CreateInstance(conversation.GetType());
         }
 
-        public Conversation CreateFromConversationType(ConversationType conversationType)
-        {
-            switch (conversationType)
-            {
-                case ConversationType.AssignCanvas:
-                    return new AssignCanvasInitiatorConversation();
-                case ConversationType.CreateCanvas:
-                    return new CreateCanvasInitiatorConversation();
-                case ConversationType.EditCanvas:
-                    return new EditCanvasInitiatorConversation();
-                case ConversationType.GetDisplay:
-                    return new GetDisplayInitiatorConversation();
-                case ConversationType.ReadCanvas:
-                    return new RegisterDisplayInitiatorConversation();
-                case ConversationType.RegisterDisplay:
-                    return new RegisterDisplayInitiatorConversation();
-                case ConversationType.SubscribeCanvas:
-                    return new SubscribeCanvasInitiatorConversation();
-                case ConversationType.UnassignCanvas:
-                    return new UnassignCanvasInitiatorConversation();
-                default:
-                    return null;
-            }
-        }
-
         public enum ConversationType
         {
             AssignCanvas,

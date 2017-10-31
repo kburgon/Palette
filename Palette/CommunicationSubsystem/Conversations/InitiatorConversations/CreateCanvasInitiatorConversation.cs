@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Messages;
 
 namespace CommunicationSubsystem.Conversations.InitiatorConversations
 {
@@ -8,22 +9,35 @@ namespace CommunicationSubsystem.Conversations.InitiatorConversations
     {
         protected override void ProcessFailure()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Error encountered");
         }
 
         protected override void ValidateConversationState()
         {
-            throw new NotImplementedException();
+            // TODO: Write this method.
+            Console.WriteLine("Validating conversation state.");
         }
 
         protected override void CheckProcessState()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Checking process state.");
         }
 
         protected override void CreateRequest()
         {
-            throw new NotImplementedException();
+            var message = new CreateCanvasMessage()
+            {
+                ConversationId = new Tuple<short, short>(ConversationId.Item1, ConversationId.Item2),
+                MessageNumber = new Tuple<short, short>(ConversationId.Item1, ConversationId.Item2)
+            };
+
+            var envelope = new Envelope()
+            {
+                RemoteEP = RemoteEndPoint,
+                Message = message
+            };
+
+            _communicator.Send(envelope);
         }
 
         protected override void ProcessReply()

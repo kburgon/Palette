@@ -40,11 +40,11 @@ namespace CommunicationSubsystem
 
         public void Send(Envelope env)
         {
-            IPEndPoint ep = env.remoteEP;
+            IPEndPoint ep = env.RemoteEP;
 
             if (env != null)
             {
-                byte[] b = env.message.Encode();
+                byte[] b = env.Message.Encode();
                 udpClientSender.Send(b, b.Length, ep);
             }
         }
