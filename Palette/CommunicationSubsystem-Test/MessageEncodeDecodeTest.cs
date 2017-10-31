@@ -12,10 +12,12 @@ namespace UnitTestProject1
         [TestMethod]
         public void BrushStrokeMessage()
         {
-            BrushStrokeMessage message = new BrushStrokeMessage();
-            message.MessageNumber = new Tuple<short, short>(1, 1);
-            message.ConversationId = new Tuple<short, short>(2, 1);
-            message.CanvasId = 1;
+            var message = new BrushStrokeMessage
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                CanvasId = 1
+            };
             message.Points.Add(new Tuple<int, int>(1200, 1300));
             message.Points.Add(new Tuple<int, int>(1201, 1302));
             message.Points.Add(new Tuple<int, int>(1203, 1305));

@@ -9,6 +9,7 @@ namespace Messages
         public BrushStrokeMessage()
         {
             MessageType = 1;
+            Points = new List<Tuple<int, int>> { };
         }
 
         public int CanvasId { get; set; }
