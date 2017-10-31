@@ -5,6 +5,11 @@ namespace Messages
 {
     public class RegisterAckMessage : Message
     {
+        public RegisterAckMessage()
+        {
+            MessageType = 11;
+        }
+
         public int DisplayId { get; set; }
         public override Message Decode(MemoryStream stream)
         {

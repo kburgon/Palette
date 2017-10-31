@@ -4,12 +4,17 @@ using System.IO;
 
 namespace Messages
 {
-    public class DisplayListMessage : Message
+    public class GetDisplayListMessage : Message
     {
+        public GetDisplayListMessage()
+        {
+            MessageType = 8;
+        }
+
         public IEnumerable<string> Displays { get; set; }
         public override Message Decode(MemoryStream stream)
         {
-            DisplayListMessage message = new DisplayListMessage();
+            GetDisplayListMessage message = new GetDisplayListMessage();
             short messageNum1 = DecodeShort(stream);
             short messageNum2 = DecodeShort(stream);
             message.MessageNumber = new Tuple<short, short>(messageNum1, messageNum2);

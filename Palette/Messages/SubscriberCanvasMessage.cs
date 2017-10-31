@@ -5,6 +5,11 @@ namespace Messages
 {
     public class SubscriberCanvasMessage : Message
     {
+        public SubscriberCanvasMessage()
+        {
+            MessageType = 13;
+        }
+
         public int DisplayId { get; set; }
         public int CanvasId { get; set; }
 

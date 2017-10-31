@@ -5,6 +5,11 @@ namespace Messages
 {
     public class GetDisplayMessage : AuthMessage
     {
+        public GetDisplayMessage()
+        {
+            MessageType = 10;
+        }
+
         public override Message Decode(MemoryStream stream)
         {
             GetDisplayMessage message = new GetDisplayMessage();

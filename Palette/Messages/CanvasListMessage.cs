@@ -6,6 +6,11 @@ namespace Messages
 {
     public class CanvasListMessage : Message
     {
+        public CanvasListMessage()
+        {
+            MessageType = 3;
+        }
+
         public IEnumerable<string> Canvases { get; set; }
 
         public override Message Decode(MemoryStream stream)

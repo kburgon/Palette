@@ -5,6 +5,11 @@ namespace Messages
 {
     public class DeleteCanvasMessage : Message
     {
+        public DeleteCanvasMessage()
+        {
+            MessageType = 7;
+        }
+
         public int CanvasId { get; set; }
         public override byte[] Encode()
         {

@@ -5,6 +5,11 @@ namespace Messages
 {
     public class TokenVerifyMessage : Message
     {
+        public TokenVerifyMessage()
+        {
+            MessageType = 14;
+        }
+
         public bool IsAuthorized { get; set; }
 
         public override Message Decode(MemoryStream stream)

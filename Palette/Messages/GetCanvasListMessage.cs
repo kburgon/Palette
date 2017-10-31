@@ -7,6 +7,11 @@ namespace Messages
 {
     public class GetCanvasListMessage : AuthMessage
     {
+        public GetCanvasListMessage()
+        {
+            MessageType = 9;
+        }
+
         public override byte[] Encode()
         {
             MemoryStream stream = new MemoryStream();

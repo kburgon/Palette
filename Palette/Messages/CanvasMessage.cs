@@ -5,6 +5,11 @@ namespace Messages
 {
     public class CanvasMessage : AuthMessage
     {
+        public CanvasMessage()
+        {
+            MessageType = 4;
+        }
+
         public int CanvasId { get; set; }
         public override Message Decode(MemoryStream stream)
         {

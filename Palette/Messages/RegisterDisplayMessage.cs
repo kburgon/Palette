@@ -5,6 +5,11 @@ namespace Messages
 {
     public class RegisterDisplayMessage : Message
     {
+        public RegisterDisplayMessage()
+        {
+            MessageType = 12;
+        }
+
         public string IPAddress { get; set; }
         public string Name { get; set; }
 

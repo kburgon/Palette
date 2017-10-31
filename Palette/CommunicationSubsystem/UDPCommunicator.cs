@@ -114,7 +114,7 @@ namespace CommunicationSubsystem
                         newMessage.Decode(stream);
                         break;
                     case 8:
-                        newMessage = new DisplayListMessage();
+                        newMessage = new GetDisplayListMessage();
                         newMessage.Decode(stream);
                         break;
                     case 9:

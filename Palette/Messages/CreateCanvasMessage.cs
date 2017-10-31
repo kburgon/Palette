@@ -5,6 +5,11 @@ namespace Messages
 {
     public class CreateCanvasMessage : Message
     {
+        public CreateCanvasMessage()
+        {
+            MessageType = 6;
+        }
+
         public int CanvasId { get; set; }
         public override byte[] Encode()
         {

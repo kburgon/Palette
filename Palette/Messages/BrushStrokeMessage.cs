@@ -6,6 +6,11 @@ namespace Messages
 {
     public class BrushStrokeMessage : Message
     {
+        public BrushStrokeMessage()
+        {
+            MessageType = 1;
+        }
+
         public int CanvasId { get; set; }
         public string BrushType { get; set; }
         public List<Tuple<int, int>> Points { get; set; }
