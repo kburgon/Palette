@@ -88,6 +88,7 @@ namespace CommunicationSubsystem
                         envQueue = GetQueue(env.Message.ConversationId);
                         conversation = _conversationFactory.CreateFromMessageType(env.Message);
                         EnqueueEnvelope(env);
+                        conversation.EnvelopeQueue = envQueue;
                         _conversationDict.Add(env.Message.ConversationId, conversation);
                     }
                 }
@@ -99,7 +100,9 @@ namespace CommunicationSubsystem
             EnvelopeQueue envQueue = GetQueue(env.Message.ConversationId);
             EnqueueEnvelope(env);
             Conversation conversation = _conversationFactory.CreateFromMessageType(env.Message);
+            conversation.EnvelopeQueue = envQueue;
             _conversationDict.Add(env.Message.ConversationId, conversation);
+
         }
     }
 }
