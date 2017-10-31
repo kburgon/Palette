@@ -86,26 +86,60 @@ namespace CommunicationSubsystem
                 switch (messageType)
                 {
                     case 1:
+                        newMessage = new BrushStrokeMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 2:
+                        newMessage = new CanvasAssignMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 3:
+                        newMessage = new CanvasListMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 4:
+                        newMessage = new CanvasMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 5:
+                        newMessage = new CanvasUnassignMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 6:
+                        newMessage = new CreateCanvasMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 7:
+                        newMessage = new DeleteCanvasMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 8:
+                        newMessage = new DisplayListMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 9:
+                        newMessage = new GetCanvasListMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 10:
+                        newMessage = new GetDisplayMessage();
+                        newMessage.Decode(stream);
                         break;
                     case 11:
+                        newMessage = new RegisterAckMessage();
+                        newMessage.Decode(stream);
+                        break;
+                    case 12:
+                        newMessage = new RegisterDisplayMessage();
+                        newMessage.Decode(stream);
+                        break;
+                    case 13:
+                        newMessage = new SubscriberCanvasMessage();
+                        newMessage.Decode(stream);
+                        break;
+                    case 14:
+                        newMessage = new TokenVerifyMessage();
+                        newMessage.Decode(stream);
                         break;
                 }
             }

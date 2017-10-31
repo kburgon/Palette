@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Messages
 {
-    class TokenVerifyMessage : Message
+    public class TokenVerifyMessage : Message
     {
         public bool IsAuthorized { get; set; }
 
