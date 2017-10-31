@@ -17,6 +17,7 @@ namespace CommunicationSubsystem
         private int _timeout = 1000;
         private ConversationFactory _conversationFactory { get; set; }
         private Conversation _conversation { get; set; }
+        private Dictionary<Tuple<short, short>, Conversation> _conversationDict = new Dictionary<Tuple<short, short>, Conversation>();
         public UDPCommunicator udpCommunicator = new UDPCommunicator();
 
         public Dispatcher()
@@ -69,23 +70,36 @@ namespace CommunicationSubsystem
         {
             Envelope env = null;
             EnvelopeQueue envQueue = null;
+            Conversation conversation;
             while (_listening)
             {
+                conversation = null;
                 env = udpCommunicator.Receive(_timeout);
 
                 if (env != null)
                 {
-                    envQueue = GetQueue(env.Message.ConversationId);
-                    _conversationFactory.CreateFromMessageType(env.Message);
-                    EnqueueEnvelope(env);
+                    if (_conversationDict.ContainsKey(env.message.ConversationId))
+                    {
+                        envQueue = GetQueue(env.message.ConversationId);
+                        EnqueueEnvelope(env);
+                    }
+                    else
+                    {
+                        envQueue = GetQueue(env.message.ConversationId);
+                        conversation = _conversationFactory.CreateFromMessageType(env.message);
+                        EnqueueEnvelope(env);
+                        _conversationDict.Add(env.message.ConversationId, conversation);
+                    }
                 }
             }
         }
 
-        public void StartConversation(Envelope env)
+        public void StartConversationByMessageType(Envelope env)
         {
+            EnvelopeQueue envQueue = GetQueue(env.message.ConversationId);
             EnqueueEnvelope(env);
-            _conversationFactory.CreateFromConversationType(_conversation);
+            Conversation conversation = _conversationFactory.CreateFromMessageType(env.message);
+            _conversationDict.Add(env.message.ConversationId, conversation);
         }
     }
 }

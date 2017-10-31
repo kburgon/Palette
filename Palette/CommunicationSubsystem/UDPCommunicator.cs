@@ -40,8 +40,8 @@ namespace CommunicationSubsystem
 
         public void Send(Envelope env)
         {
-            IPEndPoint ep = env.RemoteEP;
-
+            IPEndPoint ep = env.remoteEP;
+            udpClientSender = new UdpClient();
             if (env != null)
             {
                 byte[] b = env.Message.Encode();
