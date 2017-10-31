@@ -21,11 +21,11 @@ namespace Messages
             AddMessageType(typeof(CreateCanvasMessage));
             AddMessageType(typeof(DeleteCanvasMessage));
             AddMessageType(typeof(GetCanvasListMessage));
-            AddMessageType(typeof(GetDisplayListMessage));
+            AddMessageType(typeof(DisplayListMessage));
             AddMessageType(typeof(RegisterAckMessage));
             AddMessageType(typeof(RegisterDisplayMessage));
             AddMessageType(typeof(SubscriberCanvasMessage));
-            AddMessageType(typeof(GetDisplayMessage));
+            AddMessageType(typeof(GetDisplayListMessage));
             AddMessageType(typeof(TokenVerifyMessage));
         }
 

@@ -50,55 +50,270 @@ namespace UnitTestProject1
         [TestMethod]
         public void CanvasAssignMessage()
         {
+            var message = new CanvasAssignMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                CanvasId = 1,
+                DisplayId = 3,
+                State = "Good"
+            };
 
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.CanvasId, (message2 as CanvasAssignMessage).CanvasId);
+            Assert.AreEqual(message.MessageNumber, (message2 as CanvasAssignMessage).MessageNumber);
+            Assert.AreEqual(message.ConversationId, (message2 as CanvasAssignMessage).ConversationId);
+            Assert.AreEqual(message.DisplayId, (message2 as CanvasAssignMessage).DisplayId);
+            Assert.AreEqual(message.State, (message2 as CanvasAssignMessage).State);
         }
         [TestMethod]
         public void CanvasListMessage()
         {
+            var message = new CanvasListMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as CanvasListMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as CanvasListMessage).MessageNumber);
         }
         [TestMethod]
         public void CanvasMessage()
         {
+            var message = new CanvasMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                CanvasId = 1
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.CanvasId, (message2 as CanvasMessage).CanvasId);
+            Assert.AreEqual(message.MessageNumber, (message2 as CanvasMessage).MessageNumber);
+            Assert.AreEqual(message.ConversationId, (message2 as CanvasMessage).ConversationId);
         }
         [TestMethod]
         public void CanvasUnassignMessage()
         {
+            var message = new CanvasUnassignMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                CanvasId = 1,
+                DisplayId = 3,
+                State = "Good"
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.CanvasId, (message2 as CanvasUnassignMessage).CanvasId);
+            Assert.AreEqual(message.MessageNumber, (message2 as CanvasUnassignMessage).MessageNumber);
+            Assert.AreEqual(message.ConversationId, (message2 as CanvasUnassignMessage).ConversationId);
+            Assert.AreEqual(message.DisplayId, (message2 as CanvasUnassignMessage).DisplayId);
+            Assert.AreEqual(message.State, (message2 as CanvasUnassignMessage).State);
         }
         [TestMethod]
         public void CreateCanvasMessage()
         {
+            var message = new CreateCanvasMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                CanvasId = 1
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.CanvasId, (message2 as CreateCanvasMessage).CanvasId);
+            Assert.AreEqual(message.MessageNumber, (message2 as CreateCanvasMessage).MessageNumber);
+            Assert.AreEqual(message.ConversationId, (message2 as CreateCanvasMessage).ConversationId);
         }
         [TestMethod]
         public void DeleteCanvasMessage()
         {
+            var message = new DeleteCanvasMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                CanvasId = 1
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.CanvasId, (message2 as DeleteCanvasMessage).CanvasId);
+            Assert.AreEqual(message.MessageNumber, (message2 as DeleteCanvasMessage).MessageNumber);
+            Assert.AreEqual(message.ConversationId, (message2 as DeleteCanvasMessage).ConversationId);
         }
         [TestMethod]
         public void DisplayListMessage()
         {
+            var message = new DisplayListMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as DisplayListMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as DisplayListMessage).MessageNumber);
         }
         [TestMethod]
         public void GetCanvasListMessage()
         {
+            var message = new GetCanvasListMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                AuthToken = "Junk09"
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as GetCanvasListMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as GetCanvasListMessage).MessageNumber);
+            Assert.AreEqual(message.AuthToken, (message2 as GetCanvasListMessage).AuthToken);
         }
         [TestMethod]
         public void GetDisplayListMessage()
         {
+            var message = new GetDisplayListMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                AuthToken = "Junk99"
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as GetDisplayListMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as GetDisplayListMessage).MessageNumber);
+            Assert.AreEqual(message.AuthToken, (message2 as GetDisplayListMessage).AuthToken);
         }
         [TestMethod]
         public void RegisterAckMessage()
         {
+            var message = new RegisterAckMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                DisplayId = 54
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as RegisterAckMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as RegisterAckMessage).MessageNumber);
+            Assert.AreEqual(message.DisplayId, (message2 as RegisterAckMessage).DisplayId);
         }
         [TestMethod]
         public void RegisterDisplayMessage()
         {
+            var message = new RegisterDisplayMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                IPAddress = "127.0.0.1",
+                Name = "Test"
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as RegisterDisplayMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as RegisterDisplayMessage).MessageNumber);
+            Assert.AreEqual(message.IPAddress, (message2 as RegisterDisplayMessage).IPAddress);
+            Assert.AreEqual(message.Name, (message2 as RegisterDisplayMessage).Name);
         }
         [TestMethod]
         public void SubscribeCanvasMessage()
         {
+            var message = new SubscriberCanvasMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                DisplayId = 54,
+                CanvasId = 32
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as SubscriberCanvasMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as SubscriberCanvasMessage).MessageNumber);
+            Assert.AreEqual(message.DisplayId, (message2 as SubscriberCanvasMessage).DisplayId);
+            Assert.AreEqual(message.CanvasId, (message2 as SubscriberCanvasMessage).CanvasId);
         }
         [TestMethod]
         public void TokenVerifyMessage()
         {
+            var message = new TokenVerifyMessage()
+            {
+                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<short, short>(2, 1),
+                IsAuthorized = false
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as TokenVerifyMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as TokenVerifyMessage).MessageNumber);
+            Assert.AreEqual(message.IsAuthorized, (message2 as TokenVerifyMessage).IsAuthorized);
         }
     }
 }

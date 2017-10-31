@@ -16,7 +16,7 @@ namespace CommunicationSubsystem.ConversationFactories
             ResponderConversationTypes = new Dictionary<Type, Type>
             {
                 {typeof(RegisterDisplayMessage), typeof(AckResponderConversation)},
-                {typeof(GetDisplayMessage), typeof(ProxyConversation)},
+                {typeof(GetDisplayListMessage), typeof(ProxyConversation)},
                 {typeof(CanvasAssignMessage), typeof(AssignCanvasStateConversation)},
                 {typeof(CanvasUnassignMessage), typeof(UnassignCanvasStateConversation)}
             };
