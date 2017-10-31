@@ -5,12 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Conversations\ISM\AssignCanvasConversation.cs" />
-    <Compile Include="Conversations\ISM\CreateCanvasConversation.cs" />
-    <Compile Include="Conversations\ISM\DeleteCanvasConversation.cs" />
-    <Compile Include="Conversations\ISM\IntermediateStateConversation.cs" />
-    <Compile Include="Conversations\ISM\ReadCanvasConversation.cs" />
-    <Compile Include="Conversations\ISM\UnassignCanvasConversation.cs" />
+    <ProjectReference Include="..\Messages\Messages.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Messages\Messages.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,18 +4,17 @@ using System.IO;
 
 namespace Messages
 {
-    public class CanvasListMessage : Message
+    public class GetDisplayListMessage : Message
     {
-        public CanvasListMessage()
+        public GetDisplayListMessage()
         {
-            MessageType = 3;
+            MessageType = 8;
         }
 
-        public IEnumerable<string> Canvases { get; set; }
-
+        public IEnumerable<string> Displays { get; set; }
         public override Message Decode(MemoryStream stream)
         {
-            CanvasListMessage message = new CanvasListMessage();
+            GetDisplayListMessage message = new GetDisplayListMessage();
             short messageNum1 = DecodeShort(stream);
             short messageNum2 = DecodeShort(stream);
             message.MessageNumber = new Tuple<short, short>(messageNum1, messageNum2);
