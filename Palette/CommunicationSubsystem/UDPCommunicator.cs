@@ -62,89 +62,35 @@ namespace CommunicationSubsystem
             }
             catch (SocketException) { }
 
-            if(udpClientReceiver != null)
+            if (udpClientReceiver != null)
             {
                 IPEndPoint ep = new IPEndPoint(IPAddress.Any, port);
                 try
                 {
                     bytes = udpClientReceiver.Receive(ref ep);
                 }
-                catch(SocketException e)
+                catch (SocketException e)
                 {
                     if (e.SocketErrorCode != SocketError.TimedOut)
                         throw;
                 }
-            }
 
-            if(bytes != null)
-            {
-                MemoryStream stream = new MemoryStream(bytes);
-                MemoryStream tempStream = new MemoryStream(bytes);
-                int messageId = newMessage.DecodeShort(tempStream);
-                int messageType = newMessage.DecodeShort(tempStream);
 
-                switch (messageType)
+                if (bytes != null)
                 {
-                    case 1:
-                        newMessage = new BrushStrokeMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 2:
-                        newMessage = new CanvasAssignMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 3:
-                        newMessage = new CanvasListMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 4:
-                        newMessage = new CanvasMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 5:
-                        newMessage = new CanvasUnassignMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 6:
-                        newMessage = new CreateCanvasMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 7:
-                        newMessage = new DeleteCanvasMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 8:
-                        newMessage = new GetDisplayListMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 9:
-                        newMessage = new GetCanvasListMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 10:
-                        newMessage = new GetDisplayMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 11:
-                        newMessage = new RegisterAckMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 12:
-                        newMessage = new RegisterDisplayMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 13:
-                        newMessage = new SubscriberCanvasMessage();
-                        newMessage.Decode(stream);
-                        break;
-                    case 14:
-                        newMessage = new TokenVerifyMessage();
-                        newMessage.Decode(stream);
-                        break;
-                }
-            }
+                    newMessage = Message.Decode(bytes);
 
-            return newEnv;
+                    if (newMessage != null)
+                    {
+                        newEnv = new Envelope() { RemoteEP = ep, Message = newMessage };
+                    }
+                    
+                }
+
+                return newEnv;
+            }
+            else
+                return null;
         }
     }
 }
