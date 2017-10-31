@@ -12,7 +12,6 @@ namespace CommunicationSubsystem
         protected EnvelopeQueueDictionary envelopeQueueDict = new EnvelopeQueueDictionary();
         private EnvelopeQueue _envelopeQueue { get; set; }
         private Envelope _envelope { get; set; }
-        private string _convId { get; set; }
         private Thread _listenerThread { get; set; }
         private bool _listening { get; set; }
         private int _timeout = 1000;
@@ -27,9 +26,9 @@ namespace CommunicationSubsystem
 
         public void EnqueueEnvelope(Envelope env)
         {
-            GetQueue();
+            EnvelopeQueue queue = GetQueue(env.message.ConversationId);
             if(env != null)
-                _envelopeQueue.Enqueue(env);
+                queue.Enqueue(env);
         }
 
         //public Envelope DequeueEnvelope()
@@ -40,9 +39,9 @@ namespace CommunicationSubsystem
         //    return envelope;
         //}
 
-        public void GetQueue()
+        public EnvelopeQueue GetQueue(Tuple<short, short> convId)
         {
-            _envelopeQueue = envelopeQueueDict.GetConversation(_convId);
+            return envelopeQueueDict.GetConversation(convId);
         }
 
         public void StartListener()
@@ -69,14 +68,15 @@ namespace CommunicationSubsystem
         public void RetrieveMessage()
         {
             Envelope env = null;
+            EnvelopeQueue envQueue = null;
             while (_listening)
             {
                 env = udpCommunicator.Receive(_timeout);
 
                 if (env != null)
                 {
-                    var conversationToAdd = _conversationFactory.CreateFromMessageType(env.message);
-                    
+                    envQueue = GetQueue(env.message.ConversationId);
+                    _conversationFactory.CreateFromMessageType(env.message);
                     EnqueueEnvelope(env);
                 }
             }

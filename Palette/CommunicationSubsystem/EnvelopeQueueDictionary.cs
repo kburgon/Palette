@@ -7,9 +7,9 @@ namespace CommunicationSubsystem
     public class EnvelopeQueueDictionary
     {
 
-        protected Dictionary<string, EnvelopeQueue> envelopeQueueDict = new Dictionary<string, EnvelopeQueue>();
+        protected Dictionary<Tuple<short, short>, EnvelopeQueue> envelopeQueueDict = new Dictionary<Tuple<short, short>, EnvelopeQueue>();
 
-        public EnvelopeQueue GetConversation(string convId)
+        public EnvelopeQueue GetConversation(Tuple<short, short> convId)
         {
             EnvelopeQueue queue = null;
             if (envelopeQueueDict.TryGetValue(convId, out queue))
@@ -21,13 +21,13 @@ namespace CommunicationSubsystem
             }
         }
 
-        public void CreateQueue(string convId)
+        public void CreateQueue(Tuple<short, short> convId)
         {
             EnvelopeQueue newQueue = new EnvelopeQueue();
             envelopeQueueDict.Add(convId, newQueue);
         }
 
-        public void CloseQueue(string convId)
+        public void CloseQueue(Tuple<short, short> convId)
         {
             envelopeQueueDict.Remove(convId);
         }

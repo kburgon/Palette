@@ -8,7 +8,6 @@ namespace Messages
     {
         public Tuple<short, short> MessageNumber { get; set; }
         public Tuple<short, short> ConversationId { get; set; }
-        protected int MessageID { get; set; }
         protected int MessageType { get; set; }
 
         public abstract byte[] Encode();
@@ -27,13 +26,22 @@ namespace Messages
             stream.Write(b, 0, b.Length);
         }
 
-        public int DecodeShort(MemoryStream stream)
+        public int DecodeInt(MemoryStream stream)
         {
             byte[] b = new byte[2];
             int numOfBytes = stream.Read(b, 0, b.Length);
             if (numOfBytes != b.Length)
                 throw new ApplicationException("Decode Short Failed");
             return (int)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(b, 0));
+        }
+
+        public short DecodeShort(MemoryStream stream)
+        {
+            byte[] b = new byte[2];
+            int numOfBytes = stream.Read(b, 0, b.Length);
+            if (numOfBytes != b.Length)
+                throw new ApplicationException("Decode Short Failed");
+            return IPAddress.NetworkToHostOrder(BitConverter.ToInt16(b, 0));
         }
 
         public string DecodeString(MemoryStream stream)
