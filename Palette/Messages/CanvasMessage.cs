@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Messages
 {
@@ -9,9 +10,14 @@ namespace Messages
         {
             CanvasMessage message = new CanvasMessage();
 
-            message.MessageID = DecodeShort(stream);
-            message.MessageType = DecodeShort(stream);
-            message.CanvasId = DecodeShort(stream);
+            short messageNum1 = DecodeShort(stream);
+            short messageNum2 = DecodeShort(stream);
+            message.MessageNumber = new Tuple<short, short>(messageNum1, messageNum2);
+            short convId1 = DecodeShort(stream);
+            short convId2 = DecodeShort(stream);
+            message.ConversationId = new Tuple<short, short>(convId1, convId2);
+            message.MessageType = DecodeInt(stream);
+            message.CanvasId = DecodeInt(stream);
 
             return message;
         }
@@ -19,7 +25,10 @@ namespace Messages
         public override byte[] Encode()
         {
             MemoryStream stream = new MemoryStream();
-            EncodeShort(stream, (short)MessageID);
+            EncodeShort(stream, MessageNumber.Item1);
+            EncodeShort(stream, MessageNumber.Item2);
+            EncodeShort(stream, ConversationId.Item1);
+            EncodeShort(stream, ConversationId.Item2);
             EncodeShort(stream, (short)MessageType);
             EncodeShort(stream, (short)CanvasId);
 
