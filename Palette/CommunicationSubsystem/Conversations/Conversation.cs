@@ -7,6 +7,8 @@ namespace CommunicationSubsystem.Conversations
 {
     public abstract class Conversation
     {
+        public Tuple<short, short> ConversationId { get; set; }
+
         public abstract void Execute();
 
         protected abstract void ProcessFailure();

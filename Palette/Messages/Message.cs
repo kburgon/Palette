@@ -1,8 +1,10 @@
-﻿namespace Messages
+﻿using System;
+
+namespace Messages
 {
     public abstract class Message
     {
-        protected int MessageID { get; set; }
-        public int MessageType { get; protected set; }
+        public Tuple<short, short> MessageNumber { get; set; }
+        public Tuple<short, short> ConversationId { get; set; }
     }
 }
