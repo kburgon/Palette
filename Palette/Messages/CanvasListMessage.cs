@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace CommunicationSubsystem.Messages
+namespace Messages
 {
     public class CanvasListMessage : Message
     {

@@ -2,11 +2,12 @@
 using System.IO;
 using System.Net;
 using System.Text;
-
-namespace CommunicationSubsystem.Messages
+namespace Messages
 {
     public abstract class Message
     {
+        public Tuple<short, short> MessageNumber { get; set; }
+        public Tuple<short, short> ConversationId { get; set; }
         protected int MessageID { get; set; }
         protected int MessageType { get; set; }
 

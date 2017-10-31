@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace CommunicationSubsystem.Messages
+namespace Messages
 {
     class TokenVerifyMessage : Message
     {

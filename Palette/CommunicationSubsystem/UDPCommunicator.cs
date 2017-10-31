@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.IO;
-using CommunicationSubsystem.Messages;
+using Messages;
 
 namespace CommunicationSubsystem
 {

@@ -1,14 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Messages;
 
 namespace CommunicationSubsystem.Conversations.MulticastReponderConversations
 {
     public class MulticastResponderConversation : Conversation
     {
-        public override void Execute()
+        public override void GetDataFromMessage(Message message)
         {
             throw new NotImplementedException();
+        }
+
+        public override void Execute()
+        {
+            ProcessReceivedMessage();
+            CreateMulticast();
+            CreateReply();
+
+            // TODO: Add handling for when a conversation fails.
+            //ProcessFailure();
         }
 
         protected override void ProcessFailure()

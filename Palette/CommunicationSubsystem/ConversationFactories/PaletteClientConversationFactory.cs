@@ -7,6 +7,11 @@ namespace CommunicationSubsystem.ConversationFactories
 {
     public class PaletteClientConversationFactory : ConversationFactory
     {
+        public PaletteClientConversationFactory()
+        {
+            ResponderConversationTypes = new Dictionary<Type, Type> { };
+        }
+
         public override void Initialize()
         {
             throw new NotImplementedException();
