@@ -78,17 +78,17 @@ namespace CommunicationSubsystem
 
                 if (env != null)
                 {
-                    if (_conversationDict.ContainsKey(env.message.ConversationId))
+                    if (_conversationDict.ContainsKey(env.Message.ConversationId))
                     {
-                        envQueue = GetQueue(env.message.ConversationId);
+                        envQueue = GetQueue(env.Message.ConversationId);
                         EnqueueEnvelope(env);
                     }
                     else
                     {
-                        envQueue = GetQueue(env.message.ConversationId);
-                        conversation = _conversationFactory.CreateFromMessageType(env.message);
+                        envQueue = GetQueue(env.Message.ConversationId);
+                        conversation = _conversationFactory.CreateFromMessageType(env.Message);
                         EnqueueEnvelope(env);
-                        _conversationDict.Add(env.message.ConversationId, conversation);
+                        _conversationDict.Add(env.Message.ConversationId, conversation);
                     }
                 }
             }
@@ -96,10 +96,10 @@ namespace CommunicationSubsystem
 
         public void StartConversationByMessageType(Envelope env)
         {
-            EnvelopeQueue envQueue = GetQueue(env.message.ConversationId);
+            EnvelopeQueue envQueue = GetQueue(env.Message.ConversationId);
             EnqueueEnvelope(env);
-            Conversation conversation = _conversationFactory.CreateFromMessageType(env.message);
-            _conversationDict.Add(env.message.ConversationId, conversation);
+            Conversation conversation = _conversationFactory.CreateFromMessageType(env.Message);
+            _conversationDict.Add(env.Message.ConversationId, conversation);
         }
     }
 }
