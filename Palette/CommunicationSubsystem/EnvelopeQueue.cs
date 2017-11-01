@@ -31,5 +31,10 @@ namespace CommunicationSubsystem
 
             return env;
         }
+
+        public int GetCount()
+        {
+            return _count;
+        }
     }
 }
