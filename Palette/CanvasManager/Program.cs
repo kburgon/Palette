@@ -3,15 +3,16 @@ using System.Linq;
 
 namespace CanvasManager
 {
-    class Program
+    static class Program
     {
         private static CanvasManagerAppLayer.CanvasManager _canvasManagerApp;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            if (args.Count() < 1)
+            const int defaultPortNumber = 12345;
+
+            if (!args.Any())
             {
-                var defaultPortNumber = 12345;
                 Console.WriteLine($"Starting Canvas Manager on default port {defaultPortNumber}...");
                 SetPortNumber(defaultPortNumber);
             }
@@ -19,7 +20,7 @@ namespace CanvasManager
             {
                 try
                 {
-                    var portNumber = Convert.ToInt32(args[1]);
+                    var portNumber = Convert.ToInt32(args.First());
                     Console.WriteLine($"Starting Canvas Manager on port {portNumber}...");
                     SetPortNumber(portNumber);
                 }

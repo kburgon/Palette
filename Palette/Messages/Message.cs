@@ -30,9 +30,9 @@ namespace Messages
         }
 
         [DataMember]
-        public Tuple<short, short> MessageNumber { get; set; }
+        public Tuple<Guid, short> MessageNumber { get; set; }
         [DataMember]
-        public Tuple<short, short> ConversationId { get; set; }
+        public Tuple<Guid, short> ConversationId { get; set; }
         //[DataMember]
         //protected int MessageType { get; set; }
         private static List<Type> _types = new List<Type>();

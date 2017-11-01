@@ -14,8 +14,8 @@ namespace MessageTest
         {
             var message = new BrushStrokeMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 5),
                 CanvasId = 1,
                 BrushType = "Solid",
                 Points = new List<Tuple<int, int>>()
@@ -52,8 +52,8 @@ namespace MessageTest
         {
             var message = new CanvasAssignMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 CanvasId = 1,
                 DisplayId = 3,
                 State = "Good"
@@ -76,8 +76,8 @@ namespace MessageTest
         {
             var message = new CanvasListMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
             };
 
             byte[] bytes = message.Encode();
@@ -94,8 +94,8 @@ namespace MessageTest
         {
             var message = new CanvasMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 CanvasId = 1
             };
 
@@ -114,8 +114,8 @@ namespace MessageTest
         {
             var message = new CanvasUnassignMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 CanvasId = 1,
                 DisplayId = 3,
                 State = "Good"
@@ -138,8 +138,8 @@ namespace MessageTest
         {
             var message = new CreateCanvasMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 CanvasId = 1
             };
 
@@ -158,8 +158,8 @@ namespace MessageTest
         {
             var message = new DeleteCanvasMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 CanvasId = 1
             };
 
@@ -178,8 +178,8 @@ namespace MessageTest
         {
             var message = new DisplayListMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
             };
 
             byte[] bytes = message.Encode();
@@ -196,8 +196,8 @@ namespace MessageTest
         {
             var message = new GetCanvasListMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 AuthToken = "Junk09"
             };
 
@@ -216,8 +216,8 @@ namespace MessageTest
         {
             var message = new GetDisplayListMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 AuthToken = "Junk99"
             };
 
@@ -236,8 +236,8 @@ namespace MessageTest
         {
             var message = new RegisterAckMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 DisplayId = 54
             };
 
@@ -256,8 +256,8 @@ namespace MessageTest
         {
             var message = new RegisterDisplayMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 IPAddress = "127.0.0.1",
                 Name = "Test"
             };
@@ -278,8 +278,8 @@ namespace MessageTest
         {
             var message = new SubscriberCanvasMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 DisplayId = 54,
                 CanvasId = 32
             };
@@ -300,8 +300,8 @@ namespace MessageTest
         {
             var message = new TokenVerifyMessage()
             {
-                MessageNumber = new Tuple<short, short>(1, 1),
-                ConversationId = new Tuple<short, short>(2, 1),
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 IsAuthorized = false
             };
 
