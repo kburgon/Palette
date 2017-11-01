@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Messages;
 
-namespace UnitTestProject1
+namespace MessageTest
 {
     [TestClass]
     public class MessageDecodeEncodeTest
