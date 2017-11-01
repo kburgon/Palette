@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 namespace Messages
 {
     [DataContract]
-    public class RegisterAckMessage : Message
+    public class DisplayListMessage : Message
     {
+
         [DataMember]
-        public int DisplayId { get; set; }
+        public IEnumerable<string> Displays { get; set; }
     }
 }
