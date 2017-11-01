@@ -12,11 +12,11 @@ namespace CommunicationSubsystem.Conversations
         public EnvelopeQueue EnvelopeQueue { get; set; }
 
         protected Task _conversationExecution;
-        protected static UDPCommunicator _communicator;
+        protected static UdpCommunicator _communicator;
 
         public void Execute()
         {
-            _communicator = new UDPCommunicator();
+            _communicator = new UdpCommunicator();
             _conversationExecution = Task.Factory.StartNew(StartConversation);
         }
 

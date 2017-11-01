@@ -18,7 +18,7 @@ namespace CommunicationSubsystem
         private ConversationFactory _conversationFactory { get; set; }
         private Conversation _conversation { get; set; }
         private Dictionary<Tuple<short, short>, Conversation> _conversationDict = new Dictionary<Tuple<short, short>, Conversation>();
-        public UDPCommunicator udpCommunicator = new UDPCommunicator();
+        public UdpCommunicator udpCommunicator = new UdpCommunicator();
 
         public Dispatcher()
         {

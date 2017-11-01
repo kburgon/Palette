@@ -9,65 +9,64 @@ using Messages;
 
 namespace CommunicationSubsystem
 {
-    public class UDPCommunicator
+    public class UdpCommunicator
     {
-        private UdpClient udpClientReceiver;
-        private UdpClient udpClientSender;
+        private UdpClient _udpClientReceiver;
+        private UdpClient _udpClientSender;
         private Task _task;
         private bool _keepGoing;
-        private IPAddress address { get; set; }
-        private int port { get; set; }
+        private IPAddress _address { get; set; }
+        private int _port { get; set; }
 
         public void SetAddress(IPAddress a)
         {
-            address = a;
+            _address = a;
         }
 
         public void SetPort(int p)
         {
-            port = p;
+            _port = p;
         }
 
         public IPAddress GetAddress()
         {
-            return address;
+            return _address;
         }
 
         public int GetPort()
         {
-            return port;
+            return _port;
         }
 
         public void Send(Envelope env)
         {
-            IPEndPoint ep = env.RemoteEP;
-            udpClientSender = new UdpClient();
+            var ep = env.RemoteEP;
+            _udpClientSender = new UdpClient();
             if (env != null)
             {
                 byte[] b = env.Message.Encode();
-                udpClientSender.Send(b, b.Length, ep);
+                _udpClientSender.Send(b, b.Length, ep);
             }
         }
 
         public Envelope Receive(int timeout)
         {
             Envelope newEnv = null;
-            Message newMessage = null;
-            udpClientReceiver = null;
+            _udpClientReceiver = null;
             byte[] bytes = null;
             try
             {
-                udpClientReceiver = new UdpClient(port);
-                udpClientReceiver.Client.ReceiveTimeout = timeout;
+                _udpClientReceiver = new UdpClient(_port);
+                _udpClientReceiver.Client.ReceiveTimeout = timeout;
             }
             catch (SocketException) { }
 
-            if (udpClientReceiver != null)
+            if (_udpClientReceiver != null)
             {
-                IPEndPoint ep = new IPEndPoint(IPAddress.Any, port);
+                var ep = new IPEndPoint(IPAddress.Any, _port);
                 try
                 {
-                    bytes = udpClientReceiver.Receive(ref ep);
+                    bytes = _udpClientReceiver.Receive(ref ep);
                 }
                 catch (SocketException e)
                 {
@@ -78,7 +77,7 @@ namespace CommunicationSubsystem
 
                 if (bytes != null)
                 {
-                    newMessage = Message.Decode(bytes);
+                    var newMessage = Message.Decode(bytes);
 
                     if (newMessage != null)
                     {
