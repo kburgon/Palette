@@ -8,7 +8,7 @@ namespace CommunicationSubsystem.ConversationFactories
 {
     public abstract class ConversationFactory
     {
-        protected Dictionary<Type, Type> ResponderConversationTypes { get; set; }
+        protected Dictionary<Type, Type> ResponderConversationTypes { private get; set; }
 
         public abstract void Initialize();
 
