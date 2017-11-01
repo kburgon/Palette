@@ -6,7 +6,6 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.IO;
 using Messages;
-using log4net;
 
 namespace CommunicationSubsystem
 {
@@ -16,61 +15,55 @@ namespace CommunicationSubsystem
         private UdpClient _udpClientSender;
         private Task _task;
         private bool _keepGoing;
-        private IPAddress Address { get; set; }
-        private int Port { get; set; }
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(UdpCommunicator));
+        private IPAddress _address { get; set; }
+        private int _port { get; set; }
 
         public void SetAddress(IPAddress a)
         {
-            Address = a;
+            _address = a;
         }
 
         public void SetPort(int p)
         {
-            Port = p;
+            _port = p;
         }
 
         public IPAddress GetAddress()
         {
-            return Address;
+            return _address;
         }
 
         public int GetPort()
         {
-            return Port;
+            return _port;
         }
 
         public void Send(Envelope env)
         {
-            Logger.InfoFormat("Sending Message: {0} {1}", env.Message.MessageNumber.Item1, env.Message.MessageNumber.Item2);
             var ep = env.RemoteEP;
             _udpClientSender = new UdpClient();
             if (env != null)
             {
-                var b = env.Message.Encode();
+                byte[] b = env.Message.Encode();
                 _udpClientSender.Send(b, b.Length, ep);
             }
         }
 
         public Envelope Receive(int timeout)
         {
-            Logger.Info("Trying to receive a message");
             Envelope newEnv = null;
             _udpClientReceiver = null;
             byte[] bytes = null;
             try
             {
-                _udpClientReceiver = new UdpClient(Port);
+                _udpClientReceiver = new UdpClient(_port);
                 _udpClientReceiver.Client.ReceiveTimeout = timeout;
             }
-            catch (SocketException)
-            {
-                Logger.DebugFormat("Error with receiving message");
-            }
+            catch (SocketException) { }
 
             if (_udpClientReceiver != null)
             {
-                var ep = new IPEndPoint(IPAddress.Any, Port);
+                var ep = new IPEndPoint(IPAddress.Any, _port);
                 try
                 {
                     bytes = _udpClientReceiver.Receive(ref ep);
@@ -88,7 +81,6 @@ namespace CommunicationSubsystem
 
                     if (newMessage != null)
                     {
-                        Logger.InfoFormat("Creating Envelope for message: {0} {1}", newMessage.MessageNumber.Item1, newMessage.MessageNumber.Item2);
                         newEnv = new Envelope() { RemoteEP = ep, Message = newMessage };
                     }
                     
