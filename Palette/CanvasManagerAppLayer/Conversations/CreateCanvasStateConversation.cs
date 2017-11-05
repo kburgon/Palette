@@ -65,7 +65,8 @@ namespace CanvasManagerAppLayer.Conversations
 
         protected override void ProcessReply()
         {
-            throw new NotImplementedException();
+            var envelope = EnvelopeQueue.Dequeue();
+            var message = envelope.Message;
         }
 
         protected override void CreateSecondUpdatedState()
