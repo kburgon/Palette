@@ -6,7 +6,7 @@ namespace CommunicationSubsystem
 {
     public class EnvelopeQueue
     {
-        private int _count;
+        private int _count = 0;
         private object _myLock = new object();
         private List<Envelope> _envelopeQueue = new List<Envelope>();
         private string _convId;
@@ -30,6 +30,11 @@ namespace CommunicationSubsystem
             }
 
             return env;
+        }
+
+        public int GetCount()
+        {
+            return _count;
         }
     }
 }
