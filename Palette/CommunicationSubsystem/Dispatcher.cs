@@ -11,18 +11,23 @@ namespace CommunicationSubsystem
     public class Dispatcher
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(Dispatcher));
-        protected EnvelopeQueueDictionary envelopeQueueDict = new EnvelopeQueueDictionary();
         private Thread _listenerThread { get; set; }
         private bool _listening { get; set; }
         private int _timeout = 1000;
         private ConversationFactory _conversationFactory { get; set; }
         private Conversation _conversation { get; set; }
+        private Envelope _myEnvelope { get; set; }
+
         protected readonly Dictionary<Tuple<short, short>, Conversation> _conversationDict = new Dictionary<Tuple<short, short>, Conversation>();
-        public UdpCommunicator udpCommunicator = new UdpCommunicator();
+        protected EnvelopeQueueDictionary envelopeQueueDict = new EnvelopeQueueDictionary();
+
+        public UdpCommunicator udpCommunicator;
+
 
         public Dispatcher()
         {
-            _listenerThread = new Thread(RetrieveMessage);
+            _listenerThread = new Thread(RunListener);
+            udpCommunicator = new UdpCommunicator() {EnvelopeHandler = GetEnvelope};
         }
 
         public void EnqueueEnvelope(Envelope env)
@@ -42,6 +47,7 @@ namespace CommunicationSubsystem
         {
             Logger.Info("Starting listener thread");
             _listening = true;
+            udpCommunicator.Start();
             _listenerThread.Start();
         }
 
@@ -68,30 +74,28 @@ namespace CommunicationSubsystem
             _conversation = conversation;
         }
 
-        public void RetrieveMessage()
+        public void RunListener()
         {
             while (_listening)
             {
-                Envelope env = udpCommunicator.Receive(_timeout);
-
-                if (env != null)
+                if (_myEnvelope != null)
                 {
 
                     EnvelopeQueue envQueue = null;
-                    if (_conversationDict.ContainsKey(env.Message.ConversationId))
+                    if (_conversationDict.ContainsKey(_myEnvelope.Message.ConversationId))
                     {
                         Logger.Info("Adding envelope to queue");
-                        envQueue = GetQueue(env.Message.ConversationId);
-                        EnqueueEnvelope(env);
+                        envQueue = GetQueue(_myEnvelope.Message.ConversationId);
+                        EnqueueEnvelope(_myEnvelope);
                     }
                     else
                     {
                         Logger.Info("Creating new queue and conversation");
-                        envQueue = GetQueue(env.Message.ConversationId);
-                        Conversation conversation = _conversationFactory.CreateFromMessageType(env.Message);
-                        EnqueueEnvelope(env);
+                        envQueue = GetQueue(_myEnvelope.Message.ConversationId);
+                        Conversation conversation = _conversationFactory.CreateFromMessageType(_myEnvelope.Message);
+                        EnqueueEnvelope(_myEnvelope);
                         conversation.EnvelopeQueue = envQueue;
-                        _conversationDict.Add(env.Message.ConversationId, conversation);
+                        _conversationDict.Add(_myEnvelope.Message.ConversationId, conversation);
                     }
                 }
             }
@@ -110,6 +114,11 @@ namespace CommunicationSubsystem
         public Dictionary<Tuple<short, short>, Conversation> GetConversationDictionary()
         {
             return _conversationDict;
+        }
+
+        private void GetEnvelope(Envelope env)
+        {
+            _myEnvelope = env;
         }
     }
 }
