@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Collections.Generic;
+using log4net;
 
 namespace Messages
 {
@@ -33,9 +34,9 @@ namespace Messages
         public Tuple<short, short> MessageNumber { get; set; }
         [DataMember]
         public Tuple<short, short> ConversationId { get; set; }
-        //[DataMember]
-        //protected int MessageType { get; set; }
-        private static List<Type> _types = new List<Type>();
+
+        private static readonly List<Type> _types = new List<Type>();
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(Message));
 
         public static void AddMessageType(Type type)
         {
@@ -45,6 +46,7 @@ namespace Messages
 
         public byte[] Encode()
         {
+            Logger.InfoFormat("Encoding message: {0} {1}", MessageNumber.Item1, MessageNumber.Item2);
             DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Message), _types);
             MemoryStream stream = new MemoryStream();
             serializer.WriteObject(stream, this);
@@ -55,8 +57,8 @@ namespace Messages
         public static Message Decode(byte[] b)
         {
             Message newMessage = null;
-            if(b != null)
-            {
+            if (b == null)
+                return null;
                 try
                 {
                     MemoryStream stream = new MemoryStream(b);
@@ -65,69 +67,10 @@ namespace Messages
                 }
                 catch(Exception e)
                 {
-
+                    Logger.DebugFormat("Failed to decode message: {0}", e);
                 }
-            }
 
             return newMessage;
         }
-
-        //public void EncodeString(MemoryStream stream, string s)
-        //{
-        //    byte[] b = Encoding.BigEndianUnicode.GetBytes(s);
-        //    EncodeShort(stream, (short)b.Length);
-        //    stream.Write(b, 0, b.Length);
-        //}
-
-        //public void EncodeShort(MemoryStream stream, short s)
-        //{
-        //    byte[] b = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(s));
-        //    stream.Write(b, 0, b.Length);
-        //}
-
-        //public int DecodeInt(MemoryStream stream)
-        //{
-        //    byte[] b = new byte[2];
-        //    int numOfBytes = stream.Read(b, 0, b.Length);
-        //    if (numOfBytes != b.Length)
-        //        throw new ApplicationException("Decode Short Failed");
-        //    return (int)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(b, 0));
-        //}
-
-        //public short DecodeShort(MemoryStream stream)
-        //{
-        //    byte[] b = new byte[2];
-        //    int numOfBytes = stream.Read(b, 0, b.Length);
-        //    if (numOfBytes != b.Length)
-        //        throw new ApplicationException("Decode Short Failed");
-        //    return IPAddress.NetworkToHostOrder(BitConverter.ToInt16(b, 0));
-        //}
-
-        //public string DecodeString(MemoryStream stream)
-        //{
-        //    string message = String.Empty;
-        //    int messageLength = DecodeShort(stream);
-        //    if (messageLength > 0)
-        //    {
-        //        byte[] b = new byte[messageLength];
-        //        int numOfBytes = stream.Read(b, 0, b.Length);
-        //        if (numOfBytes != messageLength)
-        //            throw new ApplicationException("Decode String Failed");
-        //        message = Encoding.BigEndianUnicode.GetString(b, 0, b.Length);
-        //    }
-        //    return message;
-        //}
-
-        //public byte DecodeByte(MemoryStream stream)
-        //{
-        //    byte[] b = new byte[1];
-        //    byte result;
-        //    int numOfBytes = stream.Read(b, 0, 1);
-        //    if (numOfBytes != b.Length)
-        //        throw new ApplicationException("Decode Byte Failed");
-        //    result = b[0];
-
-        //    return result;
-        //}
     }
 }
