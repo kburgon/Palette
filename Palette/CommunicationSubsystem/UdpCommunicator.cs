@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.IO;
 using Messages;
+using log4net;
 
 namespace CommunicationSubsystem
 {
@@ -15,31 +16,35 @@ namespace CommunicationSubsystem
         private UdpClient _udpClientSender;
         private Task _task;
         private bool _keepGoing;
-        private IPAddress _address { get; set; }
-        private int _port { get; set; }
+        private IPAddress Address { get; set; }
+        private int Port { get; set; }
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(UdpCommunicator));
 
         public void SetAddress(IPAddress a)
         {
-            _address = a;
+            Logger.InfoFormat("New Address: {0}", Address);
+            Address = a;
         }
 
         public void SetPort(int p)
         {
-            _port = p;
+            Logger.InfoFormat("New Port: {0}", Port);
+            Port = p;
         }
 
         public IPAddress GetAddress()
         {
-            return _address;
+            return Address;
         }
 
         public int GetPort()
         {
-            return _port;
+            return Port;
         }
 
         public void Send(Envelope env)
         {
+            Logger.InfoFormat("Send Message: {0} {1}", env.Message.MessageNumber.Item1, env.Message.MessageNumber.Item2);
             var ep = env.RemoteEP;
             _udpClientSender = new UdpClient();
             if (env != null)
@@ -51,45 +56,59 @@ namespace CommunicationSubsystem
 
         public Envelope Receive(int timeout)
         {
+            Logger.Info("Attempting to receive message");
             Envelope newEnv = null;
             _udpClientReceiver = null;
             byte[] bytes = null;
-            try
+            if (Port > 10000 && Port < 13000)
             {
-                _udpClientReceiver = new UdpClient(_port);
-                _udpClientReceiver.Client.ReceiveTimeout = timeout;
-            }
-            catch (SocketException) { }
-
-            if (_udpClientReceiver != null)
-            {
-                var ep = new IPEndPoint(IPAddress.Any, _port);
                 try
                 {
-                    bytes = _udpClientReceiver.Receive(ref ep);
+                    _udpClientReceiver = new UdpClient(Port);
+                    _udpClientReceiver.Client.ReceiveTimeout = timeout;
                 }
                 catch (SocketException e)
                 {
-                    if (e.SocketErrorCode != SocketError.TimedOut)
-                        throw;
+                    Logger.DebugFormat("Failed to start udp receiver: {0}", e);
                 }
 
 
-                if (bytes != null)
+                if (_udpClientReceiver != null)
                 {
-                    var newMessage = Message.Decode(bytes);
-
-                    if (newMessage != null)
+                    var ep = new IPEndPoint(IPAddress.Any, Port);
+                    try
                     {
-                        newEnv = new Envelope() { RemoteEP = ep, Message = newMessage };
+                        bytes = _udpClientReceiver.Receive(ref ep);
                     }
-                    
-                }
+                    catch (SocketException e)
+                    {
+                        if (e.SocketErrorCode != SocketError.TimedOut)
+                        {
+                            Logger.DebugFormat("Error receiving message: {0}", e);
+                            throw;
+                        }
+                    }
 
-                return newEnv;
+
+                    if (bytes != null)
+                    {
+
+                        var newMessage = Message.Decode(bytes);
+
+                        if (newMessage != null)
+                        {
+                            Logger.InfoFormat("Message received, creating envelope for: {0} {1}",
+                                newMessage.MessageNumber.Item1, newMessage.MessageNumber.Item2);
+                            newEnv = new Envelope() {RemoteEP = ep, Message = newMessage};
+                        }
+
+                    }
+
+                    return newEnv;
+                }
             }
-            else
-                return null;
+
+            return null;
         }
     }
 }
