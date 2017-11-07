@@ -1,20 +1,16 @@
-﻿using System;
+﻿using CommunicationSubsystem;
+using CommunicationSubsystem.Conversations;
+using Messages;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommunicationSubsystem.Conversations.StateConversations;
 
 namespace CanvasManagerAppLayer.Conversations
 {
     public class GetCanvasListStateConversation : StateConversation
     {
-        protected override void ProcessFailure()
-        {
-            throw new NotImplementedException();
-        }
+        private IEnumerable<string> _canvasList;
 
-        protected override void ProcessReceivedMessage()
+        protected override void ProcessFailure()
         {
             throw new NotImplementedException();
         }
@@ -29,24 +25,45 @@ namespace CanvasManagerAppLayer.Conversations
             throw new NotImplementedException();
         }
 
-        protected override void CreateFirstUpdatedState()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void CreateRequest()
         {
-            throw new NotImplementedException();
+            var stepNumber = InitialReceivedEnvelope.Message.MessageNumber.Item2;
+            var message = new GetCanvasListMessage
+            {
+                ConversationId = InitialReceivedEnvelope.Message.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
+            };
+
+            var envelope = new Envelope
+            {
+                Message = message,
+                RemoteEP = InitialReceivedEnvelope.RemoteEP
+            };
         }
 
         protected override void ProcessReply()
         {
-            throw new NotImplementedException();
+            var envelope = EnvelopeQueue.Dequeue();
+            var message = (CanvasListMessage) envelope.Message;
+            _canvasList = message.Canvases;
         }
 
-        protected override void CreateSecondUpdatedState()
+        protected override void CreateUpdate()
         {
-            throw new NotImplementedException();
+            var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
+            var message = new CanvasListMessage
+            {
+                ConversationId = InitialReceivedEnvelope.Message.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
+            };
+
+            var envelope = new Envelope
+            {
+                Message = message,
+                RemoteEP = InitialReceivedEnvelope.RemoteEP
+            };
+
+            Communicator.Send(envelope);
         }
     }
 }

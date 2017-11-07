@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using CommunicationSubsystem;
-using CommunicationSubsystem.Conversations.StateConversations;
+﻿using CommunicationSubsystem;
+using CommunicationSubsystem.Conversations;
 using Messages;
+using System;
 
 namespace CanvasManagerAppLayer.Conversations
 {
@@ -25,24 +20,6 @@ namespace CanvasManagerAppLayer.Conversations
         protected override void ProcessAuthReply()
         {
             throw new NotImplementedException();
-        }
-
-        protected override void CreateFirstUpdatedState()
-        {
-            var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
-            var message = new CreateCanvasMessage()
-            {
-                ConversationId = InitialReceivedEnvelope.Message.ConversationId,
-                MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber),
-            };
-
-            var envelope = new Envelope
-            {
-                Message = message,
-                RemoteEP = InitialReceivedEnvelope.RemoteEP
-            };
-
-            Communicator.Send(envelope);
         }
 
         protected override void CreateRequest()
@@ -69,9 +46,9 @@ namespace CanvasManagerAppLayer.Conversations
             var message = envelope.Message;
         }
 
-        protected override void CreateSecondUpdatedState()
+        protected override void CreateUpdate()
         {
-            var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 2);
+            var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
             var message = new CreateCanvasMessage()
             {
                 ConversationId = InitialReceivedEnvelope.Message.ConversationId,

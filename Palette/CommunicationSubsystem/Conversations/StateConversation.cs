@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Messages;
-
-namespace CommunicationSubsystem.Conversations.StateConversations
+﻿namespace CommunicationSubsystem.Conversations
 {
     public abstract class StateConversation : Conversation
     {
@@ -14,13 +9,9 @@ namespace CommunicationSubsystem.Conversations.StateConversations
             ProcessReceivedMessage();
             //CreateAuthRequest();
             //ProcessAuthReply();
-            CreateFirstUpdatedState();
             CreateRequest();
             ProcessReply();
-            CreateSecondUpdatedState();
-
-            // TODO: Add handling for conversation failures.
-            //ProcessFailure();
+            CreateUpdate();
         }
 
         protected virtual void ProcessReceivedMessage()
@@ -30,9 +21,8 @@ namespace CommunicationSubsystem.Conversations.StateConversations
 
         protected abstract void CreateAuthRequest();
         protected abstract void ProcessAuthReply();
-        protected abstract void CreateFirstUpdatedState();
         protected abstract void CreateRequest();
         protected abstract void ProcessReply();
-        protected abstract void CreateSecondUpdatedState();
+        protected abstract void CreateUpdate();
     }
 }
