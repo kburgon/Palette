@@ -7,10 +7,6 @@ namespace Messages
     [DataContract]
     public class BrushStrokeMessage : Message
     {
-        //public BrushStrokeMessage()
-        //{
-        //    Points = new List<Tuple<int, int>> { };
-        //}
 
         [DataMember]
         public int CanvasId { get; set; }

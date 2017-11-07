@@ -13,11 +13,15 @@ namespace CommunicationSubsystem
 {
     public delegate void EnvelopeHandler(Envelope env);
 
+    /// <summary>
+    /// This class sends and receives messages via UDP Sockets
+    /// </summary>
     public class UdpCommunicator
     {
+        #region Private Members
+
         private UdpClient _udpClient;
         private Thread _receiveThread;
-        private bool _keepGoing;
         private IPAddress Address { get; set; }
         private int Port { get; set; }
         private bool _receiveStarted { get; set; }
@@ -25,32 +29,60 @@ namespace CommunicationSubsystem
         private static readonly object _myLock = new object();
         private int MyTimeout = 1000;
 
+        #endregion
+
+
+        #region Public Members
+
         public EnvelopeHandler EnvelopeHandler { get; set; }
 
+        #endregion
+
+
+        #region Public Methods
+
+        /// <summary>
+        /// This method set the address of where the packet will be sent
+        /// </summary>
+        /// <param name="a"></param>
         public void SetAddress(IPAddress a)
         {
             Logger.InfoFormat("New Address: {0}", Address);
             Address = a;
         }
 
+        /// <summary>
+        /// This method sets the port to look for when dealing with the packets
+        /// </summary>
+        /// <param name="p"></param>
         public void SetPort(int p)
         {
             Logger.InfoFormat("New Port: {0}", Port);
             Port = p;
         }
 
+        /// <summary>
+        /// This method returns the address
+        /// </summary>
+        /// <returns></returns>
         public IPAddress GetAddress()
         {
             return Address;
         }
-
+        /// <summary>
+        /// This method returns the port
+        /// </summary>
+        /// <returns></returns>
         public int GetPort()
         {
             return Port;
         }
-
+        /// <summary>
+        /// This method starts the UdpCommunicator
+        /// </summary>
         public void Start()
         {
+            Logger.Info("Starting up Udp Communicator");
             lock (_myLock)
             {
                 if (_receiveStarted)
@@ -64,12 +96,17 @@ namespace CommunicationSubsystem
                 }
                 catch (SocketException)
                 {
+                    Logger.Debug("Failed to start Udp Client");
                 }
             }
         }
 
+        /// <summary>
+        /// This method will stop the UdpCommunicator
+        /// </summary>
         public void Stop()
         {
+            Logger.Info("Stopping Udp Communicator");
             lock (_myLock)
             {
                 _receiveStarted = false;
@@ -84,17 +121,10 @@ namespace CommunicationSubsystem
             }
         }
 
-        private void StartReceive()
-        {
-            if (!_receiveStarted)
-                throw new ApplicationException($"Cannot bind the socket to a port {Port}");
-            else
-            {
-                _receiveThread = new Thread(Receive);
-                _receiveThread.Start();
-            }
-        }
-
+        /// <summary>
+        /// This method sends the envelope to the endpoint stored in the envelope
+        /// </summary>
+        /// <param name="env"></param>
         public void Send(Envelope env)
         {
             Logger.InfoFormat("Send Message: {0} {1}", env.Message.MessageNumber.Item1, env.Message.MessageNumber.Item2);
@@ -106,6 +136,9 @@ namespace CommunicationSubsystem
             }
         }
 
+        /// <summary>
+        /// This method will receive messages and then decode that message and put it in an envelope
+        /// </summary>
         public void Receive()
         {
             Logger.Info("Attempting to receive message");
@@ -162,5 +195,23 @@ namespace CommunicationSubsystem
                 }
             }
         }
+
+        #endregion
+
+
+        #region Private Methods
+
+        private void StartReceive()
+        {
+            if (!_receiveStarted)
+                throw new ApplicationException($"Cannot bind the socket to a port {Port}");
+            else
+            {
+                _receiveThread = new Thread(Receive);
+                _receiveThread.Start();
+            }
+        }
+
+        #endregion
     }
 }
