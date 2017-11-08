@@ -12,11 +12,13 @@ namespace CommunicationSubsystemTest
         [TestMethod]
         public void CreateNewQueueTest()
         {
+            var testGuid = Guid.NewGuid();
+
             Dispatcher dispatcher = new Dispatcher();
             Envelope envelope = new Envelope()
             {
                 RemoteEP = null,
-                Message = new BrushStrokeMessage(){ConversationId = new Tuple<short, short>(1, 1)}
+                Message = new BrushStrokeMessage(){ConversationId = new Tuple<Guid, short>(testGuid, 1)}
             };
 
             EnvelopeQueue queue = dispatcher.GetQueue(envelope.Message.ConversationId);

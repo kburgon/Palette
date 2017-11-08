@@ -17,7 +17,7 @@ namespace CommunicationSubsystem
         private int _timeout = 1000;
         private ConversationFactory _conversationFactory { get; set; }
         private Conversation _conversation { get; set; }
-        protected readonly Dictionary<Tuple<short, short>, Conversation> _conversationDict = new Dictionary<Tuple<short, short>, Conversation>();
+        protected readonly Dictionary<Tuple<Guid, short>, Conversation> _conversationDict = new Dictionary<Tuple<Guid, short>, Conversation>();
         public UdpCommunicator udpCommunicator = new UdpCommunicator();
 
         public Dispatcher()
@@ -33,7 +33,7 @@ namespace CommunicationSubsystem
                 queue.Enqueue(env);
         }
 
-        public EnvelopeQueue GetQueue(Tuple<short, short> convId)
+        public EnvelopeQueue GetQueue(Tuple<Guid, short> convId)
         {
             return envelopeQueueDict.GetConversation(convId);
         }
@@ -107,7 +107,7 @@ namespace CommunicationSubsystem
 
         }
 
-        public Dictionary<Tuple<short, short>, Conversation> GetConversationDictionary()
+        public Dictionary<Tuple<Guid, short>, Conversation> GetConversationDictionary()
         {
             return _conversationDict;
         }
