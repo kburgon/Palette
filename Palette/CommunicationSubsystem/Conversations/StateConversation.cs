@@ -12,6 +12,7 @@
             CreateRequest();
             ProcessReply();
             CreateUpdate();
+            EnvelopeQueue.EndOfConversation = true;
         }
 
         protected virtual void ProcessReceivedMessage()

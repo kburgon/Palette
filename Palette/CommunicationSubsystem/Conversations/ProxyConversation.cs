@@ -11,6 +11,8 @@ namespace CommunicationSubsystem.Conversations.ProxyConversations
             ProcessReplyFromRequest();
             CreateReply();
 
+            EnvelopeQueue.EndOfConversation = true;
+
             // TODO: Add handling for conversation failures.
             //ProcessFailure();
         }

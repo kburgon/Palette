@@ -11,6 +11,7 @@ namespace CommunicationSubsystem.Conversations.InitiatorConversations
 
         protected override void StartConversation()
         {
+            EnvelopeQueue.EndOfConversation = true;
             throw new NotImplementedException();
         }
 
