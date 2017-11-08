@@ -59,5 +59,20 @@ namespace PaletteAdminClient
             AdminLoginCredentialsGrid.Visibility = Visibility.Visible;
             OpenAdminLoginCredentialsButton.Visibility = Visibility.Hidden;
         }
+
+        private void GetCanvasListButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreateCanvasButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteCanvasButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

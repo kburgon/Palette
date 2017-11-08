@@ -75,7 +75,23 @@
             
         </TabItem>
         <TabItem x:Name="AdminClientTabItem" Header="Admin Client" Visibility="Collapsed">
-            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="GetCanvasListButton" Grid.Row="0" Content="Get Canvas List" Height="20" Width="100" Click="GetCanvasListButton_Click"/>
+                    <Button x:Name="CreateCanvasButton" Grid.Row="1" Content="Create Canvas" Height="20" Width="100" Click="CreateCanvasButton_Click"/>
+                    <Button x:Name="DeleteCanvasButton" Grid.Row="2" Content="Delete Canvas" Height="20" Width="100" Click="DeleteCanvasButton_Click"/>
+                </Grid>
+                <ListBox x:Name="CanvasIdListBox" Grid.Column="1"/>
+            </Grid>
         </TabItem>
     </TabControl>
 </Window>
