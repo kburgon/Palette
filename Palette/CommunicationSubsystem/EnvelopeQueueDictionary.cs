@@ -18,7 +18,7 @@ namespace CommunicationSubsystem
 
         #region Protected Methods
 
-        protected Dictionary<Tuple<short, short>, EnvelopeQueue> EnvelopeQueueDict = new Dictionary<Tuple<short, short>, EnvelopeQueue>();
+        protected Dictionary<Tuple<Guid, short>, EnvelopeQueue> EnvelopeQueueDict = new Dictionary<Tuple<Guid, short>, EnvelopeQueue>();
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace CommunicationSubsystem
         /// </summary>
         /// <param name="convId"></param>
         /// <returns></returns>
-        public EnvelopeQueue GetConversation(Tuple<short, short> convId)
+        public EnvelopeQueue GetConversation(Tuple<Guid, short> convId)
         {
             Logger.InfoFormat("Getting queue for conversation: {0} {1}", convId.Item1, convId.Item2);
             EnvelopeQueue queue = null;
@@ -47,7 +47,7 @@ namespace CommunicationSubsystem
         /// This method creates a new queue if queue and adds it to the dictionary
         /// </summary>
         /// <param name="convId"></param>
-        public void CreateQueue(Tuple<short, short> convId)
+        public void CreateQueue(Tuple<Guid, short> convId)
         {
             Logger.InfoFormat("Creating new queue for conversation: {0} {1}", convId.Item1, convId.Item2);
             EnvelopeQueue newQueue = new EnvelopeQueue();
@@ -58,7 +58,7 @@ namespace CommunicationSubsystem
         /// This method is used when a conversation is ended and the queue for the conversation needs to be removed
         /// </summary>
         /// <param name="convId"></param>
-        public void CloseQueue(Tuple<short, short> convId)
+        public void CloseQueue(Tuple<Guid, short> convId)
         {
             Logger.InfoFormat("Deleting Queue for conversation: {0} {1}", convId.Item1, convId.Item2);
             EnvelopeQueueDict.Remove(convId);

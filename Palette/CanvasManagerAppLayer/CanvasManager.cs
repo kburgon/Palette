@@ -16,7 +16,7 @@ namespace CanvasManagerAppLayer
             var conversationFactory = new CanvasManagerConversationFactory();
             conversationFactory.Initialize();
             _dispatcher.SetFactory(conversationFactory);
-            _dispatcher.udpCommunicator.SetPort(communicatorPort);
+            _dispatcher.UdpCommunicator.SetPort(communicatorPort);
             _dispatcher.StartListener();
         }
 

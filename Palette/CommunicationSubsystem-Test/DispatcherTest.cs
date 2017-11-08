@@ -31,16 +31,18 @@ namespace CommunicationSubsystemTest
         [TestMethod]
         public void AddToQueueTest()
         {
+            var testProcessId = Guid.NewGuid();
+
             Dispatcher dispatcher = new Dispatcher();
             Envelope envelope = new Envelope()
             {
                 RemoteEP = null,
-                Message = new BrushStrokeMessage() { ConversationId = new Tuple<short, short>(1, 1) }
+                Message = new BrushStrokeMessage() { ConversationId = new Tuple<Guid, short>(testProcessId, 1) }
             };
             Envelope envelope2 = new Envelope()
             {
                 RemoteEP = null,
-                Message = new CanvasMessage() { ConversationId = new Tuple<short, short>(1, 1) }
+                Message = new CanvasMessage() { ConversationId = new Tuple<Guid, short>(testProcessId, 1) }
             };
 
             EnvelopeQueue queue = dispatcher.GetQueue(envelope.Message.ConversationId);
@@ -53,11 +55,13 @@ namespace CommunicationSubsystemTest
         [TestMethod]
         public void DeleteQueueTest()
         {
+            var testProcessId = Guid.NewGuid();
+
             Dispatcher dispatcher = new Dispatcher();
             Envelope envelope = new Envelope()
             {
                 RemoteEP = null,
-                Message = new BrushStrokeMessage() { ConversationId = new Tuple<short, short>(1, 1) }
+                Message = new BrushStrokeMessage() { ConversationId = new Tuple<Guid, short>(testProcessId, 1) }
             };
 
             EnvelopeQueue queue = dispatcher.GetQueue(envelope.Message.ConversationId);

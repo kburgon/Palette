@@ -29,7 +29,7 @@ namespace CommunicationSubsystem
 
         #region Protected Members
 
-        protected readonly Dictionary<Tuple<short, short>, Conversation> ConversationDict = new Dictionary<Tuple<short, short>, Conversation>();
+        protected readonly Dictionary<Tuple<Guid, short>, Conversation> ConversationDict = new Dictionary<Tuple<Guid, short>, Conversation>();
         protected EnvelopeQueueDictionary EnvelopeQueueDict = new EnvelopeQueueDictionary();
 
         #endregion
@@ -68,7 +68,7 @@ namespace CommunicationSubsystem
         /// </summary>
         /// <param name="convId"></param>
         /// <returns></returns>
-        public EnvelopeQueue GetQueue(Tuple<short, short> convId)
+        public EnvelopeQueue GetQueue(Tuple<Guid, short> convId)
         {
             return EnvelopeQueueDict.GetConversation(convId);
         }
@@ -180,7 +180,7 @@ namespace CommunicationSubsystem
         /// This method returns the dictionary that contains all the envelope queues
         /// </summary>
         /// <returns></returns>
-        public Dictionary<Tuple<short, short>, Conversation> GetConversationDictionary()
+        public Dictionary<Tuple<Guid, short>, Conversation> GetConversationDictionary()
         {
             return ConversationDict;
         }
@@ -200,7 +200,7 @@ namespace CommunicationSubsystem
         /// This method removes the queue for a convseration that has ended
         /// </summary>
         /// <param name="convId"></param>
-        private void EndConversation(Tuple<short, short> convId)
+        private void EndConversation(Tuple<Guid, short> convId)
         {
             EnvelopeQueueDict.CloseQueue(convId);
         }
