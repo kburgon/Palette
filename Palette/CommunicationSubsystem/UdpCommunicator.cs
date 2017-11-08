@@ -180,7 +180,7 @@ namespace CommunicationSubsystem
                             {
                                 Logger.InfoFormat("Message received, creating envelope for: {0} {1}",
                                     newMessage.MessageNumber.Item1, newMessage.MessageNumber.Item2);
-                                newEnv = new Envelope() {RemoteEP = ep, Message = newMessage};
+                                newEnv = new Envelope() { RemoteEP = ep, Message = newMessage };
                                 EnvelopeHandler.Invoke(newEnv);
                             }
                             else
