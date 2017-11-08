@@ -16,11 +16,12 @@ namespace CommunicationSubsystemTest
         [TestMethod]
         public void UdpSendReceiveTest()
         {
+            var testGuid = Guid.NewGuid();
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12000);
             Message message = new CanvasMessage()
             {
-                ConversationId = new Tuple<short, short>(1,1),
-                MessageNumber = new Tuple<short, short>(1, 1),
+                ConversationId = new Tuple<Guid, short>(testGuid,1),
+                MessageNumber = new Tuple<Guid, short>(testGuid, 1),
                 CanvasId = 1
             };
             Envelope envelope = new Envelope(){ RemoteEP = ep, Message = message};

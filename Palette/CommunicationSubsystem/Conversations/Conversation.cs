@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Messages;
+using System;
 using System.Threading.Tasks;
-using Messages;
 
 namespace CommunicationSubsystem.Conversations
 {
     public abstract class Conversation
     {
-        public Tuple<short, short> ConversationId { get; set; }
+        public Guid ProcessId { get; set; }
+        public Tuple<Guid, short> ConversationId { get; set; }
         public EnvelopeQueue EnvelopeQueue { get; set; }
+        public UdpCommunicator Communicator { get; set; }
 
         protected Task _conversationExecution;
         protected static UdpCommunicator _communicator;

@@ -8,7 +8,9 @@ namespace CommunicationSubsystem.ConversationFactories
 {
     public abstract class ConversationFactory
     {
-        protected Dictionary<Type, Type> ResponderConversationTypes { get; set; }
+        public static Guid ProcessId = Guid.NewGuid();
+
+        protected Dictionary<Type, Type> ResponderConversationTypes { private get; set; }
 
         public abstract void Initialize();
 

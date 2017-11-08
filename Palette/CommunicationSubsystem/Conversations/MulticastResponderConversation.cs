@@ -18,6 +18,7 @@ namespace CommunicationSubsystem.Conversations.MulticastReponderConversations
             CreateMulticast();
             CreateReply();
 
+            EnvelopeQueue.EndOfConversation = true;
             // TODO: Add handling for when a conversation fails.
             //ProcessFailure();
         }

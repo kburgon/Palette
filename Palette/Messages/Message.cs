@@ -31,9 +31,9 @@ namespace Messages
         }
 
         [DataMember]
-        public Tuple<short, short> MessageNumber { get; set; }
+        public Tuple<Guid, short> MessageNumber { get; set; }
         [DataMember]
-        public Tuple<short, short> ConversationId { get; set; }
+        public Tuple<Guid, short> ConversationId { get; set; }
 
         private static readonly List<Type> _types = new List<Type>();
         private static readonly ILog Logger = LogManager.GetLogger(typeof(Message));

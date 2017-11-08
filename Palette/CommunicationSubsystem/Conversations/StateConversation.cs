@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CommunicationSubsystem.Conversations.StateConversations
+﻿namespace CommunicationSubsystem.Conversations
 {
     public abstract class StateConversation : Conversation
     {
+        public Envelope InitialReceivedEnvelope { get; set; }
+
         protected override void StartConversation()
         {
             ProcessReceivedMessage();
-            CreateAuthRequest();
-            ProcessAuthReply();
-            CreateFirstUpdatedState();
+            //CreateAuthRequest();
+            //ProcessAuthReply();
             CreateRequest();
             ProcessReply();
-            CreateSecondUpdatedState();
-
-            // TODO: Add handling for conversation failures.
-            //ProcessFailure();
+            CreateUpdate();
+            EnvelopeQueue.EndOfConversation = true;
         }
 
-        protected abstract void ProcessReceivedMessage();
+        protected virtual void ProcessReceivedMessage()
+        {
+            ConversationId = InitialReceivedEnvelope.Message.ConversationId;
+        }
+
         protected abstract void CreateAuthRequest();
         protected abstract void ProcessAuthReply();
-        protected abstract void CreateFirstUpdatedState();
         protected abstract void CreateRequest();
         protected abstract void ProcessReply();
-        protected abstract void CreateSecondUpdatedState();
+        protected abstract void CreateUpdate();
     }
 }

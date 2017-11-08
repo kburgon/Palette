@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CommunicationSubsystem.Conversations.ProxyConversations
 {
@@ -12,6 +10,8 @@ namespace CommunicationSubsystem.Conversations.ProxyConversations
             CreateRequest();
             ProcessReplyFromRequest();
             CreateReply();
+
+            EnvelopeQueue.EndOfConversation = true;
 
             // TODO: Add handling for conversation failures.
             //ProcessFailure();
