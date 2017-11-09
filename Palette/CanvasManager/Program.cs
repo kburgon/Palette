@@ -17,7 +17,7 @@ namespace CanvasManager
 
             if (!args.Any())
             {
-                Console.WriteLine($"Starting Canvas Manager on default address: default port {defaultAddress}:{defaultPortNumber}...");
+                Console.WriteLine($"Starting Canvas Manager on default port {defaultPortNumber}...");
                 SetAddressAndPortNumber(defaultAddress, defaultPortNumber);
             }
             else
@@ -48,8 +48,9 @@ namespace CanvasManager
 
         private static void WaitForCommand()
         {
-            Console.WriteLine("Type \"address\" to set storage manager's address.");
-            Console.WriteLine("Type \"port\" to set storage manager's port.");
+            Console.WriteLine("Type \"S_address\" to set Storage Manager's address.");
+            Console.WriteLine("Type \"S_port\" to set Storage Manager's port.");
+            Console.WriteLine("Type \"port\" to set Canvas Manager's port.");
             Console.WriteLine("Type \"exit\" to close application.");
 
             var hasSentExitCommand = false;
