@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using SharedAppLayer.Entitities;
@@ -23,6 +25,51 @@ namespace CanvasStorageManager_Test.DataPersistence
                     Records = new List<T>()
                 });
             }
+        }
+
+        public void Add(T record)
+        {
+            lock (FileName)
+            {
+                var fileJson = ReadFileJson();
+                record.Key = fileJson.CurrentId++;
+                fileJson.Records.Add(record);
+                WriteFileJson(fileJson);
+            }
+        }
+
+        public void Update(T record)
+        {
+            lock (FileName)
+            {
+                var fileJson = ReadFileJson();
+                var index = fileJson.Records.FindIndex(Matches(record));
+                if (index == -1) throw new Exception();
+                fileJson.Records[index] = record;
+                WriteFileJson(fileJson);
+            }
+        }
+
+        public void Remove(T record)
+        {
+            lock (FileName)
+            {
+                var fileJson = ReadFileJson();
+                var index = fileJson.Records.FindIndex(Matches(record));
+                if (index == -1) throw new Exception();
+                fileJson.Records.RemoveAt(index);
+                WriteFileJson(fileJson);
+            }
+        }
+
+        private static Predicate<T> Matches(T record)
+        {
+            return r => r.Key == record.Key;
+        }
+
+        public T SingleOrDefault(Func<T, bool> predicate)
+        {
+            return ToList().SingleOrDefault(predicate);
         }
 
         public List<T> ToList()
