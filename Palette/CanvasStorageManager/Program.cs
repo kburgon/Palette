@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CommunicationSubsystem;
 
 namespace CanvasStorageManager
 {
@@ -6,9 +6,10 @@ namespace CanvasStorageManager
     {
         public static void Main()
         {
-            var convoFactory = new ConversationFactory();
-            var comms = new ConversationFactory( convoFactory );
-            comms.startListening();
+            var dispatcher = new Dispatcher();
+            var factory = new StorageManagerConvoFactory();
+            dispatcher.SetFactory(factory);
+            dispatcher.StartListener();
         }
     }
 }

@@ -54,9 +54,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataPersistence\CanvasRepository.cs" />
-    <Compile Include="DataPersistence\FileDataStore.cs" />
-    <Compile Include="DataPersistence\SimpleFileCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleFileCollectionTests.cs" />
   </ItemGroup>
@@ -64,6 +61,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CanvasStorageManager\CanvasStorageManager.csproj">
+      <Project>{d25e3d29-77a6-4cd2-a75a-4ac0fa0541bc}</Project>
+      <Name>CanvasStorageManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedAppLayer\SharedAppLayer.csproj">
       <Project>{a91ead19-693a-4099-b565-7284f2fe3122}</Project>
       <Name>SharedAppLayer</Name>

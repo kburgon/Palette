@@ -6,7 +6,7 @@ using System.Text;
 using Newtonsoft.Json;
 using SharedAppLayer.Entitities;
 
-namespace CanvasStorageManager_Test.DataPersistence
+namespace CanvasStorageManager.DataPersistence
 {
     internal class SimpleFileCollection<T> where T : IHasKey, new()
     {
