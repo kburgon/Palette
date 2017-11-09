@@ -139,8 +139,7 @@ namespace MessageTest
             var message = new CreateCanvasMessage()
             {
                 MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
-                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
-                CanvasId = 1
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2)
             };
 
             byte[] bytes = message.Encode();
@@ -149,7 +148,6 @@ namespace MessageTest
 
             var message2 = Message.Decode(bytes);
 
-            Assert.AreEqual(message.CanvasId, (message2 as CreateCanvasMessage).CanvasId);
             Assert.AreEqual(message.MessageNumber, (message2 as CreateCanvasMessage).MessageNumber);
             Assert.AreEqual(message.ConversationId, (message2 as CreateCanvasMessage).ConversationId);
         }

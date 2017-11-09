@@ -7,9 +7,5 @@ namespace Messages
     [DataContract]
     public class CreateCanvasMessage : Message
     {
-
-        [DataMember]
-        public int CanvasId { get; set; }
-
     }
 }

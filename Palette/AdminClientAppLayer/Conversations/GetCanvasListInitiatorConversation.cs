@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using CommunicationSubsystem.Conversations.InitiatorConversations;
+using Messages;
+using CommunicationSubsystem;
 
 namespace AdminClientAppLayer.Conversations
 {
     public class GetCanvasListInitiatorConversation : InitiatorConversation
     {
+        public IEnumerable<string> Canvases { get; set; }
+
         protected override void ProcessFailure()
         {
             throw new NotImplementedException();
@@ -24,12 +28,27 @@ namespace AdminClientAppLayer.Conversations
 
         protected override void CreateRequest()
         {
-            throw new NotImplementedException();
+            var message = new GetCanvasListMessage()
+            {
+                ConversationId = this.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(this.ProcessId, 1)
+            };
+
+            var envelope = new Envelope()
+            {
+                RemoteEP = RemoteEndPoint,
+                Message = message
+            };
+
+            Communicator.Send(envelope);
         }
 
         protected override void ProcessReply()
         {
-            throw new NotImplementedException();
+            var envelope = EnvelopeQueue.Dequeue();
+            var message = envelope.Message;
+            EnvelopeQueue.EndOfConversation = true;
+            Canvases = (message as CanvasListMessage).Canvases;
         }
     }
 }
