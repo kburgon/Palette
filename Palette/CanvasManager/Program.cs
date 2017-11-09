@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using log4net;
+using log4net.Config;
 
 namespace CanvasManager
 {
     static class Program
     {
         private static CanvasManagerAppLayer.CanvasManager _canvasManagerApp;
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(Program));
 
         private static void Main(string[] args)
         {
+            XmlConfigurator.Configure();
             const int defaultPortNumber = 12345;
+            Logger.Info("Canvas Manager Started");
 
             _canvasManagerApp = new CanvasManagerAppLayer.CanvasManager();
 
