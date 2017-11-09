@@ -44,8 +44,8 @@ namespace CanvasStorageManager_Test
             var testRecord2 = new RecordStub();
             fileCollection.Add(testRecord1);
             fileCollection.Add(testRecord2);
-            testRecord1.Key.ShouldBe(0u);
-            testRecord2.Key.ShouldBe(1u);
+            testRecord1.Key.ShouldBe(0);
+            testRecord2.Key.ShouldBe(1);
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace CanvasStorageManager_Test
 
     public class RecordStub : IHasKey
     {
-        public uint Key { get; set; }
+        public int Key { get; set; }
 
         public string TestValue { get; set; }
     }

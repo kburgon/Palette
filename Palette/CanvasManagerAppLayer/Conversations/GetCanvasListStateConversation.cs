@@ -3,12 +3,13 @@ using CommunicationSubsystem.Conversations;
 using Messages;
 using System;
 using System.Collections.Generic;
+using SharedAppLayer.Entitities;
 
 namespace CanvasManagerAppLayer.Conversations
 {
     public class GetCanvasListStateConversation : StateConversation
     {
-        private IEnumerable<string> _canvasList;
+        private IEnumerable<Canvas> _canvasList;
 
         protected override void ProcessFailure()
         {

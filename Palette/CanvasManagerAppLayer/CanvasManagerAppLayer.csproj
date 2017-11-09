@@ -57,6 +57,10 @@
       <Project>{cae99195-e7f6-409e-a0c7-c03bd5eb7dfc}</Project>
       <Name>Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharedAppLayer\SharedAppLayer.csproj">
+      <Project>{a91ead19-693a-4099-b565-7284f2fe3122}</Project>
+      <Name>SharedAppLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

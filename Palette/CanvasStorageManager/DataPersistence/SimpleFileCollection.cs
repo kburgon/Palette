@@ -101,7 +101,7 @@ namespace CanvasStorageManager.DataPersistence
 
     internal class FileJson<T>
     {
-        public uint CurrentId { get; set; }
+        public int CurrentId { get; set; }
         public List<T> Records { get; set; }
     }
 }
