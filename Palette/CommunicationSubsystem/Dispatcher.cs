@@ -19,7 +19,6 @@ namespace CommunicationSubsystem
         private static readonly ILog Logger = LogManager.GetLogger(typeof(Dispatcher));
         private Thread _listenerThread { get; set; }
         private bool _listening { get; set; }
-        private int _timeout = 1000;
         private ConversationFactory _conversationFactory { get; set; }
         private Conversation _conversation { get; set; }
         private Envelope _myEnvelope { get; set; }
@@ -101,6 +100,7 @@ namespace CommunicationSubsystem
             Logger.Info("Stopping listener thread");
             _listening = false;
             _listenerThread.Join();
+            UdpCommunicator.Stop();
         }
 
         /// <summary>
