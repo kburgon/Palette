@@ -11,14 +11,13 @@ namespace CanvasManager
         private static void Main(string[] args)
         {
             const int defaultPortNumber = 12345;
-            const string defaultAddress = "127.0.0.1";
 
             _canvasManagerApp = new CanvasManagerAppLayer.CanvasManager();
 
             if (!args.Any())
             {
                 Console.WriteLine($"Starting Canvas Manager on default port {defaultPortNumber}...");
-                SetAddressAndPortNumber(defaultAddress, defaultPortNumber);
+                SetPortNumber(defaultPortNumber);
             }
             else
             {
@@ -27,7 +26,7 @@ namespace CanvasManager
                     var address = args[0];
                     var portNumber = Convert.ToInt32(args[1]);
                     Console.WriteLine($"Starting Canvas Manager on port {portNumber}...");
-                    SetAddressAndPortNumber(address, portNumber);
+                    SetPortNumber(portNumber);
                 }
                 catch (Exception e)
                 {
@@ -41,9 +40,9 @@ namespace CanvasManager
             _canvasManagerApp.CloseDispatcher();
         }
 
-        private static void SetAddressAndPortNumber(string address, int portNumber)
+        private static void SetPortNumber(int portNumber)
         {
-            _canvasManagerApp.StartDispatcher(address, portNumber);
+            _canvasManagerApp.StartDispatcher(portNumber);
         }
 
         private static void WaitForCommand()
@@ -69,21 +68,35 @@ namespace CanvasManager
                     int port;
                     if (Int32.TryParse(newPort, out port))
                     {
-                        _canvasManagerApp.UpdatePort(port);
+                        _canvasManagerApp.UpdateCanvasManagerPort(port);
                     }
                     else
                     {
                         Console.WriteLine("Port must be a number.");
                     }
                 }
-                else if (command == "address")
+                else if (command == "S_port")
+                {
+                    Console.WriteLine("Enter new port: ");
+                    var newPort = Console.ReadLine();
+                    int port;
+                    if (Int32.TryParse(newPort, out port))
+                    {
+                        _canvasManagerApp.UpdateStorageManagerPort(port);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Port must be a number.");
+                    }
+                }
+                else if (command == "S_address")
                 {
                     Console.WriteLine("Enter new address: ");
                     var newAddress = Console.ReadLine();
                     IPAddress address;
                     if(IPAddress.TryParse(newAddress, out address))
                     {
-                        _canvasManagerApp.UpdateAddress(address);
+                        _canvasManagerApp.UpdateStorageManagerAddress(address);
                     }
                     else
                     {
