@@ -6,9 +6,12 @@ using Messages;
 
 namespace CommunicationSubsystem
 {
+    /// <summary>
+    /// This class is used to store a message and endpoint
+    /// </summary>
     public class Envelope
     {
-        public IPEndPoint remoteEP { get; set; }
-        public Message message { get; set; }
+        public IPEndPoint RemoteEP { get; set; }
+        public Message Message { get; set; }
     }
 }
