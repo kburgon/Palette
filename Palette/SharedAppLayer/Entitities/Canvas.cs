@@ -16,5 +16,10 @@ namespace SharedAppLayer.Entitities
             get => CanvasId;
             set => CanvasId = value;
         }
+
+        public override string ToString()
+        {
+            return CanvasId.ToString();
+        }
     }
 }

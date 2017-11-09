@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PaletteAdminClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525"
+        Closed="Window_Closed">
     <TabControl Visibility="Visible">
         <TabItem x:Name="PaletteClientTabItem" Header="Palette Client" Visibility="Collapsed">
             
@@ -75,7 +76,51 @@
             
         </TabItem>
         <TabItem x:Name="AdminClientTabItem" Header="Admin Client" Visibility="Collapsed">
-            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="GetCanvasListButton" Grid.Row="0" Content="Get Canvas List" Height="20" Width="100" Click="GetCanvasListButton_Click"/>
+                        <Button x:Name="CreateCanvasButton" Grid.Row="1" Content="Create Canvas" Height="20" Width="100" Click="CreateCanvasButton_Click"/>
+                        <Button x:Name="DeleteCanvasButton" Grid.Row="2" Content="Delete Canvas" Height="20" Width="100" Click="DeleteCanvasButton_Click"/>
+                    </Grid>
+                    <ListBox x:Name="CanvasIdListBox" Grid.Column="1"/>
+                </Grid>
+                <Grid Grid.Row="1" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Canvas Manager IP Address:" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Column="1" x:Name="CanvasManagerIpAddressTextBox" Width="100" VerticalContentAlignment="Center"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Port:"/>
+                        <TextBox x:Name="CanvasManagerPort" Grid.Column="1" Width="50" VerticalContentAlignment="Center"/>
+                    </Grid>
+                </Grid>
+            </Grid>
         </TabItem>
     </TabControl>
 </Window>
