@@ -9,7 +9,12 @@ namespace AdminClientAppLayer.Conversations
 {
     public class DeleteCanvasInitiatorConversation : InitiatorConversation
     {
-        public int CanvasId { get; set; }
+        public Tuple<int> CanvasId { get; set; }
+
+        public DeleteCanvasInitiatorConversation()
+        {
+            CanvasId = null;
+        }
 
         protected override void ProcessFailure()
         {
@@ -32,7 +37,7 @@ namespace AdminClientAppLayer.Conversations
             {
                 ConversationId = this.ConversationId,
                 MessageNumber = new Tuple<Guid, short>(this.ProcessId, 1),
-
+                CanvasId = CanvasId.Item1
             };
 
             var envelope = new Envelope()
@@ -47,7 +52,8 @@ namespace AdminClientAppLayer.Conversations
         protected override void ProcessReply()
         {
             var envelope = EnvelopeQueue.Dequeue();
-            var message = envelope.Message;
+            var message = (CanvasMessage)envelope.Message;
+            CanvasId = new Tuple<int>(message.CanvasId);
             EnvelopeQueue.EndOfConversation = true;
         }
     }

@@ -9,6 +9,13 @@ namespace AdminClientAppLayer.Conversations
 {
     public class CreateCanvasInitiatorConversation : InitiatorConversation
     {
+        public Tuple<int> CanvasId { get; set; }
+
+        public CreateCanvasInitiatorConversation()
+        {
+            CanvasId = null;
+        }
+
         protected override void ProcessFailure()
         {
             throw new NotImplementedException();
@@ -44,7 +51,8 @@ namespace AdminClientAppLayer.Conversations
         protected override void ProcessReply()
         {
             var envelope = EnvelopeQueue.Dequeue();
-            var message = envelope.Message;
+            var message = (CanvasMessage)envelope.Message;
+            CanvasId = new Tuple<int>(message.CanvasId);
             EnvelopeQueue.EndOfConversation = true;
         }
     }

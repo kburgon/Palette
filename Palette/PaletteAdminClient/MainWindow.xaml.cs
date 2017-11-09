@@ -1,18 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using AdminClientAppLayer;
 
 namespace PaletteAdminClient
@@ -28,7 +18,11 @@ namespace PaletteAdminClient
         {
             InitializeComponent();
 
-            _adminClient = new AdminClient();
+            _adminClient = new AdminClient
+            {
+                CreatedCanvasIdHandler = HandleCanvasIdUpdate,
+                DeleteCanvasHandler = HandleCanvasDelete
+            };
         }
 
         private static bool IsValidIpAddress(string ip)
@@ -42,6 +36,39 @@ namespace PaletteAdminClient
             {
                 return false;
             }
+        }
+
+        private void HandleCanvasIdUpdate(int canvasId)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(new CreatedCanvasIdHandler(HandleCanvasIdUpdate), canvasId);
+                return;
+            }
+
+            MessageBox.Show($"Canvas with ID {canvasId} has been created.");
+        }
+
+        private void HandleCanvasDelete(int canvasId)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(new DeleteCanvasHandler(HandleCanvasDelete), canvasId);
+                return;
+            }
+
+            MessageBox.Show($"Canvas with ID {canvasId} has been deleted.");
+        }
+
+        private void HandleCanvasListRequest(IEnumerable<SharedAppLayer.Entitities.Canvas> canvases)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(new GetCanvasListHandler(HandleCanvasListRequest), canvases);
+                return;
+            }
+
+            CanvasIdListBox.ItemsSource = canvases;
         }
 
         private void ConnectCanvasButton_Click(object sender, RoutedEventArgs e)
@@ -87,8 +114,10 @@ namespace PaletteAdminClient
                 return;
             }
 
+            _adminClient.CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text;
+            _adminClient.CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text);
             _adminClient.StartDispatcher(port);
-            _adminClient.CreateCanvas();
+            _adminClient.RequestCanvasList();
         }
 
         private void CreateCanvasButton_Click(object sender, RoutedEventArgs e)
@@ -99,6 +128,8 @@ namespace PaletteAdminClient
                 return;
             }
 
+            _adminClient.CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text;
+            _adminClient.CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text);
             _adminClient.StartDispatcher(port);
             _adminClient.CreateCanvas();
         }
@@ -111,8 +142,30 @@ namespace PaletteAdminClient
                 return;
             }
 
+            _adminClient.CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text;
+            _adminClient.CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text);
             _adminClient.StartDispatcher(port);
-            _adminClient.DeleteCanvas();
+
+            try
+            {
+                var canvas = ((SharedAppLayer.Entitities.Canvas) CanvasIdListBox.SelectedItem);
+                _adminClient.DeleteCanvas(canvas.CanvasId);
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("No canvas was selected to delete.");
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
+            
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _adminClient.CloseDispatcher();
         }
     }
 }

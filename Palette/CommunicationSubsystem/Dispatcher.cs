@@ -22,6 +22,7 @@ namespace CommunicationSubsystem
         private ConversationFactory _conversationFactory { get; set; }
         private Conversation _conversation { get; set; }
         private Envelope _myEnvelope { get; set; }
+        private object _dictionaryLock;
 
         #endregion
 
@@ -48,6 +49,7 @@ namespace CommunicationSubsystem
         {
             _listenerThread = new Thread(RunListener);
             UdpCommunicator = new UdpCommunicator() {EnvelopeHandler = GetEnvelope};
+            _dictionaryLock = new object();
         }
 
         /// <summary>
@@ -58,8 +60,7 @@ namespace CommunicationSubsystem
         {
             Logger.InfoFormat("Adding envelope to queue: {0} {1}", env.Message.ConversationId.Item1, env.Message.ConversationId.Item2);
             EnvelopeQueue queue = GetQueue(env.Message.ConversationId);
-            if(env != null)
-                queue.Enqueue(env);
+            queue.Enqueue(env);
         }
 
         /// <summary>
@@ -139,22 +140,24 @@ namespace CommunicationSubsystem
             {
                 if (_myEnvelope != null)
                 {
-
                     EnvelopeQueue envQueue = null;
-                    if (ConversationDict.ContainsKey(_myEnvelope.Message.ConversationId))
+                    lock (_dictionaryLock)
                     {
-                        Logger.Info("Adding envelope to queue");
-                        //envQueue = GetQueue(_myEnvelope.Message.ConversationId);
-                        EnqueueEnvelope(_myEnvelope);
-                    }
-                    else
-                    {
-                        Logger.Info("Creating new queue and conversation");
-                        envQueue = GetQueue(_myEnvelope.Message.ConversationId);
-                        Conversation conversation = _conversationFactory.CreateFromMessageType(_myEnvelope.Message);
-                        EnqueueEnvelope(_myEnvelope);
-                        conversation.EnvelopeQueue = envQueue;
-                        ConversationDict.Add(_myEnvelope.Message.ConversationId, conversation);
+                        if (ConversationDict.ContainsKey(_myEnvelope.Message.ConversationId))
+                        {
+                            Logger.Info("Adding envelope to queue");
+                            //envQueue = GetQueue(_myEnvelope.Message.ConversationId);
+                            EnqueueEnvelope(_myEnvelope);
+                        }
+                        else
+                        {
+                            Logger.Info("Creating new queue and conversation");
+                            envQueue = GetQueue(_myEnvelope.Message.ConversationId);
+                            Conversation conversation = _conversationFactory.CreateFromMessageType(_myEnvelope.Message);
+                            EnqueueEnvelope(_myEnvelope);
+                            conversation.EnvelopeQueue = envQueue;
+                            ConversationDict.Add(_myEnvelope.Message.ConversationId, conversation);
+                        }
                     }
                 }
 
@@ -177,7 +180,10 @@ namespace CommunicationSubsystem
 
             conversation.EnvelopeQueue = envQueue;
 
-            ConversationDict.Add(env.Message.ConversationId, conversation);
+            lock (_dictionaryLock)
+            {
+                ConversationDict.Add(env.Message.ConversationId, conversation);
+            }
 
         }
 
@@ -190,7 +196,11 @@ namespace CommunicationSubsystem
             EnvelopeQueue envQueue = GetQueue(conver.ConversationId);;
             Conversation conversation = conver;
             conversation.EnvelopeQueue = envQueue;
-            ConversationDict.Add(conver.ConversationId, conversation);
+
+            lock (_dictionaryLock)
+            {
+                ConversationDict.Add(conver.ConversationId, conversation);
+            }
         }
 
         /// <summary>
@@ -220,6 +230,7 @@ namespace CommunicationSubsystem
         private void EndConversation(Tuple<Guid, short> convId)
         {
             EnvelopeQueueDict.CloseQueue(convId);
+            ConversationDict.Remove(convId);
         }
 
         /// <summary>
@@ -228,11 +239,16 @@ namespace CommunicationSubsystem
         /// </summary>
         private void CheckConversationStatus()
         {
-            foreach (Conversation conv in ConversationDict.Values)
+            lock (_dictionaryLock)
             {
-                EnvelopeQueue queue = GetQueue(conv.ConversationId);
-                if(queue.EndOfConversation)
-                    EndConversation(conv.ConversationId);
+
+
+                foreach (Conversation conv in ConversationDict.Values)
+                {
+                    EnvelopeQueue queue = GetQueue(conv.ConversationId);
+                    if (queue.EndOfConversation)
+                        EndConversation(conv.ConversationId);
+                }
             }
         }
 

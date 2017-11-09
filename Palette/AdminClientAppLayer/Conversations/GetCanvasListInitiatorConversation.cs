@@ -4,12 +4,18 @@ using System.Text;
 using CommunicationSubsystem.Conversations.InitiatorConversations;
 using Messages;
 using CommunicationSubsystem;
+using SharedAppLayer.Entitities;
 
 namespace AdminClientAppLayer.Conversations
 {
     public class GetCanvasListInitiatorConversation : InitiatorConversation
     {
-        public IEnumerable<string> Canvases { get; set; }
+        public IEnumerable<Canvas> Canvases { get; set; }
+
+        public GetCanvasListInitiatorConversation()
+        {
+            Canvases = null;
+        }
 
         protected override void ProcessFailure()
         {
@@ -48,7 +54,7 @@ namespace AdminClientAppLayer.Conversations
             var envelope = EnvelopeQueue.Dequeue();
             var message = envelope.Message;
             EnvelopeQueue.EndOfConversation = true;
-            Canvases = (message as CanvasListMessage).Canvases;
+            Canvases = (message as CanvasListMessage)?.Canvases ?? new List<Canvas> { };
         }
     }
 }
