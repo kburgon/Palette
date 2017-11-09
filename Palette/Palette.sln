@@ -19,11 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasManager", "CanvasMana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminClientAppLayer", "AdminClientAppLayer\AdminClientAppLayer.csproj", "{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasStorageManager", "CanvasStorageManager\CanvasStorageManager.csproj", "{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedAppLayer", "SharedAppLayer\SharedAppLayer.csproj", "{A91EAD19-693A-4099-B565-7284F2FE3122}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasStorageManager-Test", "CanvasStorageManager-Test\CanvasStorageManager-Test.csproj", "{0E7122A6-E411-451E-A7DA-B400FE24B822}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasStorageManager", "CanvasStorageManager\CanvasStorageManager.csproj", "{41C334BE-B605-41A9-A898-40D0D2333603}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,22 +165,6 @@ Global
 		{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}.Release|x64.Build.0 = Release|Any CPU
 		{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}.Release|x86.ActiveCfg = Release|Any CPU
 		{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}.Release|x86.Build.0 = Release|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Debug|ARM.Build.0 = Debug|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Debug|x64.Build.0 = Debug|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Debug|x86.Build.0 = Debug|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Release|ARM.ActiveCfg = Release|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Release|ARM.Build.0 = Release|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Release|x64.ActiveCfg = Release|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Release|x64.Build.0 = Release|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Release|x86.ActiveCfg = Release|Any CPU
-		{D25E3D29-77A6-4CD2-A75A-4AC0FA0541BC}.Release|x86.Build.0 = Release|Any CPU
 		{A91EAD19-693A-4099-B565-7284F2FE3122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A91EAD19-693A-4099-B565-7284F2FE3122}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A91EAD19-693A-4099-B565-7284F2FE3122}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -213,6 +197,22 @@ Global
 		{0E7122A6-E411-451E-A7DA-B400FE24B822}.Release|x64.Build.0 = Release|Any CPU
 		{0E7122A6-E411-451E-A7DA-B400FE24B822}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E7122A6-E411-451E-A7DA-B400FE24B822}.Release|x86.Build.0 = Release|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Debug|ARM.Build.0 = Debug|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Debug|x64.Build.0 = Debug|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Debug|x86.Build.0 = Debug|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Release|ARM.ActiveCfg = Release|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Release|ARM.Build.0 = Release|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Release|x64.ActiveCfg = Release|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Release|x64.Build.0 = Release|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Release|x86.ActiveCfg = Release|Any CPU
+		{41C334BE-B605-41A9-A898-40D0D2333603}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
