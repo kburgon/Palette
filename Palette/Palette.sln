@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunicationSubsystem", "CommunicationSubsystem\CommunicationSubsystem.csproj", "{2460E5F2-2673-4E6E-ACF9-3C6BEBCDE060}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasManagerAppLayer", "CanvasManagerAppLayer\CanvasManagerAppLayer.csproj", "{9C762A25-D32E-47CD-A0EF-C5685428C3B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasManager", "CanvasManager\CanvasManager.csproj", "{BA3230A1-1C22-422E-8C52-1B96BC3FDE53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminClientAppLayer", "AdminClientAppLayer\AdminClientAppLayer.csproj", "{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{BA3230A1-1C22-422E-8C52-1B96BC3FDE53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA3230A1-1C22-422E-8C52-1B96BC3FDE53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA3230A1-1C22-422E-8C52-1B96BC3FDE53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
