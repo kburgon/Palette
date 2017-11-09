@@ -5,7 +5,8 @@ namespace AdminClientAppLayer
 {
     public class AdminClient
     {
-        private Dispatcher Dispatcher { get; set; }
+        private Dispatcher Dispatcher { get; }
+        public bool HasStartedDispatcher { get; private set; }
 
         public AdminClient()
         {
@@ -13,13 +14,37 @@ namespace AdminClientAppLayer
             Dispatcher.StartListener();
         }
 
-        public void StartDispatcher()
+        public void StartDispatcher(int portNumber)
         {
-            var conversationFactory = new AdminClientConversationFactory();
-            conversationFactory.Initialize();
-            Dispatcher.SetFactory(conversationFactory);
-            //Dispatcher.UdpCommunicator.SetPort() TODO: add port setting to UI
-            Dispatcher.StartListener();
+            if (!HasStartedDispatcher)
+            {
+                var conversationFactory = new AdminClientConversationFactory();
+                conversationFactory.Initialize();
+                Dispatcher.SetFactory(conversationFactory);
+                Dispatcher.UdpCommunicator.SetPort(portNumber);
+                Dispatcher.StartListener();
+                HasStartedDispatcher = true;
+            }
+        }
+
+        public void CreateCanvas()
+        {
+            
+        }
+
+        public void DeleteCanvas()
+        {
+            
+        }
+
+        public void RequestCanvasList()
+        {
+            
+        }
+
+        public void CloseDispatcher()
+        {
+            Dispatcher.StopListener();
         }
     }
 }

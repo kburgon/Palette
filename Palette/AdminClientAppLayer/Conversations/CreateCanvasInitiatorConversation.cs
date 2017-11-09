@@ -30,7 +30,7 @@ namespace AdminClientAppLayer.Conversations
                 ConversationId = this.ConversationId,
                 MessageNumber = new Tuple<Guid, short>(this.ProcessId, 1),
 
-            }
+            };
         }
 
         protected override void ProcessReply()

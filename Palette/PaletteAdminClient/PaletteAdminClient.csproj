@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdminClientAppLayer\AdminClientAppLayer.csproj">
+      <Project>{523CAAA1-E4A1-4BDE-A0B1-62D7B277112C}</Project>
+      <Name>AdminClientAppLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
