@@ -6,6 +6,7 @@ namespace CanvasManagerAppLayer
     public class CanvasManager
     {
         private static Dispatcher _dispatcher;
+        private IPEndPoint StorageEP { get; set; }
 
         public CanvasManager()
         {
@@ -16,6 +17,7 @@ namespace CanvasManagerAppLayer
         {
             var conversationFactory = new CanvasManagerConversationFactory();
             conversationFactory.Initialize();
+            StorageEP = new IPEndPoint(IPAddress.Parse(communicatorAddress), communicatorPort);
             _dispatcher.SetFactory(conversationFactory);
             _dispatcher.UdpCommunicator.SetAddress(IPAddress.Parse(communicatorAddress));
             _dispatcher.UdpCommunicator.SetPort(communicatorPort);
@@ -30,11 +32,13 @@ namespace CanvasManagerAppLayer
         public void UpdateAddress(IPAddress address)
         {
             _dispatcher.UdpCommunicator.SetAddress(address);
+            StorageEP.Address = address;
         }
 
         public void UpdatePort(int port)
         {
             _dispatcher.UdpCommunicator.SetPort(port);
+            StorageEP.Port = port;
         }
     }
 }

@@ -48,8 +48,8 @@ namespace CanvasManager
 
         private static void WaitForCommand()
         {
-            Console.WriteLine("Type \"address\" to update the address.");
-            Console.WriteLine("Type \"port\" to update the port.");
+            Console.WriteLine("Type \"address\" to set storage manager's address.");
+            Console.WriteLine("Type \"port\" to set storage manager's port.");
             Console.WriteLine("Type \"exit\" to close application.");
 
             var hasSentExitCommand = false;
