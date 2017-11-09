@@ -28,7 +28,10 @@ namespace CanvasStorageManager.Conversations
 
         protected override Message CreateReply()
         {
-            return new GetCanvasListMessage();
+            return new CanvasListMessage
+            {
+                Canvases = _canvases
+            };
         }
     }
 }

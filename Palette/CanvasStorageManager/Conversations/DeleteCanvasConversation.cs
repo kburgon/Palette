@@ -2,16 +2,14 @@
 using CanvasStorageManager.DataPersistence;
 using CommunicationSubsystem.Conversations.ResponderConversations;
 using Messages;
-using SharedAppLayer.Entitities;
 
 namespace CanvasStorageManager.Conversations
 {
-    internal class CreateCanvasConvsersation : ResponderConversation
+    internal class DeleteCanvasConversation : ResponderConversation
     {
         private readonly CanvasRepository _canvasRepo;
-        private Canvas _createdCanvas;
 
-        public CreateCanvasConvsersation(CanvasRepository canvasRepo)
+        public DeleteCanvasConversation(CanvasRepository canvasRepo)
         {
             _canvasRepo = canvasRepo;
         }
@@ -23,18 +21,20 @@ namespace CanvasStorageManager.Conversations
 
         protected override void ProcessReceivedMessage(Message message)
         {
-            if (!(message is CreateCanvasMessage)) HandleWrongMessage();
-            _createdCanvas = _canvasRepo.CreateNew();
+            var deleteMessage = message as DeleteCanvasMessage;
+            if (deleteMessage == null)
+            {
+                HandleWrongMessage();
+                return;
+            }
+            _canvasRepo.Delete(deleteMessage.CanvasId);
         }
 
         private static void HandleWrongMessage() { }
 
         protected override Message CreateReply()
         {
-            return new CanvasMessage
-            {
-                CanvasId = _createdCanvas.CanvasId
-            };
+            throw new NotImplementedException();
         }
     }
 }

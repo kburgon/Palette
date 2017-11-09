@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
+using SharedAppLayer.Entitities;
 
 namespace Messages
 {
@@ -10,6 +8,6 @@ namespace Messages
     public class CanvasListMessage : Message
     {
         [DataMember]
-        public IEnumerable<string> Canvases { get; set; }
+        public IEnumerable<Canvas> Canvases { get; set; }
     }
 }

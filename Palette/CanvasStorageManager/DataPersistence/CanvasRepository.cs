@@ -23,5 +23,11 @@ namespace CanvasStorageManager.DataPersistence
             _dataStore.Canvases.Add(canvas);
             return canvas;
         }
+
+        public void Delete(int victimId)
+        {
+            var victim = new Canvas { CanvasId = victimId };
+            _dataStore.Canvases.Remove(victim);
+        }
     }
 }
