@@ -8,7 +8,7 @@ using SharedAppLayer.Entitities;
 
 namespace CanvasStorageManager.DataPersistence
 {
-    internal class SimpleFileCollection<T> where T : IHasKey, new()
+    public class SimpleFileCollection<T> where T : IHasKey, new()
     {
         private static readonly string FileName =
             typeof(T).FullName + ".json";
