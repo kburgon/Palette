@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using CommunicationSubsystem.Conversations.InitiatorConversations;
+using Messages;
 
 namespace AdminClientAppLayer.Conversations
 {
@@ -24,7 +25,12 @@ namespace AdminClientAppLayer.Conversations
 
         protected override void CreateRequest()
         {
-            throw new NotImplementedException();
+            var message = new CreateCanvasMessage()
+            {
+                ConversationId = this.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(this.ProcessId, 1),
+
+            }
         }
 
         protected override void ProcessReply()

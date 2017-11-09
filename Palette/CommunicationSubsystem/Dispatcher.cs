@@ -167,13 +167,30 @@ namespace CommunicationSubsystem
         /// </summary>
         /// <param name="env"></param>
         public void StartConversationByMessageType(Envelope env)
-        {
-            EnvelopeQueue envQueue = GetQueue(env.Message.ConversationId);
+        { 
+
+            EnvelopeQueue envQueue  = GetQueue(env.Message.ConversationId);
+
             EnqueueEnvelope(env);
+
             Conversation conversation = _conversationFactory.CreateFromMessageType(env.Message);
+
             conversation.EnvelopeQueue = envQueue;
+
             ConversationDict.Add(env.Message.ConversationId, conversation);
 
+        }
+
+        /// <summary>
+        /// This method is used when a process is the initiator of a conversation
+        /// </summary>
+        /// <param name="conver"></param>
+        public void StartConversationByConversationType(Conversation conver)
+        {
+            EnvelopeQueue envQueue = GetQueue(conver.ConversationId);;
+            Conversation conversation = conver;
+            conversation.EnvelopeQueue = envQueue;
+            ConversationDict.Add(conver.ConversationId, conversation);
         }
 
         /// <summary>

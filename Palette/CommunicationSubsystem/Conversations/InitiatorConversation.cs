@@ -11,8 +11,10 @@ namespace CommunicationSubsystem.Conversations.InitiatorConversations
 
         protected override void StartConversation()
         {
-            EnvelopeQueue.EndOfConversation = true;
-            throw new NotImplementedException();
+            ConversationId = new Tuple<Guid, short>(ProcessId, 1);
+            CreateRequest();
+            while (EnvelopeQueue.GetCount() == 0) { }
+            ProcessReply();
         }
 
         protected abstract void ValidateConversationState();
