@@ -100,8 +100,11 @@ namespace CommunicationSubsystem
         {
             Logger.Info("Stopping listener thread");
             _listening = false;
-            _listenerThread.Join();
-            UdpCommunicator.Stop();
+            if (_listenerThread.IsAlive)
+            {
+                _listenerThread.Join();
+                UdpCommunicator.Stop();
+            }
         }
 
         /// <summary>
