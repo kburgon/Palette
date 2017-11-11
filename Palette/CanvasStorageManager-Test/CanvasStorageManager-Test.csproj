@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CanvasStorageManager\CanvasStorageManager.csproj">
-      <Project>{41c334be-b605-41a9-a898-40d0d2333603}</Project>
+      <Project>{DCDAEA7D-DA34-448D-88CE-EA3A44E52BE5}</Project>
       <Name>CanvasStorageManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharedAppLayer\SharedAppLayer.csproj">

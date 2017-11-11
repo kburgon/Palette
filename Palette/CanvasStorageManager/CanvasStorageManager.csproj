@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{41C334BE-B605-41A9-A898-40D0D2333603}</ProjectGuid>
+    <ProjectGuid>{DCDAEA7D-DA34-448D-88CE-EA3A44E52BE5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>CanvasStorageManager</RootNamespace>
     <AssemblyName>CanvasStorageManager</AssemblyName>
@@ -31,13 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>CanvasStorageManager.Program</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -51,15 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataPersistence\CanvasRepository.cs" />
     <Compile Include="Conversations\CreateCanvasConvsersation.cs" />
     <Compile Include="Conversations\DeleteCanvasConversation.cs" />
     <Compile Include="Conversations\EditCanvasConversation.cs" />
     <Compile Include="Conversations\GetCanvasesConversation.cs" />
-    <Compile Include="DataPersistence\CanvasRepository.cs" />
     <Compile Include="DataPersistence\FileDataStore.cs" />
-    <Compile Include="DataPersistence\SimpleFileCollection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataPersistence\SimpleFileCollection.cs" />
     <Compile Include="StorageManagerConvoFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,15 +62,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommunicationSubsystem\CommunicationSubsystem.csproj">
-      <Project>{2460e5f2-2673-4e6e-acf9-3c6bebcde060}</Project>
+      <Project>{2460E5F2-2673-4E6E-ACF9-3C6BEBCDE060}</Project>
       <Name>CommunicationSubsystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\Messages\Messages.csproj">
-      <Project>{cae99195-e7f6-409e-a0c7-c03bd5eb7dfc}</Project>
+      <Project>{CAE99195-E7F6-409E-A0C7-C03BD5EB7DFC}</Project>
       <Name>Messages</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharedAppLayer\SharedAppLayer.csproj">
-      <Project>{a91ead19-693a-4099-b565-7284f2fe3122}</Project>
+      <Project>{A91EAD19-693A-4099-B565-7284F2FE3122}</Project>
       <Name>SharedAppLayer</Name>
     </ProjectReference>
   </ItemGroup>
