@@ -41,7 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthManager.cs" />
+    <Compile Include="AuthManagerConversationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommunicationSubsystem\CommunicationSubsystem.csproj">
+      <Project>{2460E5F2-2673-4E6E-ACF9-3C6BEBCDE060}</Project>
+      <Name>CommunicationSubsystem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Conversations\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
