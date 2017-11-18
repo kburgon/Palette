@@ -23,8 +23,7 @@ namespace CanvasManager
             {
                 try
                 {
-                    var address = args[0];
-                    var portNumber = Convert.ToInt32(args[1]);
+                    var portNumber = Convert.ToInt32(args[0]);
                     Console.WriteLine($"Starting Canvas Manager on port {portNumber}...");
                     SetPortNumber(portNumber);
                 }
