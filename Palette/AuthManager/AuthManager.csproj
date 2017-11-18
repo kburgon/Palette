@@ -48,5 +48,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuthManagerAppLayer\AuthManagerAppLayer.csproj">
+      <Project>{ae69ef03-d766-4050-a961-f5843b5c20a3}</Project>
+      <Name>AuthManagerAppLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
