@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace DisplayManager
 {
@@ -41,11 +39,10 @@ namespace DisplayManager
         }
         private static void PrintInstructions()
         {
-            Console.WriteLine("Type \"add\" to add a new display's address.");
-            Console.WriteLine("Type \"remove\" to remove a display's address.");
-            Console.WriteLine("Type \"edit\" to edit a display's address.");
+            Console.WriteLine("Type \"port\" to update the Display Manager's port.");
             Console.WriteLine("Type \"update_auth_endpoint\" to change the auth manager's endpoint.");
             Console.WriteLine("Type \"update_auth_port\" to change the auth manager's port.");
+            Console.WriteLine("Type \"remove\" to remove a display's address.");
             Console.WriteLine("Type \"exit\" to exit the Display Manager.");
         }
 
@@ -57,21 +54,43 @@ namespace DisplayManager
             while(!exit)
             {
                 command = Console.ReadLine();
-                if(command == "add")
+
+                if(command == "port")
                 {
+                    Console.WriteLine("Enter the Display Manager's new port: ");
+                    var newPort = Console.ReadLine();
+
+                    var port = 0;
+                    if (Int32.TryParse(newPort, out port))
+                    {
+                        _displayManagerApp.UpdateDisplayManagerPort(port);
+                        Console.WriteLine("Display Manager's port successfully updated.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to update the Display Manager's port.");
+                        Console.WriteLine("Bad port number.");
+                    }
                     PrintInstructions();
                 }
                 else if(command == "remove")
                 {
+                    Console.WriteLine("Enter the display Id of the display that you wish to delete: ");
+                    var id = Console.ReadLine();
+
+                    var displayId = 0;
+                    if (Int32.TryParse(id, out displayId))
+                    {
+                        _displayManagerApp.RemoveDisplay(displayId);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Failed to remove display {id}.");
+                        Console.WriteLine("Display id does not exist.");
+                    }
+
+
                     PrintInstructions();
-                }
-                else if(command == "edit")
-                {
-                    PrintInstructions();
-                }
-                else if(command == "exit")
-                {
-                    exit = true;
                 }
                 else if(command == "update_auth_endpoint")
                 {
@@ -82,18 +101,40 @@ namespace DisplayManager
                     var newPort = Console.ReadLine();
 
                     var port = 0;
-                    if (Int32.TryParse(newPort, out port))
-                        _displayManagerApp.UpdateAuthManagerEndPoint(port, newAddress);
+                    IPAddress address;
+                    if (Int32.TryParse(newPort, out port) && IPAddress.TryParse(newAddress, out address))
+                    {
+                        _displayManagerApp.UpdateAuthManagerEndPoint(port, address);
+                        Console.WriteLine("Auth Manager's endpoint successfully updated.");
+                    }
+                    else
+                        Console.WriteLine("Failed to update Auth Manager's endpoint");
 
                     PrintInstructions();
                 }
                 else if (command == "update_auth_port")
                 {
+                    Console.WriteLine("Enter the Auth Manager's new port: ");
+                    var newPort = Console.ReadLine();
+                    var port = 0;
+
+                    if (Int32.TryParse(newPort, out port))
+                    {
+                        _displayManagerApp.UpdateAuthManagerPort(port);
+                        Console.WriteLine("Auth Manager's port successfully updated.");
+                    }
+                    else
+                        Console.WriteLine("Failed to update Auth Manager's port.");
+
                     PrintInstructions();
+                }
+                else if(command == "exit")
+                {
+                    exit = true;
                 }
                 else
                 {
-                    Console.WriteLine("Command not recognized.");
+                    Console.WriteLine($"Command \"{command}\" not recognized.");
                     PrintInstructions();
                 }
             }

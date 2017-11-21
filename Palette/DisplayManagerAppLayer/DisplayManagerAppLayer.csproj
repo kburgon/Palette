@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conversations\AssignCanvasStateConversation.cs" />
+    <Compile Include="Conversations\RegisterDisplayResponderConversation.cs" />
+    <Compile Include="Conversations\UnassignCanvasStateConversation.cs" />
     <Compile Include="DisplayManager.cs" />
     <Compile Include="DisplayManagerConversationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,10 +55,12 @@
       <Project>{2460E5F2-2673-4E6E-ACF9-3C6BEBCDE060}</Project>
       <Name>CommunicationSubsystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Messages\Messages.csproj">
+      <Project>{cae99195-e7f6-409e-a0c7-c03bd5eb7dfc}</Project>
+      <Name>Messages</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Conversations\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

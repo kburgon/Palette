@@ -1,10 +1,7 @@
 ﻿using CommunicationSubsystem;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DisplayManagerAppLayer
 {
@@ -52,14 +49,10 @@ namespace DisplayManagerAppLayer
                 _dispatcher.StopListener();
         }
 
-        public void UpdateAuthManagerEndPoint(int port, string address)
+        public void UpdateAuthManagerEndPoint(int port, IPAddress address)
         {
-            IPAddress newAddress;
-            if (IPAddress.TryParse(address, out newAddress))
-            {
-                IPEndPoint ep = new IPEndPoint(newAddress, port);
-                AuthManagerEP = ep;
-            }
+            AuthManagerEP.Address = address;
+            AuthManagerEP.Port = port;
         }
 
         public void UpdateAuthManagerPort(int port)
