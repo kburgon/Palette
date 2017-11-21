@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conversations\AssignCanvasStateConversation.cs" />
+    <Compile Include="Conversations\GetDisplayListStateConversation.cs" />
     <Compile Include="Conversations\RegisterDisplayResponderConversation.cs" />
     <Compile Include="Conversations\UnassignCanvasStateConversation.cs" />
     <Compile Include="DisplayManager.cs" />
