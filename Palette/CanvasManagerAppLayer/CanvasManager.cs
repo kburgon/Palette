@@ -15,6 +15,9 @@ namespace CanvasManagerAppLayer
 
         public void StartDispatcher(int communicatorPort)
         {
+            if (_dispatcher.IsListening())
+                CloseDispatcher();
+
             var conversationFactory = new CanvasManagerConversationFactory();
             conversationFactory.Initialize();
             _dispatcher.SetFactory(conversationFactory);
