@@ -5,12 +5,8 @@ using System.Text;
 
 namespace Messages
 {
-    public class AttemptLoginMessage : Message
+    public class AttemptLoginMessage : UserMessage
     {
-        [DataMember]
-        public string Username { get; set; }
 
-        [DataMember]
-        public string Password { get; set; }
     }
 }

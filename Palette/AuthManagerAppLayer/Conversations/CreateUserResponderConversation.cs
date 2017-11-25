@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommunicationSubsystem.Conversations;
 using Messages;
 
@@ -10,6 +6,15 @@ namespace AuthManagerAppLayer.Conversations
 {
     public class CreateUserResponderConversation : ResponderConversation
     {
+        public TokenBank TokenBank { get; set; }
+        private Guid AuthToken { get; set; }
+
+        public CreateUserResponderConversation(TokenBank tokenBank)
+        {
+            TokenBank = tokenBank;
+            AuthToken = Guid.Empty;
+        }
+
         protected override void ProcessFailure()
         {
             throw new NotImplementedException();
@@ -17,12 +22,23 @@ namespace AuthManagerAppLayer.Conversations
 
         protected override void ProcessReceivedMessage(Message message)
         {
-            throw new NotImplementedException();
+            var createUserMessage = (CreateUserMessage)message;
+            if (TokenBank.TokenExists(createUserMessage.AuthToken))
+            {
+                UserDataAccess.CreateUser(createUserMessage.Username, createUserMessage.Password);
+                AuthToken = createUserMessage.AuthToken;
+            }
         }
 
         protected override Message CreateReply()
         {
-            throw new NotImplementedException();
+            return new TokenVerifyMessage
+            {
+                IsAuthorized = AuthToken != Guid.Empty,
+                AuthToken = AuthToken,
+                ConversationId = ReceivedEnvelope.Message.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1)
+            };
         }
     }
 }

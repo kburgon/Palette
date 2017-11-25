@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 using Messages;
 
 namespace MessageTest
@@ -314,6 +313,79 @@ namespace MessageTest
             Assert.AreEqual(message.MessageNumber, (message2 as TokenVerifyMessage).MessageNumber);
             Assert.AreEqual(message.IsAuthorized, (message2 as TokenVerifyMessage).IsAuthorized);
             Assert.AreEqual(message.AuthToken, (message2 as TokenVerifyMessage).AuthToken);
+        }
+
+        [TestMethod]
+        public void AttemptLoginMessage()
+        {
+            var message = new AttemptLoginMessage
+            {
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
+                Username = "test",
+                Password = "password"
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as AttemptLoginMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as AttemptLoginMessage).MessageNumber);
+            Assert.AreEqual(message.Username, (message2 as AttemptLoginMessage).Username);
+            Assert.AreEqual(message.Password, (message2 as AttemptLoginMessage).Password);
+        }
+
+        [TestMethod]
+        public void CreateUserMessage()
+        {
+            var message = new CreateUserMessage
+            {
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
+                Username = "test",
+                Password = "password",
+                AuthToken = new Guid()
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as CreateUserMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as CreateUserMessage).MessageNumber);
+            Assert.AreEqual(message.Username, (message2 as CreateUserMessage).Username);
+            Assert.AreEqual(message.Password, (message2 as CreateUserMessage).Password);
+            Assert.AreEqual(message.AuthToken, (message2 as CreateUserMessage).AuthToken);
+        }
+
+        [TestMethod]
+        public void DeleteUserMessage()
+        {
+            var message = new DeleteUserMessage
+            {
+                MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
+                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
+                Username = "test",
+                Password = "password",
+                AuthToken = Guid.NewGuid()
+            };
+
+            byte[] bytes = message.Encode();
+
+            Assert.AreEqual(123, bytes[0]);
+
+            var message2 = Message.Decode(bytes);
+
+            Assert.AreEqual(message.ConversationId, (message2 as DeleteUserMessage).ConversationId);
+            Assert.AreEqual(message.MessageNumber, (message2 as DeleteUserMessage).MessageNumber);
+            Assert.AreEqual(message.Username, (message2 as DeleteUserMessage).Username);
+            Assert.AreEqual(message.Password, (message2 as DeleteUserMessage).Password);
+            Assert.AreEqual(message.AuthToken, (message2 as DeleteUserMessage).AuthToken);
         }
     }
 }

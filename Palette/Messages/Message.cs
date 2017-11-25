@@ -28,6 +28,11 @@ namespace Messages
             AddMessageType(typeof(SubscriberCanvasMessage));
             AddMessageType(typeof(GetDisplayListMessage));
             AddMessageType(typeof(TokenVerifyMessage));
+            AddMessageType(typeof(AttemptLoginMessage));
+            AddMessageType(typeof(DeleteUserMessage));
+            AddMessageType(typeof(CreateUserMessage));
+            AddMessageType(typeof(GetUserListMessage));
+            AddMessageType(typeof(UserListMessage));
         }
 
         [DataMember]
