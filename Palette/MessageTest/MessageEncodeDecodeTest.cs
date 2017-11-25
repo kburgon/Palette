@@ -196,7 +196,7 @@ namespace MessageTest
             {
                 MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                 ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
-                AuthToken = "Junk09"
+                AuthToken = Guid.NewGuid()
             };
 
             byte[] bytes = message.Encode();
@@ -216,7 +216,7 @@ namespace MessageTest
             {
                 MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                 ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
-                AuthToken = "Junk99"
+                AuthToken = Guid.NewGuid()
             };
 
             byte[] bytes = message.Encode();
@@ -300,7 +300,8 @@ namespace MessageTest
             {
                 MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                 ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
-                IsAuthorized = false
+                IsAuthorized = false,
+                AuthToken =Guid.NewGuid()
             };
 
             byte[] bytes = message.Encode();
@@ -312,6 +313,7 @@ namespace MessageTest
             Assert.AreEqual(message.ConversationId, (message2 as TokenVerifyMessage).ConversationId);
             Assert.AreEqual(message.MessageNumber, (message2 as TokenVerifyMessage).MessageNumber);
             Assert.AreEqual(message.IsAuthorized, (message2 as TokenVerifyMessage).IsAuthorized);
+            Assert.AreEqual(message.AuthToken, (message2 as TokenVerifyMessage).AuthToken);
         }
     }
 }

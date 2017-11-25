@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Json;
 namespace Messages
 {
     [DataContract]
-    public class TokenVerifyMessage : Message
+    public class TokenVerifyMessage : AuthMessage
     {
         [DataMember]
         public bool IsAuthorized { get; set; }

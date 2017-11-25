@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace AuthManager
 {
-    private static AuthManagerAppLayer.AuthManager _authManager;
 
     class Program
     {
+        private static AuthManagerAppLayer.AuthManager _authManager;
+
         static void Main(string[] args)
         {
         }

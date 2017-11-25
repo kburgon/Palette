@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Messages
 {
@@ -6,6 +7,6 @@ namespace Messages
     public abstract class AuthMessage : Message
     {
         [DataMember]
-        public string AuthToken { get; set; }
+        public Guid AuthToken { get; set; }
     }
 }

@@ -179,7 +179,8 @@ namespace CommunicationSubsystem
 
             EnqueueEnvelope(env);
 
-            Conversation conversation = _conversationFactory.CreateFromMessageType(env.Message);
+            var conversation = _conversationFactory.CreateFromMessageType(env.Message);
+            conversation.ReceivedEnvelope = env;
 
             conversation.EnvelopeQueue = envQueue;
 
