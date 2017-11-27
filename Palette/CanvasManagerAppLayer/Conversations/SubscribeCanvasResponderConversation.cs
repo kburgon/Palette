@@ -3,7 +3,7 @@ using Messages;
 
 namespace CanvasManagerAppLayer.Conversations
 {
-    class SubscribeCanvasResponderConversation : ResponderConversation
+    public class SubscribeCanvasResponderConversation : ResponderConversation
     {
         protected override Message CreateReply()
         {

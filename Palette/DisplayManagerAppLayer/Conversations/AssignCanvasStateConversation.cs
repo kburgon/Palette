@@ -2,7 +2,7 @@
 
 namespace DisplayManagerAppLayer.Conversations
 {
-    class AssignCanvasStateConversation : StateConversation
+    public class AssignCanvasStateConversation : StateConversation
     {
         protected override void CreateAuthRequest()
         {

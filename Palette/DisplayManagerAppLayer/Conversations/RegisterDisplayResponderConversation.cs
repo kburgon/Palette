@@ -3,7 +3,7 @@ using Messages;
 
 namespace DisplayManagerAppLayer.Conversations
 {
-    class RegisterDisplayResponderConversation : ResponderConversation
+    public class RegisterDisplayResponderConversation : ResponderConversation
     {
         protected override Message CreateReply()
         {

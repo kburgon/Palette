@@ -2,7 +2,7 @@
 
 namespace DisplayManagerAppLayer.Conversations
 {
-    class GetDisplayListStateConversation : StateConversation
+    public class GetDisplayListStateConversation : StateConversation
     {
         protected override void CreateAuthRequest()
         {
