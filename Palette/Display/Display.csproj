@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DisplayAppLayer\DisplayAppLayer.csproj">
+      <Project>{dd7cd8cc-e3d3-4b7a-882c-adc5108fec87}</Project>
+      <Name>DisplayAppLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

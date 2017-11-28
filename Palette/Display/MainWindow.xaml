@@ -5,8 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Display"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Palette Canvas" Height="350" Width="525">
+    <TabControl>
+        <TabItem x:Name ="SettingsTab" Header="Settings">
+            <Grid x:Name="DisplayGrid" Margin="0,4,-0.2,-4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.3*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="DisplayPortTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+                <TextBox x:Name="DisplayManagerAddressTextBox"  Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+                <TextBox x:Name ="DisplayManagerPortTextBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+                <TextBox x:Name="CanvasManagerAddressTextBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+                <TextBox x:Name="CanvasManagerPortTextBox" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+
+                <Label Content="Display Port:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"/>
+                <Label Content="Display Manager Address:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"/>
+                <Label Content="Display Manager Port:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"/>
+                <Label Content="Canvas Manager Address:" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"/>
+                <Label Content="Canvas Manager Port:" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"/>
+
+                <Button x:Name="UpdateBtn" Content="Update" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" Click="UpdateBtn_Click"/>
+            </Grid>
+        </TabItem>
+        <TabItem x:Name="CanvasTab" Header="Canvas">
+            <Grid x:Name="CanvasGrid">
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>
