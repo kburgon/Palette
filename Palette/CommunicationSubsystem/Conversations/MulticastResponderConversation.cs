@@ -7,10 +7,6 @@ namespace CommunicationSubsystem.Conversations.MulticastReponderConversations
 {
     public class MulticastResponderConversation : Conversation
     {
-        public override void GetDataFromMessage(Message message)
-        {
-            throw new NotImplementedException();
-        }
 
         protected override void StartConversation()
         {

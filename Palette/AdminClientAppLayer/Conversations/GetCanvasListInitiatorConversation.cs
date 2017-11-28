@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using CommunicationSubsystem.Conversations.InitiatorConversations;
 using Messages;
-using CommunicationSubsystem;
 using SharedAppLayer.Entitities;
 
 namespace AdminClientAppLayer.Conversations
@@ -32,29 +30,19 @@ namespace AdminClientAppLayer.Conversations
             throw new NotImplementedException();
         }
 
-        protected override void CreateRequest()
+        protected override Message CreateRequest()
         {
-            var message = new GetCanvasListMessage()
+            return new GetCanvasListMessage
             {
-                ConversationId = this.ConversationId,
-                MessageNumber = new Tuple<Guid, short>(this.ProcessId, 1)
+                ConversationId = ConversationId,
+                MessageNumber = new Tuple<Guid, short>(ProcessId, 1)
             };
-
-            var envelope = new Envelope()
-            {
-                RemoteEP = RemoteEndPoint,
-                Message = message
-            };
-
-            Communicator.Send(envelope);
         }
 
-        protected override void ProcessReply()
+        protected override void ProcessReply(Message message)
         {
-            var envelope = EnvelopeQueue.Dequeue();
-            var message = envelope.Message;
             EnvelopeQueue.EndOfConversation = true;
-            Canvases = (message as CanvasListMessage)?.Canvases ?? new List<Canvas> { };
+            Canvases = (message as CanvasListMessage)?.Canvases ?? new List<Canvas>();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
+using Messages;
 
 namespace CommunicationSubsystem.Conversations.InitiatorConversations
 {
@@ -12,14 +11,35 @@ namespace CommunicationSubsystem.Conversations.InitiatorConversations
         protected override void StartConversation()
         {
             ConversationId = new Tuple<Guid, short>(ProcessId, 1);
-            CreateRequest();
+            var request = CreateRequest();
+            Send(Package(request));
+            var reply = GetReply();
+            ProcessReply(reply.Message);
+        }
+
+        private Envelope GetReply()
+        {
             while (EnvelopeQueue.GetCount() == 0) { }
-            ProcessReply();
+            return EnvelopeQueue.Dequeue();
+        }
+
+        private void Send(Envelope package)
+        {
+            //Send to Dispatcher somehow
+        }
+
+        private Envelope Package(Message request)
+        {
+            return new Envelope
+            {
+                Message = request,
+                RemoteEP = RemoteEndPoint
+            };
         }
 
         protected abstract void ValidateConversationState();
         protected abstract void CheckProcessState();
-        protected abstract void CreateRequest();
-        protected abstract void ProcessReply();
+        protected abstract Message CreateRequest();
+        protected abstract void ProcessReply(Message message);
     }
 }

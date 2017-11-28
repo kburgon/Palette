@@ -1,5 +1,4 @@
-﻿using Messages;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace CommunicationSubsystem.Conversations
@@ -9,10 +8,9 @@ namespace CommunicationSubsystem.Conversations
         public Guid ProcessId { get; set; }
         public Tuple<Guid, short> ConversationId { get; set; }
         public EnvelopeQueue EnvelopeQueue { get; }
-        public UdpCommunicator Communicator { get; set; }
 
-        protected Task _conversationExecution;
-        protected static UdpCommunicator _communicator;
+        protected Task ConversationExecution;
+        private bool _isEnded;
 
         protected Conversation()
         {
@@ -21,22 +19,21 @@ namespace CommunicationSubsystem.Conversations
 
         public void Execute()
         {
-            _communicator = new UdpCommunicator();
-            _conversationExecution = Task.Factory.StartNew(StartConversation);
+            ConversationExecution = Task.Factory.StartNew(StartConversation);
         }
 
         protected abstract void StartConversation();
 
         protected abstract void ProcessFailure();
 
-        public virtual void GetDataFromMessage(Message message)
+        protected void End()
         {
-            return;
+            _isEnded = true;
         }
 
         public bool IsEnded()
         {
-            return EnvelopeQueue.EndOfConversation;
+            return _isEnded;
         }
     }
 }

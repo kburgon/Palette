@@ -145,5 +145,10 @@ namespace CommunicationSubsystem
         }
 
         #endregion
+
+        public void SetPort(int portNumber)
+        {
+            _udpCommunicator.SetPort(portNumber);
+        }
     }
 }

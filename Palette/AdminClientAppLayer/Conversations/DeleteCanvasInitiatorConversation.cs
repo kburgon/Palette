@@ -31,29 +31,20 @@ namespace AdminClientAppLayer.Conversations
             throw new NotImplementedException();
         }
 
-        protected override void CreateRequest()
+        protected override Message CreateRequest()
         {
-            var message = new DeleteCanvasMessage()
+            return new DeleteCanvasMessage
             {
-                ConversationId = this.ConversationId,
+                ConversationId = ConversationId,
                 MessageNumber = new Tuple<Guid, short>(this.ProcessId, 1),
                 CanvasId = CanvasId.Item1
             };
-
-            var envelope = new Envelope()
-            {
-                RemoteEP = RemoteEndPoint,
-                Message = message
-            };
-
-            Communicator.Send(envelope);
         }
 
-        protected override void ProcessReply()
+        protected override void ProcessReply(Message message)
         {
-            var envelope = EnvelopeQueue.Dequeue();
-            var message = (CanvasMessage)envelope.Message;
-            CanvasId = new Tuple<int>(message.CanvasId);
+            var canvasMessage = (CanvasMessage)message;
+            CanvasId = new Tuple<int>(canvasMessage.CanvasId);
             EnvelopeQueue.EndOfConversation = true;
         }
     }

@@ -35,9 +35,8 @@ namespace AdminClientAppLayer
             if (!HasStartedDispatcher)
             {
                 var conversationFactory = new AdminClientConversationFactory();
-                conversationFactory.Initialize();
                 Dispatcher.SetFactory(conversationFactory);
-                Dispatcher.UdpCommunicator.SetPort(portNumber);
+                Dispatcher.SetPort(portNumber);
                 Dispatcher.StartListener();
                 HasStartedDispatcher = true;
             }
@@ -73,7 +72,7 @@ namespace AdminClientAppLayer
                     RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
                 };
 
-                Dispatcher.StartConversationByConversationType(conversation);
+                Dispatcher.AddConversation(conversation);
                 while (conversation.CanvasId == null) { }
                 CreatedCanvasIdHandler?.Invoke(conversation.CanvasId.Item1);
             }
@@ -95,7 +94,7 @@ namespace AdminClientAppLayer
                     CanvasId = new Tuple<int>(canvasId)
                 };
 
-                Dispatcher.StartConversationByConversationType(conversation);
+                Dispatcher.AddConversation(conversation);
                 while (conversation.CanvasId == null) { }
                 DeleteCanvasHandler?.Invoke(conversation.CanvasId.Item1);
             }
@@ -116,7 +115,7 @@ namespace AdminClientAppLayer
                     RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
                 };
 
-                Dispatcher.StartConversationByConversationType(conversation);
+                Dispatcher.AddConversation(conversation);
                 while (conversation.Canvases == null){ }
 
             }
