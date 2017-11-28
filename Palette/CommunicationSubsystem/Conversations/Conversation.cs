@@ -8,11 +8,16 @@ namespace CommunicationSubsystem.Conversations
     {
         public Guid ProcessId { get; set; }
         public Tuple<Guid, short> ConversationId { get; set; }
-        public EnvelopeQueue EnvelopeQueue { get; set; }
+        public EnvelopeQueue EnvelopeQueue { get; }
         public UdpCommunicator Communicator { get; set; }
 
         protected Task _conversationExecution;
         protected static UdpCommunicator _communicator;
+
+        protected Conversation()
+        {
+            EnvelopeQueue = new EnvelopeQueue();
+        }
 
         public void Execute()
         {
@@ -27,6 +32,11 @@ namespace CommunicationSubsystem.Conversations
         public virtual void GetDataFromMessage(Message message)
         {
             return;
+        }
+
+        public bool IsEnded()
+        {
+            return EnvelopeQueue.EndOfConversation;
         }
     }
 }

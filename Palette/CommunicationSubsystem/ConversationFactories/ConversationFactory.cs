@@ -1,30 +1,15 @@
 ﻿using System;
 using CommunicationSubsystem.Conversations;
-using Messages;
-using System.Collections.Generic;
-using CommunicationSubsystem.Conversations.InitiatorConversations;
 
 namespace CommunicationSubsystem.ConversationFactories
 {
     public abstract class ConversationFactory
     {
-        public static Guid ProcessId = Guid.NewGuid();
+        protected static Guid ProcessId = Guid.NewGuid();
 
-        protected Dictionary<Type, Type> ResponderConversationTypes { private get; set; }
+        public abstract Conversation CreateFromMessageType(Type message);
 
-        public abstract void Initialize();
-
-        public Conversation CreateFromMessageType(Message message)
-        {
-            var conversation = (Conversation)Activator.CreateInstance(ResponderConversationTypes[message.GetType()]);
-            conversation.GetDataFromMessage(message);
-            return conversation;
-        }
-
-        public Conversation CreateFromConversationType(Conversation conversation)
-        {
-            return (Conversation)Activator.CreateInstance(conversation.GetType());
-        }
+        public abstract Conversation CreateFromConversationType(ConversationType conversationType);
 
         public enum ConversationType
         {
