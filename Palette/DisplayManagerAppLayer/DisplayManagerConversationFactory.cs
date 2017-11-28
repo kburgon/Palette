@@ -6,7 +6,7 @@ using DisplayManagerAppLayer.Conversations;
 
 namespace DisplayManagerAppLayer
 {
-    class DisplayManagerConversationFactory : ConversationFactory
+    public class DisplayManagerConversationFactory : ConversationFactory
     {
         public override void Initialize()
         {

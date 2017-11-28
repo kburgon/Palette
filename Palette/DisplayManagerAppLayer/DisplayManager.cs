@@ -65,10 +65,23 @@ namespace DisplayManagerAppLayer
             _dispatcher.UdpCommunicator.SetPort(port);
         }
 
+        private List<int> GenerateIdList()
+        {
+            List<int> idList = new List<int>();
+            foreach(Tuple<int, IPEndPoint> display in DisplayEPDictionary.Values)
+            {
+                idList.Add(display.Item1);
+            }
+
+            return idList;
+        }
+
         private int GenerateDisplayId()
         {
-            int id = 0;
-            return id;
+            if (DisplayEPDictionary.Count == 0)
+                return 1;
+            else
+                return DisplayEPDictionary.Count + 1;
         }
     }
 }

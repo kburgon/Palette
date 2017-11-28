@@ -1,4 +1,7 @@
-﻿using CommunicationSubsystem.Conversations;
+﻿using CommunicationSubsystem;
+using CommunicationSubsystem.Conversations;
+using Messages;
+using System;
 
 namespace DisplayManagerAppLayer.Conversations
 {
@@ -11,12 +14,38 @@ namespace DisplayManagerAppLayer.Conversations
 
         protected override void CreateRequest()
         {
-            throw new System.NotImplementedException();
+            var stepNumber = InitialReceivedEnvelope.Message.MessageNumber.Item2;
+            var message = new CanvasAssignMessage
+            {
+                ConversationId = InitialReceivedEnvelope.Message.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
+            };
+
+            var envelope = new Envelope
+            {
+                Message = message,
+                RemoteEP = InitialReceivedEnvelope.RemoteEP
+            };
+
+            Communicator.Send(envelope);
         }
 
         protected override void CreateUpdate()
         {
-            throw new System.NotImplementedException();
+            var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
+            var message = new CanvasAssignMessage
+            {
+                ConversationId = InitialReceivedEnvelope.Message.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
+            };
+
+            var envelope = new Envelope
+            {
+                Message = message,
+                RemoteEP = InitialReceivedEnvelope.RemoteEP
+            };
+
+            Communicator.Send(envelope);
         }
 
         protected override void ProcessAuthReply()
@@ -31,7 +60,8 @@ namespace DisplayManagerAppLayer.Conversations
 
         protected override void ProcessReply()
         {
-            throw new System.NotImplementedException();
+            var envelope = EnvelopeQueue.Dequeue();
+            var message = envelope.Message;
         }
     }
 }
