@@ -16,7 +16,7 @@ namespace CommunicationSubsystem
     {
         #region Private Members
 
-        private UdpClient _udpClient;
+        private UdpClient _udpServer;
         private Thread _receiveThread;
         private IPAddress Address { get; set; }
         private int Port { get; set; }
@@ -85,8 +85,7 @@ namespace CommunicationSubsystem
                     Stop();
                 try
                 {
-                    IPEndPoint myEp = new IPEndPoint(IPAddress.Any, Port);
-                    _udpClient = new UdpClient(myEp);
+                    _udpServer = new UdpClient(Port);
                     _receiveStarted = true;
                     StartReceive();
                 }
@@ -109,10 +108,10 @@ namespace CommunicationSubsystem
                 _receiveThread.Join(MyTimeout);
                 _receiveThread = null;
 
-                if (_udpClient != null)
+                if (_udpServer != null)
                 {
-                    _udpClient.Close();
-                    _udpClient = null;
+                    _udpServer.Close();
+                    _udpServer = null;
                 }
             }
         }
@@ -125,10 +124,11 @@ namespace CommunicationSubsystem
         {
             Logger.InfoFormat("Send Message: {0} {1}", env.Message.MessageNumber.Item1, env.Message.MessageNumber.Item2);
             var ep = env.RemoteEP;
-            if (env != null)
+            var udpClient = new UdpClient();
+            lock (_myLock)
             {
-                byte[] b = env.Message.Encode();
-                _udpClient.Send(b, b.Length, ep);
+                var b = env.Message.Encode();
+                udpClient.Send(b, b.Length, ep);
             }
         }
 
@@ -144,49 +144,47 @@ namespace CommunicationSubsystem
                 byte[] bytes = null;
                 if (Port > 10000 && Port < 13000)
                 {
+//                    try
+//                    {
+//                        _udpServer.Client.ReceiveTimeout = MyTimeout;
+//                    }
+//                    catch (SocketException e)
+//                    {
+//                        Logger.DebugFormat("Failed to start udp receiver: {0}", e);
+//                    }
+
+
+                    if (_udpServer == null) continue;
+                    var ep = new IPEndPoint(IPAddress.Any, 0);
                     try
                     {
-                        _udpClient.Client.ReceiveTimeout = MyTimeout;
+                        bytes = _udpServer.Receive(ref ep);
                     }
                     catch (SocketException e)
                     {
-                        Logger.DebugFormat("Failed to start udp receiver: {0}", e);
+                        if (e.SocketErrorCode != SocketError.TimedOut)
+                        {
+                            Logger.DebugFormat("Error receiving message: {0}", e);
+                            throw;
+                        }
                     }
 
 
-                    if (_udpClient != null)
+                    if (bytes != null)
                     {
-                        var ep = new IPEndPoint(IPAddress.Any, 0);
-                        try
+
+                        var newMessage = Message.Decode(bytes);
+
+                        if (newMessage != null)
                         {
-                            bytes = _udpClient.Receive(ref ep);
+                            Logger.InfoFormat("Message received, creating envelope for: {0} {1}",
+                                newMessage.MessageNumber.Item1, newMessage.MessageNumber.Item2);
+                            newEnv = new Envelope() { RemoteEP = ep, Message = newMessage };
+                            EnvelopeHandler.Invoke(newEnv);
                         }
-                        catch (SocketException e)
-                        {
-                            if (e.SocketErrorCode != SocketError.TimedOut)
-                            {
-                                Logger.DebugFormat("Error receiving message: {0}", e);
-                                throw;
-                            }
-                        }
+                        else
+                            EnvelopeHandler.Invoke(null);
 
-
-                        if (bytes != null)
-                        {
-
-                            var newMessage = Message.Decode(bytes);
-
-                            if (newMessage != null)
-                            {
-                                Logger.InfoFormat("Message received, creating envelope for: {0} {1}",
-                                    newMessage.MessageNumber.Item1, newMessage.MessageNumber.Item2);
-                                newEnv = new Envelope() { RemoteEP = ep, Message = newMessage };
-                                EnvelopeHandler.Invoke(newEnv);
-                            }
-                            else
-                                EnvelopeHandler.Invoke(null);
-
-                        }
                     }
                 }
             }

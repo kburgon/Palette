@@ -32,14 +32,12 @@ namespace AdminClientAppLayer
 
         public void StartDispatcher(int portNumber)
         {
-            if (!HasStartedDispatcher)
-            {
-                var conversationFactory = new AdminClientConversationFactory();
-                Dispatcher.SetFactory(conversationFactory);
-                Dispatcher.SetPort(portNumber);
-                Dispatcher.StartListener();
-                HasStartedDispatcher = true;
-            }
+            if (HasStartedDispatcher) return;
+            var conversationFactory = new AdminClientConversationFactory();
+            Dispatcher.SetFactory(conversationFactory);
+            Dispatcher.SetPort(portNumber);
+            Dispatcher.StartListener();
+            HasStartedDispatcher = true;
         }
 
         public void CreateCanvas()

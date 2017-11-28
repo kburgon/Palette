@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using CommunicationSubsystem.Conversations;
 using CommunicationSubsystem.ConversationFactories;
 using System.Threading;
@@ -85,6 +86,7 @@ namespace CommunicationSubsystem
             lock (_dictionaryLock)
             {
                 ConversationDict.Add(convo.ConversationId, convo);
+                Start(convo);
             }
         }
 
@@ -92,6 +94,12 @@ namespace CommunicationSubsystem
 
 
         #region Private Methods
+
+        private void Start(Conversation convo)
+        {
+            convo.Dispatcher = this;
+            convo.Execute();
+        }
 
         private void RunListener()
         {
@@ -134,7 +142,7 @@ namespace CommunicationSubsystem
         private Conversation CreateConversationFrom(Message message)
         {
             var newConvo = _conversationFactory.CreateFromMessageType(message.GetType());
-            newConvo.Execute();
+            Start(newConvo);
             return newConvo;
         }
 
@@ -149,6 +157,16 @@ namespace CommunicationSubsystem
         public void SetPort(int portNumber)
         {
             _udpCommunicator.SetPort(portNumber);
+        }
+
+        public void Send(Envelope envelope)
+        {
+            _udpCommunicator.Send(envelope);
+        }
+
+        public void SetAddress(IPAddress address)
+        {
+            _udpCommunicator.SetAddress(address);
         }
     }
 }

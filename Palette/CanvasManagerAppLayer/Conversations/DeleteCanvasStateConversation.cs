@@ -1,5 +1,4 @@
-﻿using CommunicationSubsystem;
-using CommunicationSubsystem.Conversations;
+﻿using CommunicationSubsystem.Conversations;
 using Messages;
 using System;
 
@@ -35,14 +34,6 @@ namespace CanvasManagerAppLayer.Conversations
                 ConversationId = InitialReceivedEnvelope.Message.ConversationId,
                 MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
             };
-
-            var envelope = new Envelope
-            {
-                Message = message,
-                RemoteEP = InitialReceivedEnvelope.RemoteEP
-            };
-
-            Communicator.Send(envelope);
         }
 
         protected override void ProcessReply()
@@ -59,14 +50,6 @@ namespace CanvasManagerAppLayer.Conversations
                 ConversationId = InitialReceivedEnvelope.Message.ConversationId,
                 MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
             };
-
-            var envelope = new Envelope
-            {
-                Message = message,
-                RemoteEP = InitialReceivedEnvelope.RemoteEP
-            };
-
-            Communicator.Send(envelope);
         }
     }
 }

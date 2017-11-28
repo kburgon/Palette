@@ -8,6 +8,7 @@ namespace CommunicationSubsystem.Conversations
         public Guid ProcessId { get; set; }
         public Tuple<Guid, short> ConversationId { get; set; }
         public EnvelopeQueue EnvelopeQueue { get; }
+        public Dispatcher Dispatcher { get; set; }
 
         protected Task ConversationExecution;
         private bool _isEnded;
@@ -34,6 +35,17 @@ namespace CommunicationSubsystem.Conversations
         public bool IsEnded()
         {
             return _isEnded;
+        }
+
+        protected Envelope GetReply()
+        {
+            while (EnvelopeQueue.GetCount() == 0) { }
+            return EnvelopeQueue.Dequeue();
+        }
+
+        protected void Send(Envelope envelope)
+        {
+            Dispatcher.Send(envelope);
         }
     }
 }

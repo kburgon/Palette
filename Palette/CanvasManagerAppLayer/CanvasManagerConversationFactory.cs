@@ -1,21 +1,14 @@
-﻿using CanvasManagerAppLayer.Conversations;
-using CommunicationSubsystem.ConversationFactories;
-using Messages;
+﻿using CommunicationSubsystem.ConversationFactories;
 using System;
-using System.Collections.Generic;
+using CommunicationSubsystem.Conversations;
 
 namespace CanvasManagerAppLayer
 {
     class CanvasManagerConversationFactory : ConversationFactory
     {
-        public override void Initialize()
+        public override Conversation CreateFromMessageType(Type message)
         {
-            ResponderConversationTypes = new Dictionary<Type, Type>
-            {
-                {typeof(CreateCanvasMessage), typeof(CreateCanvasStateConversation)},
-                {typeof(DeleteCanvasMessage), typeof(DeleteCanvasStateConversation)},
-                {typeof(GetCanvasListMessage), typeof(GetCanvasListStateConversation)}
-            };
+            return null;
         }
     }
 }

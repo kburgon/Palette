@@ -10,26 +10,15 @@ namespace CommunicationSubsystem.Conversations.InitiatorConversations
 
         protected override void StartConversation()
         {
-            ConversationId = new Tuple<Guid, short>(ProcessId, 1);
             var request = CreateRequest();
             Send(Package(request));
             var reply = GetReply();
             ProcessReply(reply.Message);
         }
 
-        private Envelope GetReply()
-        {
-            while (EnvelopeQueue.GetCount() == 0) { }
-            return EnvelopeQueue.Dequeue();
-        }
-
-        private void Send(Envelope package)
-        {
-            //Send to Dispatcher somehow
-        }
-
         private Envelope Package(Message request)
         {
+            request.ConversationId = ConversationId;
             return new Envelope
             {
                 Message = request,
