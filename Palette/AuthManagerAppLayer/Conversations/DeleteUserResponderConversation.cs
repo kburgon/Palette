@@ -6,12 +6,12 @@ namespace AuthManagerAppLayer.Conversations
 {
     public class DeleteUserResponderConversation : ResponderConversation
     {
-        public TokenBank TokenBank { get; set; }
+        public TokenBank TokenBank { get; }
         private Guid AuthToken { get; set; }
 
-        public DeleteUserResponderConversation(TokenBank tokenBank)
+        public DeleteUserResponderConversation()
         {
-            TokenBank = tokenBank;
+            TokenBank = TokenBank.GetInstance();
             AuthToken = Guid.Empty;
         }
 

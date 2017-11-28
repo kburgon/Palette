@@ -1,18 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AuthManagerAppLayer
 {
     public class TokenBank
     {
-        private List<Guid> Tokens { get; set; }
+        private ConcurrentBag<Guid> Tokens { get; }
+        private static object _bankLock = new object();
+        private static TokenBank _bankInstance;
 
-        public TokenBank()
+        private TokenBank()
         {
-            Tokens = new List<Guid> { };
+            Tokens = new ConcurrentBag<Guid>();
+            _bankInstance = this;
+        }
+
+        public static TokenBank GetInstance()
+        {
+            lock (_bankLock)
+            {
+                if (_bankInstance == null)
+                {
+                    _bankInstance = new TokenBank();
+                }
+
+                return _bankInstance;
+            }
         }
 
         public bool TokenExists(Guid token) => Tokens.Any(t => t == token);

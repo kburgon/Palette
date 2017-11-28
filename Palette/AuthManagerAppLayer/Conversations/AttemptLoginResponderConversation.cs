@@ -7,15 +7,15 @@ namespace AuthManagerAppLayer.Conversations
     public class AttemptLoginResponderConversation : ResponderConversation
     {
         public AttemptLoginMessage ReceivedMessage { get; set; }
-        public TokenBank TokenBank { get; set; }
+        private TokenBank TokenBank { get; }
         
         private bool LoginSuccessful { get; set; }
         private Guid Token { get; set; }
 
-        public AttemptLoginResponderConversation(TokenBank tokenBank)
+        public AttemptLoginResponderConversation()
         {
             LoginSuccessful = false;
-            TokenBank = tokenBank;
+            TokenBank = TokenBank.GetInstance();
             Token = Guid.Empty;
         }
 

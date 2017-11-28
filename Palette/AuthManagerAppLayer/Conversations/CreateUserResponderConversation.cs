@@ -6,12 +6,12 @@ namespace AuthManagerAppLayer.Conversations
 {
     public class CreateUserResponderConversation : ResponderConversation
     {
-        public TokenBank TokenBank { get; set; }
+        public TokenBank TokenBank { get; }
         private Guid AuthToken { get; set; }
 
-        public CreateUserResponderConversation(TokenBank tokenBank)
+        public CreateUserResponderConversation()
         {
-            TokenBank = tokenBank;
+            TokenBank = TokenBank.GetInstance();
             AuthToken = Guid.Empty;
         }
 

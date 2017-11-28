@@ -6,9 +6,16 @@ namespace AuthManagerAppLayer.Conversations
 {
     public class CheckTokenResponderConversation : ResponderConversation
     {
-        public TokenBank TokenBank { get; set; }
+        public TokenBank TokenBank { get; }
         private bool IsAuthorized { get; set; }
         private Guid AuthToken { get; set; }
+
+        public CheckTokenResponderConversation()
+        {
+            TokenBank = TokenBank.GetInstance();
+            IsAuthorized = false;
+            AuthToken = Guid.Empty;
+        }
 
         protected override void ProcessFailure()
         {

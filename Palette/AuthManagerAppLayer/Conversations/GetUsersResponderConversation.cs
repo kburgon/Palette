@@ -7,13 +7,13 @@ namespace AuthManagerAppLayer.Conversations
 {
     public class GetUsersResponderConversation : ResponderConversation
     {
-        public TokenBank TokenBank { get; set; }
+        public TokenBank TokenBank { get; }
         public Guid AuthToken { get; set; }
         private List<User> Users { get; set; }
 
-        public GetUsersResponderConversation(TokenBank tokenBank)
+        public GetUsersResponderConversation()
         {
-            TokenBank = tokenBank;
+            TokenBank = TokenBank.GetInstance();
             AuthToken = Guid.Empty;
             Users = new List<User>();
         }

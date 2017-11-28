@@ -14,7 +14,7 @@ namespace CommunicationSubsystem.ConversationFactories
 
         public abstract void Initialize();
 
-        public Conversation CreateFromMessageType(Message message)
+        public virtual Conversation CreateFromMessageType(Message message)
         {
             var conversation = (Conversation)Activator.CreateInstance(ResponderConversationTypes[message.GetType()]);
             conversation.GetDataFromMessage(message);
