@@ -42,6 +42,7 @@ namespace DisplayManagerAppLayer
 
         public void StartDispatcher(int port)
         {
+            Logger.InfoFormat("Starting up the dispatcher...");
             if (_dispatcher.IsListening())
                 StopDispatcher();
 
@@ -54,23 +55,27 @@ namespace DisplayManagerAppLayer
 
         public void StopDispatcher()
         {
+            Logger.InfoFormat("Stopping the dispatcher...");
             if (_dispatcher.IsListening())
                 _dispatcher.StopListener();
         }
 
         public void UpdateAuthManagerEndPoint(int port, IPAddress address)
         {
+            Logger.InfoFormat("Updated Auth Manager endpoint to: {0} {1}", address, port);
             AuthManagerEP.Address = address;
             AuthManagerEP.Port = port;
         }
 
         public void UpdateAuthManagerPort(int port)
         {
+            Logger.InfoFormat("Updated Auth Manager port to: {0}", port);
             AuthManagerEP.Port = port;
         }
 
         public void UpdateDisplayManagerPort(int port)
         {
+            Logger.InfoFormat("Updated Display Manager port to: {0}", port);
             _dispatcher.UdpCommunicator.SetPort(port);
         }
 
@@ -92,6 +97,7 @@ namespace DisplayManagerAppLayer
 
         private int GenerateDisplayId()
         {
+            Logger.InfoFormat("Generating display id...");
             if (DisplayEPDictionary.Count == 0)
                 return 1;
             else
