@@ -15,25 +15,9 @@ namespace CanvasStorageManager
             _dataStore = new FileDataStore();
         }
 
-        public Conversation CreateConversation(ConversationType type)
+        public override Conversation CreateFromMessageType(Type message)
         {
-            switch (type)
-            {
-                case ConversationType.CreateCanvas:
-                    return CreateCanvasConvsersation();
-                case ConversationType.EditCanvas:
-                    return EditCanvasConversation();
-                case ConversationType.ReadCanvas:
-                    return GetCanvasListConversation();
-                case ConversationType.AssignCanvas:
-                case ConversationType.GetDisplay:
-                case ConversationType.RegisterDisplay:
-                case ConversationType.SubscribeCanvas:
-                case ConversationType.UnassignCanvas:
-                    throw new Exception(); //TODO: This should be an IncorrectMessageException
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+            throw new NotImplementedException();
         }
 
         private CreateCanvasConvsersation CreateCanvasConvsersation()
@@ -58,7 +42,5 @@ namespace CanvasStorageManager
         {
             return new CanvasRepository( _dataStore );
         }
-
-        public override void Initialize() { }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using CommunicationSubsystem.Conversations;
+using Messages;
 
 namespace CommunicationSubsystem.ConversationFactories
 {
@@ -7,6 +8,6 @@ namespace CommunicationSubsystem.ConversationFactories
     {
         protected static Guid ProcessId = Guid.NewGuid();
 
-        public abstract Conversation CreateFromMessageType(Type message);
+        public abstract Conversation CreateFromMessageType(MessageType message);
     }
 }

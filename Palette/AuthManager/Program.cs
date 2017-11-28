@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AuthManager
 {
-    private static AuthManagerAppLayer.AuthManager _authManager;
+//    private static AuthManagerAppLayer.AuthManager _authManager;
 
     class Program
     {

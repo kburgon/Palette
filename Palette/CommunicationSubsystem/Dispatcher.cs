@@ -141,7 +141,7 @@ namespace CommunicationSubsystem
 
         private Conversation CreateConversationFrom(Message message)
         {
-            var newConvo = _conversationFactory.CreateFromMessageType(message.GetType());
+            var newConvo = _conversationFactory.CreateFromMessageType(message.MessageType);
             Start(newConvo);
             return newConvo;
         }

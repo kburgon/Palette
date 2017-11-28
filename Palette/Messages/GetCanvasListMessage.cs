@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
+﻿using System.Runtime.Serialization;
+
 namespace Messages
 {
     [DataContract]
     public class GetCanvasListMessage : AuthMessage
     {
+        public override MessageType MessageType => MessageType.CanvasListMessage;
     }
 }
