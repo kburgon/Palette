@@ -117,7 +117,7 @@ namespace PaletteAdminClient
 
             _adminClient.CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text;
             _adminClient.CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text);
-            _adminClient.StartDispatcher(port);
+            _adminClient.StartDispatcher(11900);
             _adminClient.RequestCanvasList();
         }
 
@@ -131,7 +131,7 @@ namespace PaletteAdminClient
 
             _adminClient.CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text;
             _adminClient.CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text);
-            _adminClient.StartDispatcher(port);
+            _adminClient.StartDispatcher(11900);
             _adminClient.CreateCanvas();
         }
 
@@ -145,7 +145,7 @@ namespace PaletteAdminClient
 
             _adminClient.CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text;
             _adminClient.CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text);
-            _adminClient.StartDispatcher(port);
+            _adminClient.StartDispatcher(11900);
 
             try
             {

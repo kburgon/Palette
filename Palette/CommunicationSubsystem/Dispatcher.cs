@@ -184,6 +184,8 @@ namespace CommunicationSubsystem
 
             conversation.EnvelopeQueue = envQueue;
 
+            conversation.Execute();
+
             lock (_dictionaryLock)
             {
                 ConversationDict.Add(env.Message.ConversationId, conversation);
@@ -200,6 +202,7 @@ namespace CommunicationSubsystem
             EnvelopeQueue envQueue = GetQueue(conver.ConversationId);;
             Conversation conversation = conver;
             conversation.EnvelopeQueue = envQueue;
+            conversation.Execute();
 
             lock (_dictionaryLock)
             {
