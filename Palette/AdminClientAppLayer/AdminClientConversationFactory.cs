@@ -1,16 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using AdminClientAppLayer.Conversations;
 using CommunicationSubsystem.ConversationFactories;
+using CommunicationSubsystem.Conversations;
 using Messages;
 
 namespace AdminClientAppLayer
 {
     public class AdminClientConversationFactory : ConversationFactory
     {
-        public override void Initialize()
+        public override Conversation CreateFromMessageType(MessageType message)
         {
-            ResponderConversationTypes = new Dictionary<Type, Type> { };
+            switch (message)
+            {
+                case MessageType.CanvasListMessage:
+                    return new GetCanvasStateConversation();
+                case MessageType.Unknown:
+                    throw new Exception("Message is of Unknown Type");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(message), message, null);
+            }
         }
     }
 }

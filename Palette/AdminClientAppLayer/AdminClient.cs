@@ -32,15 +32,12 @@ namespace AdminClientAppLayer
 
         public void StartDispatcher(int portNumber)
         {
-            if (!HasStartedDispatcher)
-            {
-                var conversationFactory = new AdminClientConversationFactory();
-                conversationFactory.Initialize();
-                Dispatcher.SetFactory(conversationFactory);
-                Dispatcher.UdpCommunicator.SetPort(portNumber);
-                Dispatcher.StartListener();
-                HasStartedDispatcher = true;
-            }
+            if (HasStartedDispatcher) return;
+            var conversationFactory = new AdminClientConversationFactory();
+            Dispatcher.SetFactory(conversationFactory);
+            Dispatcher.SetPort(portNumber);
+            Dispatcher.StartListener();
+            HasStartedDispatcher = true;
         }
 
         public void CreateCanvas()
@@ -70,10 +67,10 @@ namespace AdminClientAppLayer
                 var conversation = new CreateCanvasInitiatorConversation
                 {
                     ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
-                    RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
+                    DestinationIpEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
                 };
 
-                Dispatcher.StartConversationByConversationType(conversation);
+                Dispatcher.AddConversation(conversation);
                 while (conversation.CanvasId == null) { }
                 CreatedCanvasIdHandler?.Invoke(conversation.CanvasId.Item1);
             }
@@ -91,11 +88,11 @@ namespace AdminClientAppLayer
                 var conversation = new DeleteCanvasInitiatorConversation
                 {
                     ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
-                    RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber),
+                    DestinationIpEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber),
                     CanvasId = new Tuple<int>(canvasId)
                 };
 
-                Dispatcher.StartConversationByConversationType(conversation);
+                Dispatcher.AddConversation(conversation);
                 while (conversation.CanvasId == null) { }
                 DeleteCanvasHandler?.Invoke(conversation.CanvasId.Item1);
             }
@@ -110,13 +107,13 @@ namespace AdminClientAppLayer
         {
             try
             {
-                var conversation = new GetCanvasListInitiatorConversation()
+                var conversation = new GetCanvasStateConversation()
                 {
                     ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
-                    RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
+                    DestinationEndpoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
                 };
 
-                Dispatcher.StartConversationByConversationType(conversation);
+                Dispatcher.AddConversation(conversation);
                 while (conversation.Canvases == null){ }
 
             }

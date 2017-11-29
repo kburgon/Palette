@@ -7,6 +7,8 @@ namespace Messages
     [DataContract]
     public class CanvasListMessage : Message
     {
+        public override MessageType MessageType => MessageType.CanvasListMessage;
+
         [DataMember]
         public IEnumerable<Canvas> Canvases { get; set; }
     }

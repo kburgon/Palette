@@ -1,25 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
+using Messages;
 
 namespace CommunicationSubsystem.Conversations.InitiatorConversations
 {
     public abstract class InitiatorConversation : Conversation
     {
-        public IPEndPoint RemoteEndPoint { get; set; }
+        public IPEndPoint DestinationIpEndPoint { get; set; }
 
         protected override void StartConversation()
         {
-            ConversationId = new Tuple<Guid, short>(ProcessId, 1);
-            CreateRequest();
-            while (EnvelopeQueue.GetCount() == 0) { }
-            ProcessReply();
+            var request = CreateRequest();
+            Send(Package(request));
+            var reply = GetNextEnvelope();
+            ProcessReply(reply.Message);
+            End();
+        }
+
+        private Envelope Package(Message request)
+        {
+            request.ConversationId = ConversationId;
+            return new Envelope
+            {
+                Message = request,
+                RemoteEP = DestinationIpEndPoint
+            };
         }
 
         protected abstract void ValidateConversationState();
         protected abstract void CheckProcessState();
-        protected abstract void CreateRequest();
-        protected abstract void ProcessReply();
+        protected abstract Message CreateRequest();
+        protected abstract void ProcessReply(Message message);
     }
 }

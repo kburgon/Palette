@@ -1,21 +1,24 @@
-﻿using CanvasManagerAppLayer.Conversations;
-using CommunicationSubsystem.ConversationFactories;
-using Messages;
+﻿using CommunicationSubsystem.ConversationFactories;
 using System;
-using System.Collections.Generic;
+using CanvasManagerAppLayer.Conversations;
+using CommunicationSubsystem.Conversations;
+using Messages;
 
 namespace CanvasManagerAppLayer
 {
     class CanvasManagerConversationFactory : ConversationFactory
     {
-        public override void Initialize()
+        public override Conversation CreateFromMessageType(MessageType message)
         {
-            ResponderConversationTypes = new Dictionary<Type, Type>
+            switch (message)
             {
-                {typeof(CreateCanvasMessage), typeof(CreateCanvasStateConversation)},
-                {typeof(DeleteCanvasMessage), typeof(DeleteCanvasStateConversation)},
-                {typeof(GetCanvasListMessage), typeof(GetCanvasListStateConversation)}
-            };
+                case MessageType.CanvasListMessage:
+                    return new GetCanvasListStateConversation();
+                case MessageType.Unknown:
+                    throw new Exception("Unknown Message Type");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(message), message, null);
+            }
         }
     }
 }

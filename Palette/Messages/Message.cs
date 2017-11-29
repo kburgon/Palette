@@ -35,6 +35,8 @@ namespace Messages
         [DataMember]
         public Tuple<Guid, short> ConversationId { get; set; }
 
+        public virtual MessageType MessageType => MessageType.Unknown;
+
         private static readonly List<Type> _types = new List<Type>();
         private static readonly ILog Logger = LogManager.GetLogger(typeof(Message));
 
