@@ -1,4 +1,4 @@
-﻿using CommunicationSubsystem.Conversations.ResponderConversations;
+﻿using CommunicationSubsystem.Conversations;
 using Messages;
 
 namespace CanvasManagerAppLayer.Conversations

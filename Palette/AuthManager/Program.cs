@@ -3,8 +3,6 @@ using System.Linq;
 
 namespace AuthManager
 {
-    private static AuthManagerAppLayer.AuthManager _authManager;
-
     class Program
     {
         private static AuthManagerAppLayer.AuthManager _authManager;

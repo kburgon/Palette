@@ -1,4 +1,5 @@
-﻿using CommunicationSubsystem.Conversations.ResponderConversations;
+﻿using CommunicationSubsystem.Conversations;
+using CommunicationSubsystem.Conversations;
 
 namespace DisplayAppLayer.Conversations
 {
