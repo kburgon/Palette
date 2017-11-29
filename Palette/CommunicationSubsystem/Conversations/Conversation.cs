@@ -1,6 +1,7 @@
 ﻿using Messages;
 using System;
 using System.Threading.Tasks;
+using log4net;
 
 namespace CommunicationSubsystem.Conversations
 {
@@ -11,9 +12,17 @@ namespace CommunicationSubsystem.Conversations
         public EnvelopeQueue EnvelopeQueue { get; set; }
         public UdpCommunicator Communicator { get; set; }
         public Envelope ReceivedEnvelope { get; set; }
+        public int GetMessageWaitAmount { get; set; }
 
         protected Task _conversationExecution;
         protected static UdpCommunicator _communicator;
+
+        private ILog Logger;
+
+        public Conversation(int waitTimeMs = 100)
+        {
+            GetMessageWaitAmount = waitTimeMs;
+        }
 
         public void Execute()
         {
@@ -23,7 +32,11 @@ namespace CommunicationSubsystem.Conversations
 
         protected abstract void StartConversation();
 
-        protected abstract void ProcessFailure();
+        protected virtual void ProcessFailure()
+        {
+            Logger.Warn($"Conversation {this.GetType().ToString()} failed to send/receive message.");
+            EnvelopeQueue.EndOfConversation = true;
+        }
 
         public virtual void GetDataFromMessage(Message message)
         {

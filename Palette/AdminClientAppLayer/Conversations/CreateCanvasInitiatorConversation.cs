@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CommunicationSubsystem;
-using CommunicationSubsystem.Conversations.InitiatorConversations;
+using CommunicationSubsystem.Conversations;
 using Messages;
 
 namespace AdminClientAppLayer.Conversations
@@ -18,20 +15,10 @@ namespace AdminClientAppLayer.Conversations
 
         protected override void ProcessFailure()
         {
-            throw new NotImplementedException();
+            base.ProcessFailure();
         }
 
-        protected override void ValidateConversationState()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void CheckProcessState()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void CreateRequest()
+        protected override Message CreateRequest()
         {
             var message = new CreateCanvasMessage()
             {
@@ -39,19 +26,12 @@ namespace AdminClientAppLayer.Conversations
                 MessageNumber = new Tuple<Guid, short>(this.ProcessId, 1)
             };
 
-            var envelope = new Envelope()
-            {
-                RemoteEP = RemoteEndPoint,
-                Message = message
-            };
-
-            Communicator.Send(envelope);
+            return message;
         }
 
-        protected override void ProcessReply()
+        protected override void ProcessReply(Message receivedMessage)
         {
-            var envelope = EnvelopeQueue.Dequeue();
-            var message = (CanvasMessage)envelope.Message;
+            var message = (CanvasMessage)receivedMessage;
             CanvasId = new Tuple<int>(message.CanvasId);
             EnvelopeQueue.EndOfConversation = true;
         }

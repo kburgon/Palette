@@ -2,7 +2,6 @@
 using CommunicationSubsystem.Conversations;
 using Messages;
 using System.Collections.Generic;
-using CommunicationSubsystem.Conversations.InitiatorConversations;
 
 namespace CommunicationSubsystem.ConversationFactories
 {

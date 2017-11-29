@@ -1,15 +1,11 @@
-﻿using CommunicationSubsystem.Conversations.InitiatorConversations;
+﻿using CommunicationSubsystem.Conversations;
+using Messages;
 
 namespace DisplayAppLayer.Conversations
 {
     class RegisterDisplayInitiatorConversation : InitiatorConversation
     {
-        protected override void CheckProcessState()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void CreateRequest()
+        protected override Message CreateRequest()
         {
             throw new System.NotImplementedException();
         }
@@ -19,12 +15,7 @@ namespace DisplayAppLayer.Conversations
             throw new System.NotImplementedException();
         }
 
-        protected override void ProcessReply()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void ValidateConversationState()
+        protected override void ProcessReply(Message receivedMessage)
         {
             throw new System.NotImplementedException();
         }
