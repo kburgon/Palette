@@ -98,6 +98,7 @@ namespace PaletteAdminClient
         {
             PaletteClientTabItem.Visibility = Visibility.Visible;
             AdminClientTabItem.Visibility = Visibility.Visible;
+            AdminClientUsersTab.Visibility = Visibility.Visible;
         }
 
         private void OpenAdminLoginCredentialsButton_Click(object sender, RoutedEventArgs e)
