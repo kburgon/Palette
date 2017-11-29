@@ -8,17 +8,20 @@ namespace CommunicationSubsystem.Conversations
         {
             var message = ReceivedEnvelope.Message;
             ProcessReceivedMessage( message );
+
             var reply = CreateReply();
-            Communicator.Send(new Envelope
+            var envelope = new Envelope
             {
                 RemoteEP = ReceivedEnvelope.RemoteEP,
                 Message = reply
-            });
+            };
+
+            for (int sendAttempt = 0; sendAttempt < 10; sendAttempt++)
+            {
+                Communicator.Send(envelope); 
+            }
 
             EnvelopeQueue.EndOfConversation = true;
-
-            // TODO: Add handling for conversation failures.
-            //ProcessFailure();
         }
 
         protected abstract void ProcessReceivedMessage(Message message);
