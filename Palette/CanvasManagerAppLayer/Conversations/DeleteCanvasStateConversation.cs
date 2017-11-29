@@ -17,17 +17,17 @@ namespace CanvasManagerAppLayer.Conversations
             throw new NotImplementedException();
         }
 
-        protected override void CreateAuthRequest()
+        protected override Message CreateAuthRequest()
         {
             throw new NotImplementedException();
         }
 
-        protected override void ProcessAuthReply()
+        protected override void ProcessAuthReply(Message receivedMessage)
         {
             throw new NotImplementedException();
         }
 
-        protected override void CreateRequest()
+        protected override Message CreateRequest()
         {
             var stepNumber = InitialReceivedEnvelope.Message.MessageNumber.Item2;
             var message = new DeleteCanvasMessage
@@ -36,22 +36,15 @@ namespace CanvasManagerAppLayer.Conversations
                 MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
             };
 
-            var envelope = new Envelope
-            {
-                Message = message,
-                RemoteEP = InitialReceivedEnvelope.RemoteEP
-            };
-
-            Communicator.Send(envelope);
+            return message;
         }
 
-        protected override void ProcessReply()
+        protected override void ProcessReply(Message receivedMessage)
         {
-            var envelope = EnvelopeQueue.Dequeue();
-            var message = envelope.Message;
+            var message = receivedMessage;
         }
 
-        protected override void CreateUpdate()
+        protected override Message CreateUpdate()
         {
             var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
             var message = new DeleteCanvasMessage
@@ -60,13 +53,7 @@ namespace CanvasManagerAppLayer.Conversations
                 MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
             };
 
-            var envelope = new Envelope
-            {
-                Message = message,
-                RemoteEP = InitialReceivedEnvelope.RemoteEP
-            };
-
-            Communicator.Send(envelope);
+            return message;
         }
     }
 }

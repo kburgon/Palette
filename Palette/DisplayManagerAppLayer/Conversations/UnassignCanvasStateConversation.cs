@@ -7,12 +7,12 @@ namespace DisplayManagerAppLayer.Conversations
 {
     public class UnassignCanvasStateConversation : StateConversation
     {
-        protected override void CreateAuthRequest()
+        protected override Message CreateAuthRequest()
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void CreateRequest()
+        protected override Message CreateRequest()
         {
             var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
             var message = new CanvasUnassignMessage
@@ -21,16 +21,10 @@ namespace DisplayManagerAppLayer.Conversations
                 MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
             };
 
-            var envelope = new Envelope
-            {
-                Message = message,
-                RemoteEP = InitialReceivedEnvelope.RemoteEP
-            };
-
-            Communicator.Send(envelope);
+            return message;
         }
 
-        protected override void CreateUpdate()
+        protected override Message CreateUpdate()
         {
             var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
             var message = new CanvasUnassignMessage
@@ -39,16 +33,10 @@ namespace DisplayManagerAppLayer.Conversations
                 MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
             };
 
-            var envelope = new Envelope
-            {
-                Message = message,
-                RemoteEP = InitialReceivedEnvelope.RemoteEP
-            };
-
-            Communicator.Send(envelope);
+            return message;
         }
 
-        protected override void ProcessAuthReply()
+        protected override void ProcessAuthReply(Message receivedMessage)
         {
             throw new System.NotImplementedException();
         }
@@ -58,10 +46,9 @@ namespace DisplayManagerAppLayer.Conversations
             throw new System.NotImplementedException();
         }
 
-        protected override void ProcessReply()
+        protected override void ProcessReply(Message receivedMessage)
         {
-            var envelope = EnvelopeQueue.Dequeue();
-            var message = envelope.Message;
+            var message = receivedMessage;
         }
     }
 }

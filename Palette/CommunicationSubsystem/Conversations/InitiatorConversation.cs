@@ -35,6 +35,8 @@ namespace CommunicationSubsystem.Conversations
             {
                 ProcessFailure();
             }
+
+            EnvelopeQueue.EndOfConversation = true;
         }
 
         private bool AttemptSendReceive(Envelope envelope)
