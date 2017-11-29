@@ -6,14 +6,15 @@ namespace CommunicationSubsystem.Conversations.InitiatorConversations
 {
     public abstract class InitiatorConversation : Conversation
     {
-        public IPEndPoint RemoteEndPoint { get; set; }
+        public IPEndPoint DestinationIpEndPoint { get; set; }
 
         protected override void StartConversation()
         {
             var request = CreateRequest();
             Send(Package(request));
-            var reply = GetReply();
+            var reply = GetNextEnvelope();
             ProcessReply(reply.Message);
+            End();
         }
 
         private Envelope Package(Message request)
@@ -22,7 +23,7 @@ namespace CommunicationSubsystem.Conversations.InitiatorConversations
             return new Envelope
             {
                 Message = request,
-                RemoteEP = RemoteEndPoint
+                RemoteEP = DestinationIpEndPoint
             };
         }
 

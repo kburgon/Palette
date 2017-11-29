@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="CanvasManager.cs" />
     <Compile Include="CanvasManagerConversationFactory.cs" />
+    <Compile Include="Conversations\AuthInitiatorConversation.cs" />
     <Compile Include="Conversations\CreateCanvasStateConversation.cs" />
     <Compile Include="Conversations\DeleteCanvasStateConversation.cs" />
     <Compile Include="Conversations\GetCanvasListStateConversation.cs" />

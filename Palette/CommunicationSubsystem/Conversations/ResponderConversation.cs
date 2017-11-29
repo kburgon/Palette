@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using Messages;
 
@@ -7,14 +8,18 @@ namespace CommunicationSubsystem.Conversations.ResponderConversations
 {
     public abstract class ResponderConversation : Conversation
     {
+        private IPEndPoint _sourceEndpoint;
+        private Tuple<Guid, short> _conversationId;
+
         protected override void StartConversation()
         {
-            var message = GetMessageFromQueue();
-            ProcessReceivedMessage( message );
+            var envelope = GetNextEnvelope();
+            _sourceEndpoint = envelope.RemoteEP;
+            _conversationId = envelope.Message.ConversationId;
+            ProcessReceivedMessage( envelope.Message );
             var reply = CreateReply();
             SendReply( reply );
-
-            EnvelopeQueue.EndOfConversation = true;
+            End();
 
             // TODO: Add handling for conversation failures.
             //ProcessFailure();
@@ -22,12 +27,13 @@ namespace CommunicationSubsystem.Conversations.ResponderConversations
 
         private void SendReply(Message reply)
         {
-            
-        }
-
-        private Message GetMessageFromQueue()
-        {
-            return null;
+            reply.ConversationId = _conversationId;
+            var envelope = new Envelope
+            {
+                Message = reply,
+                RemoteEP = _sourceEndpoint
+            };
+            Send(envelope);
         }
 
         protected abstract void ProcessReceivedMessage(Message message);

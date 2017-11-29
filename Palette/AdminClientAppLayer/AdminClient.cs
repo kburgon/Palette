@@ -67,7 +67,7 @@ namespace AdminClientAppLayer
                 var conversation = new CreateCanvasInitiatorConversation
                 {
                     ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
-                    RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
+                    DestinationIpEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
                 };
 
                 Dispatcher.AddConversation(conversation);
@@ -88,7 +88,7 @@ namespace AdminClientAppLayer
                 var conversation = new DeleteCanvasInitiatorConversation
                 {
                     ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
-                    RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber),
+                    DestinationIpEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber),
                     CanvasId = new Tuple<int>(canvasId)
                 };
 
@@ -107,10 +107,10 @@ namespace AdminClientAppLayer
         {
             try
             {
-                var conversation = new GetCanvasListInitiatorConversation()
+                var conversation = new GetCanvasStateConversation()
                 {
                     ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
-                    RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
+                    DestinationEndpoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
                 };
 
                 Dispatcher.AddConversation(conversation);

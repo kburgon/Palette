@@ -37,7 +37,7 @@ namespace CommunicationSubsystem.Conversations
             return _isEnded;
         }
 
-        protected Envelope GetReply()
+        protected Envelope GetNextEnvelope()
         {
             while (EnvelopeQueue.GetCount() == 0) { }
             return EnvelopeQueue.Dequeue();

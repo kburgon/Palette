@@ -13,7 +13,7 @@ namespace AdminClientAppLayer
             switch (message)
             {
                 case MessageType.CanvasListMessage:
-                    return new GetCanvasListInitiatorConversation();
+                    return new GetCanvasStateConversation();
                 case MessageType.Unknown:
                     throw new Exception("Message is of Unknown Type");
                 default:
