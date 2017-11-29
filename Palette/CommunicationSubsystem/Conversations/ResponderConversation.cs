@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Messages;
+﻿using Messages;
 
-namespace CommunicationSubsystem.Conversations.ResponderConversations
+namespace CommunicationSubsystem.Conversations
 {
     public abstract class ResponderConversation : Conversation
     {
         protected override void StartConversation()
         {
-            var message = GetMessageFromQueue();
+            var message = ReceivedEnvelope.Message;
             ProcessReceivedMessage( message );
             var reply = CreateReply();
-            SendReply( reply );
+            Communicator.Send(new Envelope
+            {
+                RemoteEP = ReceivedEnvelope.RemoteEP,
+                Message = reply
+            });
 
             EnvelopeQueue.EndOfConversation = true;
 
             // TODO: Add handling for conversation failures.
             //ProcessFailure();
-        }
-
-        private void SendReply(Message reply)
-        {
-            
-        }
-
-        private Message GetMessageFromQueue()
-        {
-            return null;
         }
 
         protected abstract void ProcessReceivedMessage(Message message);

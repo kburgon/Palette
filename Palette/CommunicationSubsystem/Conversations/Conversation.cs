@@ -10,6 +10,7 @@ namespace CommunicationSubsystem.Conversations
         public Tuple<Guid, short> ConversationId { get; set; }
         public EnvelopeQueue EnvelopeQueue { get; set; }
         public UdpCommunicator Communicator { get; set; }
+        public Envelope ReceivedEnvelope { get; set; }
 
         protected Task _conversationExecution;
         protected static UdpCommunicator _communicator;

@@ -4,9 +4,8 @@ using System.Runtime.Serialization;
 namespace Messages
 {
     [DataContract]
-    public abstract class AuthMessage : Message
+    public class CreateUserMessage : UserMessage
     {
-        [DataMember]
-        public Guid AuthToken { get; set; }
+
     }
 }

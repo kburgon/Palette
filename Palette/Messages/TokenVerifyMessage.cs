@@ -1,11 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
+﻿using System.Runtime.Serialization;
+
 namespace Messages
 {
     [DataContract]
-    public class TokenVerifyMessage : Message
+    public class TokenVerifyMessage : AuthMessage
     {
         [DataMember]
         public bool IsAuthorized { get; set; }

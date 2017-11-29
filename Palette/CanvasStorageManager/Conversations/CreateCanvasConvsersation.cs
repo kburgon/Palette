@@ -1,6 +1,6 @@
 ﻿using System;
 using CanvasStorageManager.DataPersistence;
-using CommunicationSubsystem.Conversations.ResponderConversations;
+using CommunicationSubsystem.Conversations;
 using Messages;
 using SharedAppLayer.Entitities;
 

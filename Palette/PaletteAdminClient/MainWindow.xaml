@@ -122,5 +122,48 @@
                 </Grid>
             </Grid>
         </TabItem>
+
+        <TabItem x:Name="AdminClientUsersTab" Visibility="Collapsed" Header="Users">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.4*"/>
+                        <RowDefinition Height="0.6*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        
+                    </Grid>
+                    <DataGrid Grid.Row="1">
+                        
+                    </DataGrid>
+                </Grid>
+                <Grid Grid.Row="1" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Auth Manager IP Address:" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Column="1" x:Name="AuthManagerIpAddressTextBox" Width="100" VerticalContentAlignment="Center"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Port:"/>
+                        <TextBox x:Name="AuthManagerPort" Grid.Column="1" Width="50" VerticalContentAlignment="Center"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </TabItem>
     </TabControl>
 </Window>
