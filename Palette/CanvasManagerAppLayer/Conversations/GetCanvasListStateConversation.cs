@@ -15,9 +15,14 @@ namespace CanvasManagerAppLayer.Conversations
             throw new NotImplementedException();
         }
 
-        protected override void StartStateUpdates(Message initialMessage)
+        protected override void StartStateUpdates(Message message)
         {
             var authConvo = new AuthInitiatorConversation();
+        }
+
+        protected override void StartStateUpdates()
+        {
+            throw new NotImplementedException();
         }
 
         public void ReceiveAuthToken(int authToken)
