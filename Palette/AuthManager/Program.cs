@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Linq;
+using log4net;
+using log4net.Config;
 
 namespace AuthManager
 {
     class Program
     {
+        private static ILog Logger = LogManager.GetLogger(typeof(Program));
         private static AuthManagerAppLayer.AuthManager _authManager;
 
         static void Main(string[] args)
         {
+            XmlConfigurator.Configure();
             const int defaultPortNumber = 12001;
             int portNumber;
 
