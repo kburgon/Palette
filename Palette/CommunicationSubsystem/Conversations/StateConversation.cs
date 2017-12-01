@@ -59,7 +59,7 @@ namespace CommunicationSubsystem.Conversations
                 Message = CreateUpdate()
             };
 
-            Communicator.Send(updateEnvelope);
+            _communicator.Send(updateEnvelope);
 
             EnvelopeQueue.EndOfConversation = true;
         }
@@ -67,7 +67,7 @@ namespace CommunicationSubsystem.Conversations
         private bool AttemptSendReceive(Envelope envelope)
         {
             var sendReceiveSuccess = false;
-            Communicator.Send(envelope);
+            _communicator.Send(envelope);
             Thread.Sleep(GetMessageWaitAmount);
             if (EnvelopeQueue.GetCount() != 0)
             {
@@ -94,7 +94,7 @@ namespace CommunicationSubsystem.Conversations
         private bool AttemptAuthVerification(Envelope envelope)
         {
             var sendReceiveSuccess = false;
-            Communicator.Send(envelope);
+            _communicator.Send(envelope);
             Thread.Sleep(GetMessageWaitAmount);
             if (EnvelopeQueue.GetCount() != 0)
             {

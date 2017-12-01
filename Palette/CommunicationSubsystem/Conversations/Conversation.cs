@@ -22,6 +22,7 @@ namespace CommunicationSubsystem.Conversations
         public Conversation(int waitTimeMs = 100)
         {
             GetMessageWaitAmount = waitTimeMs;
+            ProcessId = Guid.NewGuid();
         }
 
         public void Execute()

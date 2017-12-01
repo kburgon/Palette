@@ -23,7 +23,7 @@ namespace CommunicationSubsystem
         private bool _receiveStarted { get; set; }
         private static readonly ILog Logger = LogManager.GetLogger(typeof(UdpCommunicator));
         private static readonly object _myLock = new object();
-        private int MyTimeout = 1000;
+        private int MyTimeout = 100;
 
         #endregion
 
@@ -43,7 +43,7 @@ namespace CommunicationSubsystem
         /// <param name="a"></param>
         public void SetAddress(IPAddress a)
         {
-            Logger.InfoFormat("New Address: {0}", Address);
+            Logger.InfoFormat("New Address: {0}", a);
             Address = a;
         }
 
@@ -53,7 +53,7 @@ namespace CommunicationSubsystem
         /// <param name="p"></param>
         public void SetPort(int p)
         {
-            Logger.InfoFormat("New Port: {0}", Port);
+            Logger.InfoFormat("New Port: {0}", p);
             Port = p;
         }
 
@@ -123,12 +123,13 @@ namespace CommunicationSubsystem
         /// <param name="env"></param>
         public void Send(Envelope env)
         {
+            UdpClient client = new UdpClient();
             Logger.InfoFormat("Send Message: {0} {1}", env.Message.MessageNumber.Item1, env.Message.MessageNumber.Item2);
             var ep = env.RemoteEP;
             if (env != null)
             {
                 byte[] b = env.Message.Encode();
-                _udpClient.Send(b, b.Length, ep);
+                client.Send(b, b.Length, ep);
             }
         }
 
@@ -137,9 +138,9 @@ namespace CommunicationSubsystem
         /// </summary>
         public void Receive()
         {
-            Logger.Info("Attempting to receive message");
             while (_receiveStarted)
             {
+                Logger.Info("Attempting to receive message...");
                 Envelope newEnv = null;
                 byte[] bytes = null;
                 if (Port > 10000 && Port < 13000)
@@ -160,6 +161,7 @@ namespace CommunicationSubsystem
                         try
                         {
                             bytes = _udpClient.Receive(ref ep);
+                            Logger.InfoFormat("Received Message....");
                         }
                         catch (SocketException e)
                         {

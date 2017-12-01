@@ -1,16 +1,21 @@
 ﻿using System.Net;
 using CommunicationSubsystem;
+using System.Threading.Tasks;
+using CommunicationSubsystem.Conversations;
+using log4net;
 
 namespace CanvasManagerAppLayer
 {
     public class CanvasManager
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(CanvasManager));
         private static Dispatcher _dispatcher;
         private IPEndPoint StorageEP;
         private IPEndPoint AuthManagerEp;
 
         public CanvasManager()
         {
+            Logger.InfoFormat("Starting Canvas Manager...");
             _dispatcher = new Dispatcher();
             AuthManagerEp = new IPEndPoint(IPAddress.Any, 0);
             StorageEP = new IPEndPoint(IPAddress.Any, 0);
@@ -26,6 +31,23 @@ namespace CanvasManagerAppLayer
             _dispatcher.SetFactory(conversationFactory);
             _dispatcher.UdpCommunicator.SetPort(communicatorPort);
             _dispatcher.StartListener();
+            Task.Factory.StartNew(GetConversation);
+        }
+
+        private void GetConversation()
+        {
+            Conversation conversation = null;
+
+            while(conversation == null)
+            {
+                conversation = _dispatcher.GetConversation();
+            }
+
+            if (conversation.GetType() == typeof(StateConversation))
+            {
+                (conversation as StateConversation).RequestEP = StorageEP;
+                (conversation as StateConversation).AuthEP = AuthManagerEp;
+            }
         }
 
         public void CloseDispatcher()

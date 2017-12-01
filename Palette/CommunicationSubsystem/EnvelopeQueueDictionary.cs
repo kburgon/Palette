@@ -32,15 +32,24 @@ namespace CommunicationSubsystem
         /// <returns></returns>
         public EnvelopeQueue GetConversation(Tuple<Guid, short> convId)
         {
-            Logger.InfoFormat("Getting queue for conversation: {0} {1}", convId.Item1, convId.Item2);
-            EnvelopeQueue queue = null;
-            if (EnvelopeQueueDict.TryGetValue(convId, out queue))
-                return queue;
-            else
+            try
             {
-                CreateQueue(convId);
-                return EnvelopeQueueDict[convId];
+                Logger.InfoFormat("Getting queue for conversation: {0} {1}", convId.Item1, convId.Item2);
+                EnvelopeQueue queue = null;
+                if (EnvelopeQueueDict.TryGetValue(convId, out queue))
+                    return queue;
+                else
+                {
+                    CreateQueue(convId);
+                    return EnvelopeQueueDict[convId];
+                }
             }
+            catch(Exception e)
+            {
+                Logger.DebugFormat("Error: {0}", e);
+            }
+
+            return null;
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace CommunicationSubsystem.Conversations
         public InitiatorConversation(int waitTimeMs = 100) 
             : base(waitTimeMs)
         {
-            
+
         }
 
         protected override void StartConversation()
@@ -42,7 +42,7 @@ namespace CommunicationSubsystem.Conversations
         private bool AttemptSendReceive(Envelope envelope)
         {
             var sendReceiveSuccess = false;
-            Communicator.Send(envelope);
+            _communicator.Send(envelope);
             Thread.Sleep(GetMessageWaitAmount);
             if (EnvelopeQueue.GetCount() != 0)
             {

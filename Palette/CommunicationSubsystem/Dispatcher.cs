@@ -219,6 +219,11 @@ namespace CommunicationSubsystem
             return ConversationDict;
         }
 
+        public Conversation GetConversation()
+        {
+            return _conversation;
+        }
+
         #endregion
 
 
@@ -253,7 +258,7 @@ namespace CommunicationSubsystem
                 foreach (Conversation conv in ConversationDict.Values)
                 {
                     EnvelopeQueue queue = GetQueue(conv.ConversationId);
-                    if (queue.EndOfConversation)
+                    if (queue != null && queue.EndOfConversation)
                         EndConversation(conv.ConversationId);
                 }
             }
