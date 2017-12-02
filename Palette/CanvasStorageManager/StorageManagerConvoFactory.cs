@@ -3,6 +3,8 @@ using CanvasStorageManager.Conversations;
 using CanvasStorageManager.DataPersistence;
 using CommunicationSubsystem.Conversations;
 using CommunicationSubsystem.ConversationFactories;
+using Messages;
+using System.Collections.Generic;
 
 namespace CanvasStorageManager
 {
@@ -36,10 +38,10 @@ namespace CanvasStorageManager
             }
         }
 
-        private CreateCanvasConvsersation CreateCanvasConvsersation()
+        private CreateCanvasConversation CreateCanvasConvsersation()
         {
             var repo = CreateCanvasRepo();
-            return new CreateCanvasConvsersation( repo );
+            return new CreateCanvasConversation( repo );
         }
 
         private EditCanvasConversation EditCanvasConversation()
@@ -59,6 +61,14 @@ namespace CanvasStorageManager
             return new CanvasRepository( _dataStore );
         }
 
-        public override void Initialize() { }
+        public override void Initialize()
+        {
+            ResponderConversationTypes = new Dictionary<Type, Type>
+            {
+                {typeof(CreateCanvasMessage), typeof(CreateCanvasConversation)},
+                {typeof(DeleteCanvasMessage), typeof(DeleteCanvasConversation)},
+                {typeof(GetCanvasListMessage), typeof(GetCanvasesConversation)}
+            };
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace CommunicationSubsystem.Conversations
             var message = CreateRequest();
             var envelope = new Envelope()
             {
-                RemoteEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 11900),
+                RemoteEP = RequestEP,
                 Message = message
             };
 

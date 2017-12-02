@@ -6,12 +6,12 @@ using SharedAppLayer.Entitities;
 
 namespace CanvasStorageManager.Conversations
 {
-    internal class CreateCanvasConvsersation : ResponderConversation
+    internal class CreateCanvasConversation : ResponderConversation
     {
         private readonly CanvasRepository _canvasRepo;
         private Canvas _createdCanvas;
 
-        public CreateCanvasConvsersation(CanvasRepository canvasRepo)
+        public CreateCanvasConversation(CanvasRepository canvasRepo)
         {
             _canvasRepo = canvasRepo;
         }

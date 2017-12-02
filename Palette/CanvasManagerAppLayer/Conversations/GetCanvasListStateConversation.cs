@@ -4,12 +4,18 @@ using Messages;
 using System;
 using System.Collections.Generic;
 using SharedAppLayer.Entitities;
+using System.Net;
 
 namespace CanvasManagerAppLayer.Conversations
 {
     public class GetCanvasListStateConversation : StateConversation
     {
         private IEnumerable<Canvas> _canvasList;
+
+        public GetCanvasListStateConversation()
+        {
+            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12500);
+        }
 
         protected override void ProcessFailure()
         {
