@@ -35,5 +35,19 @@ namespace AuthManagerAppTest
 
             UserDataAccess.DeleteUser(newUserId);
         }
+
+        [TestMethod]
+        public void CanGetUserId()
+        {
+            const string username = "testUsers";
+            const string password = "testPassword";
+            Assert.AreEqual(UserDataAccess.GetUserId(username, password), 0);
+
+            var userId = UserDataAccess.CreateUser(username, password);
+            Assert.AreNotEqual(0, userId);
+            Assert.AreEqual(userId, UserDataAccess.GetUserId(username, password));
+
+            UserDataAccess.DeleteUser(userId);
+        }
     }
 }

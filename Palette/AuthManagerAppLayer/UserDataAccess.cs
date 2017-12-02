@@ -38,7 +38,7 @@ namespace AuthManagerAppLayer
                 new SqlParameter("@UserName", SqlDbType.VarChar) { Value = username },
                 new SqlParameter("@Password", SqlDbType.VarChar) { Value = password }
             };
-            return Convert.ToInt32(ExecuteScalarProc(@"Authentication.dbo.GetUser", parameters));
+            return Convert.ToInt32(ExecuteScalarProc(@"[Authentication].[dbo].[GetUser]", parameters));
         }
 
         public static int CreateUser(string username, string password)
