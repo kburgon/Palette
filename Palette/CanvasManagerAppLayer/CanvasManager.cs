@@ -3,6 +3,7 @@ using CommunicationSubsystem;
 using System.Threading.Tasks;
 using CommunicationSubsystem.Conversations;
 using log4net;
+using CanvasManagerAppLayer.Conversations;
 
 namespace CanvasManagerAppLayer
 {
@@ -32,6 +33,7 @@ namespace CanvasManagerAppLayer
             _dispatcher.UdpCommunicator.SetPort(communicatorPort);
             _dispatcher.StartListener();
             Task.Factory.StartNew(GetConversation);
+
         }
 
         private void GetConversation()
@@ -43,7 +45,7 @@ namespace CanvasManagerAppLayer
                 conversation = _dispatcher.GetConversation();
             }
 
-            if (conversation.GetType() == typeof(StateConversation))
+            if (conversation.GetType() == typeof(CreateCanvasStateConversation))
             {
                 (conversation as StateConversation).RequestEP = StorageEP;
                 (conversation as StateConversation).AuthEP = AuthManagerEp;

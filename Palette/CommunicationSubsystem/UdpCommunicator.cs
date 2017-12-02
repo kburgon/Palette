@@ -17,6 +17,7 @@ namespace CommunicationSubsystem
         #region Private Members
 
         private UdpClient _udpClient;
+        private UdpClient _udpReceiveClient;
         private Thread _receiveThread;
         private IPAddress Address { get; set; }
         private int Port { get; set; }
@@ -55,6 +56,8 @@ namespace CommunicationSubsystem
         {
             Logger.InfoFormat("New Port: {0}", p);
             Port = p;
+            if (_udpReceiveClient != null)
+                _udpReceiveClient = new UdpClient(new IPEndPoint(IPAddress.Any, Port));
         }
 
         /// <summary>
@@ -86,7 +89,7 @@ namespace CommunicationSubsystem
                 try
                 {
                     IPEndPoint myEp = new IPEndPoint(IPAddress.Any, Port);
-                    _udpClient = new UdpClient(myEp);
+                    _udpReceiveClient = new UdpClient(myEp);
                     _receiveStarted = true;
                     StartReceive();
                 }
@@ -147,7 +150,7 @@ namespace CommunicationSubsystem
                 {
                     try
                     {
-                        _udpClient.Client.ReceiveTimeout = MyTimeout;
+                        _udpReceiveClient.Client.ReceiveTimeout = MyTimeout;
                     }
                     catch (SocketException e)
                     {
@@ -155,12 +158,12 @@ namespace CommunicationSubsystem
                     }
 
 
-                    if (_udpClient != null)
+                    if (_udpReceiveClient != null)
                     {
                         var ep = new IPEndPoint(IPAddress.Any, 0);
                         try
                         {
-                            bytes = _udpClient.Receive(ref ep);
+                            bytes = _udpReceiveClient.Receive(ref ep);
                             Logger.InfoFormat("Received Message....");
                         }
                         catch (SocketException e)

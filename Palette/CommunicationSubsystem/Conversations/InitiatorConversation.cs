@@ -12,7 +12,7 @@ namespace CommunicationSubsystem.Conversations
         public InitiatorConversation(int waitTimeMs = 100) 
             : base(waitTimeMs)
         {
-
+            ProcessId = Guid.NewGuid();
         }
 
         protected override void StartConversation()

@@ -5,6 +5,7 @@ using CommunicationSubsystem.Conversations;
 using CommunicationSubsystem.ConversationFactories;
 using System.Threading;
 using log4net;
+using System.Net;
 
 namespace CommunicationSubsystem
 {
@@ -39,6 +40,10 @@ namespace CommunicationSubsystem
 
         public UdpCommunicator UdpCommunicator;
         public bool ConversationEnd;
+        public IPEndPoint AuthEP { get; set; } = null;
+        public IPEndPoint CanvasManagerEP { get; set; } = null;
+        public IPEndPoint CanvasStorageManagerEP { get; set; } = null;
+        public IPEndPoint DisplayManagerEP { get; set; } = null;
 
         #endregion
 
@@ -139,10 +144,13 @@ namespace CommunicationSubsystem
         /// </summary>
         public void RunListener()
         {
+            Envelope tempEnvelope = new Envelope();
             while (_listening)
             {
-                if (_myEnvelope != null)
+                if (_myEnvelope != tempEnvelope && _myEnvelope != null)
                 {
+                    tempEnvelope.Message = _myEnvelope.Message;
+                    tempEnvelope.RemoteEP = _myEnvelope.RemoteEP;
                     EnvelopeQueue envQueue = null;
                     lock (_dictionaryLock)
                     {
@@ -155,11 +163,7 @@ namespace CommunicationSubsystem
                         else
                         {
                             Logger.Info("Creating new queue and conversation");
-                            envQueue = GetQueue(_myEnvelope.Message.ConversationId);
-                            Conversation conversation = _conversationFactory.CreateFromMessageType(_myEnvelope.Message);
-                            EnqueueEnvelope(_myEnvelope);
-                            conversation.EnvelopeQueue = envQueue;
-                            ConversationDict.Add(_myEnvelope.Message.ConversationId, conversation);
+                            StartConversationByMessageType(tempEnvelope);
                         }
                     }
                 }
@@ -253,13 +257,18 @@ namespace CommunicationSubsystem
         {
             lock (_dictionaryLock)
             {
-
+                List<Tuple<Guid, short>> convDeleteKeys = new List<Tuple<Guid, short>>();
 
                 foreach (Conversation conv in ConversationDict.Values)
                 {
                     EnvelopeQueue queue = GetQueue(conv.ConversationId);
                     if (queue != null && queue.EndOfConversation)
-                        EndConversation(conv.ConversationId);
+                        convDeleteKeys.Add(conv.ConversationId);                   
+                }
+
+                foreach(Tuple<Guid, short> key in convDeleteKeys)
+                {
+                    EndConversation(key);
                 }
             }
         }
