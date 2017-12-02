@@ -13,31 +13,36 @@ namespace CommunicationSubsystem.Conversations
 
         protected override void StartConversation()
         {
+            if (EnvelopeQueue.GetCount() == 1)
+                InitialReceivedEnvelope = EnvelopeQueue.Dequeue();
+
+            ProcessId = InitialReceivedEnvelope.Message.ConversationId.Item1;
+
             ProcessReceivedMessage();
 
-            var authMessage = CreateAuthRequest();
-            var authEnvelope = new Envelope()
-            {
-                RemoteEP = AuthEP,
-                Message = authMessage
-            };
+            //var authMessage = CreateAuthRequest();
+            //var authEnvelope = new Envelope()
+            //{
+            //    RemoteEP = AuthEP,
+            //    Message = authMessage
+            //};
 
-            var authSendreceiveSuccess = false;
-            for (int receiveAttempt = 0; receiveAttempt < 30 && !authSendreceiveSuccess; receiveAttempt++)
-            {
-                authSendreceiveSuccess = AttemptAuthVerification(authEnvelope);
-            }
+            //var authSendreceiveSuccess = false;
+            //for (int receiveAttempt = 0; receiveAttempt < 30 && !authSendreceiveSuccess; receiveAttempt++)
+            //{
+            //    authSendreceiveSuccess = AttemptAuthVerification(authEnvelope);
+            //}
 
-            if (!authSendreceiveSuccess)
-            {
-                ProcessFailure();
-                return;
-            }
+            //if (!authSendreceiveSuccess)
+            //{
+            //    ProcessFailure();
+            //    return;
+            //}
 
             var message = CreateRequest();
             var envelope = new Envelope()
             {
-                RemoteEP = RequestEP,
+                RemoteEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 11900),
                 Message = message
             };
 

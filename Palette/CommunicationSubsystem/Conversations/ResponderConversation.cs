@@ -4,9 +4,11 @@ namespace CommunicationSubsystem.Conversations
 {
     public abstract class ResponderConversation : Conversation
     {
+
         protected override void StartConversation()
         {
             var message = ReceivedEnvelope.Message;
+            ProcessId = message.ConversationId.Item1;
             ProcessReceivedMessage( message );
 
             var reply = CreateReply();
