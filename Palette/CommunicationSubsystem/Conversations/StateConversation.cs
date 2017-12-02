@@ -128,11 +128,6 @@ namespace CommunicationSubsystem.Conversations
             ConversationId = InitialReceivedEnvelope.Message.ConversationId;
         }
 
-        public virtual Type GetType()
-        {
-            return typeof(StateConversation);
-        }
-
         protected abstract Message CreateAuthRequest();
         protected abstract void ProcessAuthReply(Message replyMessage);
         protected abstract Message CreateRequest();
