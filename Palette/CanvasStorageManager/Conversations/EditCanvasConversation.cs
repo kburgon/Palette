@@ -6,12 +6,8 @@ namespace CanvasStorageManager.Conversations
 {
     internal class EditCanvasConversation : ResponderConversation
     {
-        private CanvasRepository _repo;
+        public CanvasRepository _canvasRepo;
 
-        public EditCanvasConversation(CanvasRepository repo)
-        {
-            _repo = repo;
-        }
 
         protected override void ProcessFailure() { }
 

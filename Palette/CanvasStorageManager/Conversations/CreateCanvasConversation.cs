@@ -3,17 +3,20 @@ using CanvasStorageManager.DataPersistence;
 using CommunicationSubsystem.Conversations;
 using Messages;
 using SharedAppLayer.Entitities;
+using System.Net;
 
 namespace CanvasStorageManager.Conversations
 {
     internal class CreateCanvasConversation : ResponderConversation
     {
-        private readonly CanvasRepository _canvasRepo;
+        public CanvasRepository _canvasRepo;
         private Canvas _createdCanvas;
 
-        public CreateCanvasConversation(CanvasRepository canvasRepo)
+        public CreateCanvasConversation()
         {
-            _canvasRepo = canvasRepo;
+            var _dataStore = new FileDataStore();
+            _canvasRepo = new CanvasRepository(_dataStore);
+            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12345);
         }
 
         protected override void ProcessFailure()
@@ -31,9 +34,13 @@ namespace CanvasStorageManager.Conversations
 
         protected override Message CreateReply()
         {
+            var message = EnvelopeQueue.Dequeue();
+            var messageNum = message.Message.MessageNumber.Item2 + 1;
             return new CanvasMessage
             {
-                CanvasId = _createdCanvas.CanvasId
+                CanvasId = _createdCanvas.CanvasId,
+                ConversationId = message.Message.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(message.Message.MessageNumber.Item1, (short)messageNum)
             };
         }
     }

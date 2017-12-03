@@ -9,7 +9,7 @@ namespace CommunicationSubsystem.Conversations
     {
         public IPEndPoint RemoteEndPoint { get; set; }
 
-        public InitiatorConversation(int waitTimeMs = 100) 
+        public InitiatorConversation(int waitTimeMs = 5000) 
             : base(waitTimeMs)
         {
             ProcessId = Guid.NewGuid();

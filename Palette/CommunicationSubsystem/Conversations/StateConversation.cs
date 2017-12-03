@@ -11,6 +11,11 @@ namespace CommunicationSubsystem.Conversations
         public IPEndPoint RequestEP { get; set; }
         public IPEndPoint AuthEP { get; set; }
 
+        public StateConversation(int waitTimeMs = 4000) : base(waitTimeMs)
+        {
+
+        }
+
         protected override void StartConversation()
         {
             if (EnvelopeQueue.GetCount() == 1)
@@ -57,6 +62,8 @@ namespace CommunicationSubsystem.Conversations
                 ProcessFailure();
                 return;
             }
+
+            while (EnvelopeQueue.GetCount() == 0) { }
 
             var updateEnvelope = new Envelope()
             {

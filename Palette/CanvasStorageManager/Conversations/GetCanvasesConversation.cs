@@ -8,12 +8,13 @@ namespace CanvasStorageManager.Conversations
 {
     internal class GetCanvasesConversation : ResponderConversation
     {
-        private readonly CanvasRepository _canvasRepository;
+        public CanvasRepository _canvasRepo;
         private IEnumerable<Canvas> _canvases;
 
-        public GetCanvasesConversation(CanvasRepository canvasRepository)
+        public GetCanvasesConversation()
         {
-            _canvasRepository = canvasRepository;
+            var _dataStore = new FileDataStore();
+            _canvasRepo = new CanvasRepository(_dataStore);
         }
 
         protected override void ProcessFailure()
@@ -23,7 +24,7 @@ namespace CanvasStorageManager.Conversations
 
         protected override void ProcessReceivedMessage(Message message)
         {
-            _canvases = _canvasRepository.GetAll();
+            _canvases = _canvasRepo.GetAll();
         }
 
         protected override Message CreateReply()

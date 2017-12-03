@@ -41,19 +41,19 @@ namespace CanvasStorageManager
         private CreateCanvasConversation CreateCanvasConvsersation()
         {
             var repo = CreateCanvasRepo();
-            return new CreateCanvasConversation( repo );
+            return new CreateCanvasConversation() { _canvasRepo = repo };
         }
 
         private EditCanvasConversation EditCanvasConversation()
         {
             var repo = CreateCanvasRepo();
-            return new EditCanvasConversation( repo );
+            return new EditCanvasConversation() { _canvasRepo = repo };
         }
 
         private GetCanvasesConversation GetCanvasListConversation()
         {
             var repo = CreateCanvasRepo();
-            return new GetCanvasesConversation( repo );
+            return new GetCanvasesConversation() { _canvasRepo = repo };
         }
 
         private CanvasRepository CreateCanvasRepo()

@@ -69,6 +69,7 @@ namespace AdminClientAppLayer
                 while (conversation.CanvasId == null)
                 { }
                 CreatedCanvasIdHandler?.Invoke(conversation.CanvasId.Item1);
+                Dispatcher.StopListener();
             }
             catch (Exception e)
             {

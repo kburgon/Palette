@@ -16,7 +16,7 @@ namespace CommunicationSubsystem
     {
         #region Private Members
 
-        private UdpClient _udpClient;
+        private UdpClient _udpSendClient;
         private UdpClient _udpReceiveClient;
         private Thread _receiveThread;
         private IPAddress Address { get; set; }
@@ -57,7 +57,10 @@ namespace CommunicationSubsystem
             Logger.InfoFormat("New Port: {0}", p);
             Port = p;
             if (_udpReceiveClient != null)
-                _udpReceiveClient = new UdpClient(new IPEndPoint(IPAddress.Any, Port));
+                _udpReceiveClient.Close();
+
+            _udpReceiveClient = new UdpClient(new IPEndPoint(IPAddress.Any, Port));
+
         }
 
         /// <summary>
@@ -89,7 +92,8 @@ namespace CommunicationSubsystem
                 try
                 {
                     IPEndPoint myEp = new IPEndPoint(IPAddress.Any, Port);
-                    _udpReceiveClient = new UdpClient(myEp);
+                    if(_udpReceiveClient == null)
+                        _udpReceiveClient = new UdpClient(myEp);
                     _receiveStarted = true;
                     StartReceive();
                 }
@@ -112,10 +116,10 @@ namespace CommunicationSubsystem
                 _receiveThread.Join(MyTimeout);
                 _receiveThread = null;
 
-                if (_udpClient != null)
+                if (_udpReceiveClient != null)
                 {
-                    _udpClient.Close();
-                    _udpClient = null;
+                    _udpReceiveClient.Close();
+                    _udpReceiveClient = null;
                 }
             }
         }
@@ -126,13 +130,19 @@ namespace CommunicationSubsystem
         /// <param name="env"></param>
         public void Send(Envelope env)
         {
-            UdpClient client = new UdpClient();
-            Logger.InfoFormat("Send Message: {0} {1}", env.Message.MessageNumber.Item1, env.Message.MessageNumber.Item2);
-            var ep = env.RemoteEP;
-            if (env != null)
+            lock (_myLock)
             {
-                byte[] b = env.Message.Encode();
-                client.Send(b, b.Length, ep);
+                if (_udpSendClient == null)
+                    _udpSendClient = new UdpClient(new IPEndPoint(IPAddress.Any, 0));
+
+                Logger.InfoFormat("Send Message: {0} {1}", env.Message.MessageNumber.Item1, env.Message.MessageNumber.Item2);
+                Logger.InfoFormat("Send to: {0}:{1}", env.RemoteEP.Address, env.RemoteEP.Port);
+                var ep = env.RemoteEP;
+                if (env != null)
+                {
+                    byte[] b = env.Message.Encode();
+                    _udpSendClient.Send(b, b.Length, ep);
+                }
             }
         }
 
@@ -141,9 +151,9 @@ namespace CommunicationSubsystem
         /// </summary>
         public void Receive()
         {
+            Logger.Info("UDP Receiver Started...");
             while (_receiveStarted)
             {
-                Logger.Info("Attempting to receive message...");
                 Envelope newEnv = null;
                 byte[] bytes = null;
                 if (Port > 10000 && Port < 13000)
@@ -161,17 +171,19 @@ namespace CommunicationSubsystem
                     if (_udpReceiveClient != null)
                     {
                         var ep = new IPEndPoint(IPAddress.Any, 0);
-                        try
+                        lock (_myLock)
                         {
-                            bytes = _udpReceiveClient.Receive(ref ep);
-                            Logger.InfoFormat("Received Message....");
-                        }
-                        catch (SocketException e)
-                        {
-                            if (e.SocketErrorCode != SocketError.TimedOut)
+                            try
                             {
-                                Logger.DebugFormat("Error receiving message: {0}", e);
-                                throw;
+                                bytes = _udpReceiveClient.Receive(ref ep);
+                                Logger.InfoFormat("Received Message from: {0}:{1}", ep.Address, ep.Port);
+                            }
+                            catch (SocketException e)
+                            {
+                                if (e.SocketErrorCode != SocketError.TimedOut)
+                                {
+                                    Logger.DebugFormat("Error receiving message: {0}", e);
+                                }
                             }
                         }
 
