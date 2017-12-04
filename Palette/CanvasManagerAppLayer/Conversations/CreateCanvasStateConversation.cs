@@ -14,7 +14,7 @@ namespace CanvasManagerAppLayer.Conversations
 
         protected override Message CreateAuthRequest()
         {
-            throw new NotImplementedException();
+            return InitialReceivedEnvelope.Message;
         }
 
         protected override void ProcessAuthReply(Message receivedMessage)
