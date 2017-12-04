@@ -10,23 +10,21 @@ namespace CommunicationSubsystem.Conversations
         public Guid ProcessId { get; set; }
         public Tuple<Guid, short> ConversationId { get; set; }
         public EnvelopeQueue EnvelopeQueue { get; set; }
-        public UdpCommunicator Communicator { get; set; }
         public Envelope ReceivedEnvelope { get; set; }
         public int GetMessageWaitAmount { get; set; }
 
         protected Task _conversationExecution;
-        protected static UdpCommunicator _communicator;
+        public UdpCommunicator _communicator;
 
         private ILog Logger;
 
-        public Conversation(int waitTimeMs = 100)
+        public Conversation(int waitTimeMs = 5000)
         {
             GetMessageWaitAmount = waitTimeMs;
         }
 
         public void Execute()
         {
-            _communicator = new UdpCommunicator();
             _conversationExecution = Task.Factory.StartNew(StartConversation);
         }
 
@@ -40,7 +38,7 @@ namespace CommunicationSubsystem.Conversations
 
         public virtual void GetDataFromMessage(Message message)
         {
-            return;
+            ConversationId = message.ConversationId;
         }
     }
 }

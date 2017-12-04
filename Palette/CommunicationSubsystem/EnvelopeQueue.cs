@@ -66,6 +66,17 @@ namespace CommunicationSubsystem
             return _count;
         }
 
+        public bool Contains(Envelope env)
+        {
+            foreach(Envelope e in _envelopeQueue)
+            {
+                if (env.Message.MessageNumber == e.Message.MessageNumber)
+                    return true;
+            }
+
+            return false;
+        }
+
         #endregion
     }
 }

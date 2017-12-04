@@ -2,11 +2,17 @@
 using CommunicationSubsystem.Conversations;
 using Messages;
 using System;
+using System.Net;
 
 namespace CanvasManagerAppLayer.Conversations
 {
     public class CreateCanvasStateConversation : StateConversation
     {
+        public CreateCanvasStateConversation()
+        {
+            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12500);
+        }
+
         protected override void ProcessFailure()
         {
             throw new NotImplementedException();
@@ -41,8 +47,9 @@ namespace CanvasManagerAppLayer.Conversations
 
         protected override Message CreateUpdate()
         {
+            InitialReceivedEnvelope.RemoteEP.Port = 11900;
             var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
-            var message = new CreateCanvasMessage()
+            var message = new CanvasMessage()
             {
                 ConversationId = InitialReceivedEnvelope.Message.ConversationId,
                 MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)

@@ -1,9 +1,17 @@
 ﻿using Messages;
+using System;
+using System.Net;
 
 namespace CommunicationSubsystem.Conversations
 {
     public abstract class ResponderConversation : Conversation
     {
+        protected IPEndPoint RequestEP;
+
+        public ResponderConversation(int waitTimeMs = 0) : base(waitTimeMs)
+        {
+
+        }
 
         protected override void StartConversation()
         {
@@ -14,14 +22,9 @@ namespace CommunicationSubsystem.Conversations
             var reply = CreateReply();
             var envelope = new Envelope
             {
-                RemoteEP = ReceivedEnvelope.RemoteEP,
+                RemoteEP = RequestEP,
                 Message = reply
             };
-
-            for (int sendAttempt = 0; sendAttempt < 10; sendAttempt++)
-            {
-                Communicator.Send(envelope); 
-            }
 
             EnvelopeQueue.EndOfConversation = true;
         }

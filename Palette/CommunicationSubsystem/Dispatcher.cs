@@ -63,9 +63,12 @@ namespace CommunicationSubsystem
         /// <param name="env"></param>
         public void EnqueueEnvelope(Envelope env)
         {
-            Logger.InfoFormat("Adding envelope to queue: {0} {1}", env.Message.ConversationId.Item1, env.Message.ConversationId.Item2);
             EnvelopeQueue queue = GetQueue(env.Message.ConversationId);
-            queue.Enqueue(env);
+            if (!queue.Contains(env))
+            {
+                Logger.InfoFormat("Adding envelope to queue: {0} {1}", env.Message.ConversationId.Item1, env.Message.ConversationId.Item2);
+                queue.Enqueue(env);
+            }
         }
 
         /// <summary>
@@ -147,27 +150,22 @@ namespace CommunicationSubsystem
             Envelope tempEnvelope = new Envelope();
             while (_listening)
             {
-                if (_myEnvelope != tempEnvelope && _myEnvelope != null)
+                if (_myEnvelope != null)
                 {
-                    tempEnvelope.Message = _myEnvelope.Message;
-                    tempEnvelope.RemoteEP = _myEnvelope.RemoteEP;
-                    EnvelopeQueue envQueue = null;
                     lock (_dictionaryLock)
                     {
                         if (ConversationDict.ContainsKey(_myEnvelope.Message.ConversationId))
                         {
                             Logger.Info("Adding envelope to queue");
-                            //envQueue = GetQueue(_myEnvelope.Message.ConversationId);
                             EnqueueEnvelope(_myEnvelope);
                         }
                         else
                         {
                             Logger.Info("Creating new queue and conversation");
-                            StartConversationByMessageType(tempEnvelope);
+                            StartConversationByMessageType(_myEnvelope);
                         }
                     }
                 }
-
                 CheckConversationStatus();
             }
         }
@@ -187,7 +185,7 @@ namespace CommunicationSubsystem
             conversation.ReceivedEnvelope = env;
 
             conversation.EnvelopeQueue = envQueue;
-
+            conversation._communicator = UdpCommunicator;
             conversation.Execute();
 
             lock (_dictionaryLock)
@@ -206,6 +204,7 @@ namespace CommunicationSubsystem
             EnvelopeQueue envQueue = GetQueue(conver.ConversationId);;
             Conversation conversation = conver;
             conversation.EnvelopeQueue = envQueue;
+            conversation._communicator = UdpCommunicator;
             conversation.Execute();
 
             lock (_dictionaryLock)

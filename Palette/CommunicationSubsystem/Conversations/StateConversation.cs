@@ -11,9 +11,9 @@ namespace CommunicationSubsystem.Conversations
         public IPEndPoint RequestEP { get; set; }
         public IPEndPoint AuthEP { get; set; }
 
-        public override void GetDataFromMessage(Message message)
+        public StateConversation(int waitTimeMs = 4000) : base(waitTimeMs)
         {
-            base.GetDataFromMessage(message);
+
         }
 
         protected override void StartConversation()
@@ -46,7 +46,7 @@ namespace CommunicationSubsystem.Conversations
             var message = CreateRequest();
             var envelope = new Envelope()
             {
-                RemoteEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 11900),
+                RemoteEP = RequestEP,
                 Message = message
             };
 
@@ -61,6 +61,8 @@ namespace CommunicationSubsystem.Conversations
                 ProcessFailure();
                 return;
             }
+
+            while (EnvelopeQueue.GetCount() == 0) { }
 
             var updateEnvelope = new Envelope()
             {

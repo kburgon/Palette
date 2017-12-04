@@ -7,11 +7,12 @@ namespace CanvasStorageManager.Conversations
 {
     internal class DeleteCanvasConversation : ResponderConversation
     {
-        private readonly CanvasRepository _canvasRepo;
+        public CanvasRepository _canvasRepo;
 
-        public DeleteCanvasConversation(CanvasRepository canvasRepo)
+        public DeleteCanvasConversation()
         {
-            _canvasRepo = canvasRepo;
+            var _dataStore = new FileDataStore();
+            _canvasRepo = new CanvasRepository(_dataStore);
         }
 
         protected override void ProcessFailure()

@@ -83,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataPersistence\CanvasRepository.cs" />
-    <Compile Include="Conversations\CreateCanvasConvsersation.cs" />
+    <Compile Include="Conversations\CreateCanvasConversation.cs" />
     <Compile Include="Conversations\DeleteCanvasConversation.cs" />
     <Compile Include="Conversations\EditCanvasConversation.cs" />
     <Compile Include="Conversations\GetCanvasesConversation.cs" />
