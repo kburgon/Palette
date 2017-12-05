@@ -35,7 +35,12 @@ namespace CommunicationSubsystem
             Logger.InfoFormat("Adding envelope to queue for conversation: {0} {1}", env.Message.ConversationId.Item1, env.Message.ConversationId.Item2);
             lock(_myLock)
             {
-                _envelopeQueue.Add(env);
+                Envelope newEnv = new Envelope()
+                {
+                    RemoteEP = env.RemoteEP,
+                    Message = env.Message
+                };
+                _envelopeQueue.Add(newEnv);
                 _count = _envelopeQueue.Count;
             }
         }
@@ -75,6 +80,20 @@ namespace CommunicationSubsystem
             }
 
             return false;
+        }
+
+        public Type GetMessageType(Type t)
+        {
+            foreach(Envelope env in _envelopeQueue)
+            {
+                if(env.Message.GetType() == t)
+                {
+                    _envelopeQueue.Insert(0, env);
+                    return env.Message.GetType();
+                }
+            }
+
+            return null;
         }
 
         #endregion

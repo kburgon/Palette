@@ -1,6 +1,7 @@
 ﻿using System;
 using Messages;
 using CommunicationSubsystem.Conversations;
+using CommunicationSubsystem;
 
 namespace AdminClientAppLayer.Conversations
 {
@@ -30,11 +31,19 @@ namespace AdminClientAppLayer.Conversations
             return message;
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
             var message = (CanvasMessage)receivedMessage;
             CanvasId = new Tuple<int>(message.CanvasId);
-            EnvelopeQueue.EndOfConversation = true;
+            return EnvelopeQueue.EndOfConversation = true;
+        }
+
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            if (queue.GetMessageType(typeof(CanvasMessage)) == typeof(CanvasMessage))
+                return true;
+
+            return false;
         }
     }
 }

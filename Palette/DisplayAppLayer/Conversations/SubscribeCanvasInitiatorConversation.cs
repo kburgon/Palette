@@ -1,11 +1,17 @@
 ﻿using CommunicationSubsystem.Conversations;
 using System;
 using Messages;
+using CommunicationSubsystem;
 
 namespace DisplayAppLayer.Conversations
 {
     class SubscribeCanvasInitiatorConversation : InitiatorConversation
     {
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override Message CreateRequest()
         {
             throw new NotImplementedException();
@@ -16,7 +22,7 @@ namespace DisplayAppLayer.Conversations
             throw new NotImplementedException();
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
             throw new NotImplementedException();
         }

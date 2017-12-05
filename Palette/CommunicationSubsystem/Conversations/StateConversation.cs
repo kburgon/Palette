@@ -11,7 +11,7 @@ namespace CommunicationSubsystem.Conversations
         public IPEndPoint RequestEP { get; set; }
         public IPEndPoint AuthEP { get; set; }
 
-        public StateConversation(int waitTimeMs = 4000) : base(waitTimeMs)
+        public StateConversation(int waitTimeMs = 1500) : base(waitTimeMs)
         {
 
         }
@@ -52,7 +52,7 @@ namespace CommunicationSubsystem.Conversations
             };
 
             var sendReceiveSuccess = false;
-            for (int receiveAttempt = 0; receiveAttempt < 30 && !sendReceiveSuccess; receiveAttempt++)
+            for (int receiveAttempt = 0; receiveAttempt < 30 && !sendReceiveSuccess && !EnvelopeQueue.EndOfConversation; receiveAttempt++)
             {
                 sendReceiveSuccess = AttemptSendReceive(envelope);
             }
@@ -63,15 +63,14 @@ namespace CommunicationSubsystem.Conversations
                 return;
             }
 
-            while (EnvelopeQueue.GetCount() == 0) { }
-
             var updateEnvelope = new Envelope()
             {
                 RemoteEP = InitialReceivedEnvelope.RemoteEP,
                 Message = CreateUpdate()
             };
 
-            _communicator.Send(updateEnvelope);
+            if(!EnvelopeQueue.EndOfConversation)
+                _communicator.Send(updateEnvelope);
 
             EnvelopeQueue.EndOfConversation = true;
         }
@@ -81,6 +80,7 @@ namespace CommunicationSubsystem.Conversations
             var sendReceiveSuccess = false;
             _communicator.Send(envelope);
             Thread.Sleep(GetMessageWaitAmount);
+
             if (EnvelopeQueue.GetCount() != 0)
             {
                 sendReceiveSuccess = AttemptProcessReply();
@@ -93,9 +93,11 @@ namespace CommunicationSubsystem.Conversations
         {
             try
             {
+                CheckMessageType(EnvelopeQueue);
                 var envelope = EnvelopeQueue.Dequeue();
-                ProcessReply(envelope.Message);
-                return true;
+                if(ProcessReply(envelope.Message))
+                    return true;
+                return false;
             }
             catch (Exception)
             {
@@ -138,7 +140,8 @@ namespace CommunicationSubsystem.Conversations
         protected abstract Message CreateAuthRequest();
         protected abstract void ProcessAuthReply(Message replyMessage);
         protected abstract Message CreateRequest();
-        protected abstract void ProcessReply(Message receivedMessage);
+        protected abstract bool ProcessReply(Message receivedMessage);
         protected abstract Message CreateUpdate();
+        protected abstract bool CheckMessageType(EnvelopeQueue queue);
     }
 }

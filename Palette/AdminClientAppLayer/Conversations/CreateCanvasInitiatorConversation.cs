@@ -1,16 +1,19 @@
 ﻿using System;
+using CommunicationSubsystem;
 using CommunicationSubsystem.Conversations;
 using Messages;
+using log4net;
 
 namespace AdminClientAppLayer.Conversations
 {
     public class CreateCanvasInitiatorConversation : InitiatorConversation
     {
-        public Tuple<int> CanvasId { get; set; }
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(CreateCanvasInitiatorConversation));
+        public int CanvasId { get; set; }
 
         public CreateCanvasInitiatorConversation()
         {
-            CanvasId = null;
+            CanvasId = -1;
         }
 
         protected override void ProcessFailure()
@@ -29,11 +32,21 @@ namespace AdminClientAppLayer.Conversations
             return message;
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
             var message = (CanvasMessage)receivedMessage;
-            CanvasId = new Tuple<int>(message.CanvasId);
+            CanvasId = message.CanvasId;
+            Logger.InfoFormat("New CanvasId: {0}", CanvasId);
             EnvelopeQueue.EndOfConversation = true;
+            return true;
+        }
+
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            if (queue.GetMessageType(typeof(CanvasMessage)) == typeof(CanvasMessage))
+                return true;
+
+            return false;
         }
     }
 }

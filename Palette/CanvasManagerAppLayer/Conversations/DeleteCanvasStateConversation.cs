@@ -46,13 +46,17 @@ namespace CanvasManagerAppLayer.Conversations
             return message;
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
             var message = receivedMessage;
+            if(message.GetType() == typeof(CanvasMessage))
+                return true;
+            return false;
         }
 
         protected override Message CreateUpdate()
         {
+            InitialReceivedEnvelope.RemoteEP.Port = 11900;
             var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
             var message = new DeleteCanvasMessage
             {
@@ -61,6 +65,14 @@ namespace CanvasManagerAppLayer.Conversations
             };
 
             return message;
+        }
+
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            if (queue.GetMessageType(typeof(CanvasMessage)) == typeof(CanvasMessage))
+                return true;
+
+            return false;
         }
     }
 }

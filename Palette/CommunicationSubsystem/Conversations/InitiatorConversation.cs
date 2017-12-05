@@ -13,6 +13,7 @@ namespace CommunicationSubsystem.Conversations
             : base(waitTimeMs)
         {
             ProcessId = Guid.NewGuid();
+            ConversationId = new Tuple<Guid, short>(ProcessId, 1);
         }
 
         protected override void StartConversation()
@@ -44,7 +45,7 @@ namespace CommunicationSubsystem.Conversations
             var sendReceiveSuccess = false;
             _communicator.Send(envelope);
             Thread.Sleep(GetMessageWaitAmount);
-            if (EnvelopeQueue.GetCount() != 0)
+            if (EnvelopeQueue.GetCount() != 0 && CheckMessageType(EnvelopeQueue))
             {
                 sendReceiveSuccess = AttemptProcessReply();
             }
@@ -56,9 +57,11 @@ namespace CommunicationSubsystem.Conversations
         {
             try
             {
+                CheckMessageType(EnvelopeQueue);
                 var envelope = EnvelopeQueue.Dequeue();
-                ProcessReply(envelope.Message);
-                return true;
+                if (ProcessReply(envelope.Message))
+                    return true;
+                return false;
             }
             catch (Exception)
             {
@@ -67,6 +70,7 @@ namespace CommunicationSubsystem.Conversations
         }
 
         protected abstract Message CreateRequest();
-        protected abstract void ProcessReply(Message receivedMessage);
+        protected abstract bool ProcessReply(Message receivedMessage);
+        protected abstract bool CheckMessageType(EnvelopeQueue queue);
     }
 }

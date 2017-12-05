@@ -10,6 +10,11 @@ namespace DisplayManagerAppLayer.Conversations
     {
         private IEnumerable<string> _displayList;
 
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override Message CreateAuthRequest()
         {
             throw new System.NotImplementedException();
@@ -49,10 +54,12 @@ namespace DisplayManagerAppLayer.Conversations
             throw new System.NotImplementedException();
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
             var message = (DisplayListMessage)receivedMessage;
             _displayList = message.Displays;
+
+            return true;
         }
     }
 }

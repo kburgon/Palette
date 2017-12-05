@@ -15,6 +15,8 @@ namespace CommunicationSubsystem.ConversationFactories
 
         public virtual Conversation CreateFromMessageType(Message message)
         {
+            if (ResponderConversationTypes.Count == 0)
+                return null;
             var conversation = (Conversation)Activator.CreateInstance(ResponderConversationTypes[message.GetType()]);
             conversation.GetDataFromMessage(message);
             return conversation;

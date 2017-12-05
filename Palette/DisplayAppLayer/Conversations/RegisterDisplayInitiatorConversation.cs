@@ -1,10 +1,16 @@
-﻿using CommunicationSubsystem.Conversations;
+﻿using CommunicationSubsystem;
+using CommunicationSubsystem.Conversations;
 using Messages;
 
 namespace DisplayAppLayer.Conversations
 {
     class RegisterDisplayInitiatorConversation : InitiatorConversation
     {
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            throw new System.NotImplementedException();
+        }
+
         protected override Message CreateRequest()
         {
             throw new System.NotImplementedException();
@@ -15,7 +21,7 @@ namespace DisplayAppLayer.Conversations
             throw new System.NotImplementedException();
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
             throw new System.NotImplementedException();
         }

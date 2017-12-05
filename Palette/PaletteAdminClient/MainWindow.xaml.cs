@@ -43,6 +43,10 @@ namespace PaletteAdminClient
             if (!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke(new CreatedCanvasIdHandler(HandleCanvasIdUpdate), canvasId);
+                ListBoxItem item = new ListBoxItem();
+                item.Content = canvasId;
+                CanvasIdListBox.Items.Add(item);
+                CanvasIdListBox.UpdateLayout();
                 return;
             }
 
