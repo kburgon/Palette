@@ -2,6 +2,7 @@
 using DisplayAppLayer;
 using System.Net;
 using System;
+using System.Drawing;
 
 namespace Display
 {
@@ -23,15 +24,16 @@ namespace Display
         {
             InitializeComponent();
 
-            DisplayPortTextBox.Text = DefaultPort;
+            DisplayPortTextBox.Text = "12200";
 
             DisplayManagerAddressTextBox.Text = DefaultAddress;
-            DisplayManagerPortTextBox.Text = DefaultPort;
+            DisplayManagerPortTextBox.Text = "12250";
 
             CanvasManagerAddressTextBox.Text = DefaultAddress;
-            CanvasManagerPortTextBox.Text = DefaultPort;
+            CanvasManagerPortTextBox.Text = "12345";
 
             _displayAppLayer = new DisplayAppLayer.Display();
+
         }
 
         private static bool IsValidIpAddress(string ip, out IPAddress convertedIp)

@@ -40,7 +40,14 @@
             </Grid>
         </TabItem>
         <TabItem x:Name="CanvasTab" Header="Canvas">
-            <Grid x:Name="CanvasGrid">
+            <Grid x:Name="CanvasGrid" Background="Black">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="DisplayCanvas" Grid.Column="0" Grid.Row="0" Background="White"/>
             </Grid>
         </TabItem>
     </TabControl>

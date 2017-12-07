@@ -37,8 +37,7 @@ namespace AdminClientAppLayer.Conversations
             var message = (CanvasMessage)receivedMessage;
             CanvasId = message.CanvasId;
             Logger.InfoFormat("New CanvasId: {0}", CanvasId);
-            EnvelopeQueue.EndOfConversation = true;
-            return true;
+            return EnvelopeQueue.EndOfConversation = true;
         }
 
         protected override bool CheckMessageType(EnvelopeQueue queue)

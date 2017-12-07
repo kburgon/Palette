@@ -89,13 +89,13 @@ namespace AdminClientAppLayer
                 {
                     ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                     RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber),
-                    CanvasId = new Tuple<int>(canvasId)
+                    CanvasId = canvasId
                 };
 
                 Dispatcher.StartConversationByConversationType(conversation);
-                while (conversation.CanvasId == null)
+                while (conversation.CanvasId == -1)
                 { }
-                DeleteCanvasHandler?.Invoke(conversation.CanvasId.Item1);
+                DeleteCanvasHandler?.Invoke(conversation.CanvasId);
             }
             catch (Exception e)
             {

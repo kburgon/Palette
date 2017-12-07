@@ -2,11 +2,20 @@
 using CommunicationSubsystem.Conversations;
 using Messages;
 using System;
+using System.Net;
 
 namespace DisplayManagerAppLayer.Conversations
 {
     public class AssignCanvasStateConversation : StateConversation
     {
+        public string DisplayAddress;
+        public DisplayManager _displayManager;
+
+        public AssignCanvasStateConversation()
+        {
+            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12250);
+        }
+
         protected override bool CheckMessageType(EnvelopeQueue queue)
         {
             throw new NotImplementedException();
@@ -19,11 +28,15 @@ namespace DisplayManagerAppLayer.Conversations
 
         protected override Message CreateRequest()
         {
-            var stepNumber = InitialReceivedEnvelope.Message.MessageNumber.Item2;
+            var stepNumber = InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1;
+            var address = _displayManager.GetDisplayAddress((InitialReceivedEnvelope.Message as CanvasAssignMessage).DisplayId);
+            RequestEP = new IPEndPoint(IPAddress.Parse(address), 12200);
             var message = new CanvasAssignMessage
             {
                 ConversationId = InitialReceivedEnvelope.Message.ConversationId,
-                MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber)
+                MessageNumber = new Tuple<Guid, short>(ProcessId, (short)stepNumber),
+                DisplayId = (InitialReceivedEnvelope.Message as CanvasAssignMessage).DisplayId,
+                CanvasId = (InitialReceivedEnvelope.Message as CanvasAssignMessage).CanvasId
             };
 
             return message;
