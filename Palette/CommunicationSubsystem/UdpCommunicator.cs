@@ -124,19 +124,26 @@ namespace CommunicationSubsystem
         /// <param name="env"></param>
         public void Send(Envelope env)
         {
-            lock (_myLock)
+            try
             {
-                if (_udpSendClient == null)
-                    _udpSendClient = new UdpClient(new IPEndPoint(IPAddress.Any, 0));
-
-                Logger.InfoFormat("Send Message: {0} {1}", env.Message.MessageNumber.Item1, env.Message.MessageNumber.Item2);
-                Logger.InfoFormat("Send to: {0}:{1}", env.RemoteEP.Address, env.RemoteEP.Port);
-                var ep = env.RemoteEP;
-                if (env != null)
+                lock (_myLock)
                 {
-                    byte[] b = env.Message.Encode();
-                    _udpSendClient.Send(b, b.Length, ep);
+                    if (_udpSendClient == null)
+                        _udpSendClient = new UdpClient(new IPEndPoint(IPAddress.Any, 0));
+
+                    Logger.InfoFormat("Send Message: {0} {1}", env.Message.MessageNumber.Item1, env.Message.MessageNumber.Item2);
+                    Logger.InfoFormat("Send to: {0}:{1}", env.RemoteEP.Address, env.RemoteEP.Port);
+                    var ep = env.RemoteEP;
+                    if (env != null)
+                    {
+                        byte[] b = env.Message.Encode();
+                        _udpSendClient.Send(b, b.Length, ep);
+                    }
                 }
+            }
+            catch(Exception e)
+            {
+                Logger.DebugFormat("Error: {0}", e);
             }
         }
 
