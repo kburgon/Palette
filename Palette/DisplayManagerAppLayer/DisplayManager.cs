@@ -11,29 +11,36 @@ namespace DisplayManagerAppLayer
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(DisplayManager));
         private static Dispatcher _dispatcher;
-        private Dictionary<int, Tuple<int, IPEndPoint>> DisplayEPDictionary;
+        private Dictionary<int, Tuple<int, string>> DisplayEPDictionary;
         private IPEndPoint AuthManagerEP;
 
         public DisplayManager()
         {
             Logger.InfoFormat("Display Manager Started....");
             _dispatcher = new Dispatcher();
-            DisplayEPDictionary = new Dictionary<int, Tuple<int, IPEndPoint>>();
+            DisplayEPDictionary = new Dictionary<int, Tuple<int, string>>();
             AuthManagerEP = new IPEndPoint(IPAddress.Any, 0);
         }
 
-        public void AddDisplay(IPEndPoint displayEP)
+        public void AddDisplay(string displayIP)
         {
             var id = GenerateDisplayId();
-            var display = new Tuple<int, IPEndPoint>(id, displayEP);
+            var display = new Tuple<int, string>(id, displayIP);
             DisplayEPDictionary.Add(id, display);
-            Logger.InfoFormat("Adding display to Display Manager: {0} {1}", id, displayEP.Address);
+            Logger.InfoFormat("Adding display to Display Manager: {0} {1}", id, displayIP);
+        }
+
+        public string GetDisplayAddress(int id)
+        {
+            if (DisplayEPDictionary.ContainsKey(id))
+                return DisplayEPDictionary[id].Item2;
+            return null;
         }
 
         public void RemoveDisplay(int id)
         {
             if (DisplayEPDictionary.ContainsKey(id)) {
-                Logger.InfoFormat("Removed display from Display Manager: {0} {1}", id, DisplayEPDictionary[id].Item2.Address);
+                Logger.InfoFormat("Removed display from Display Manager: {0} {1}", id, DisplayEPDictionary[id].Item2);
                 DisplayEPDictionary.Remove(id);
             }
             else
@@ -87,7 +94,7 @@ namespace DisplayManagerAppLayer
         public List<int> GenerateIdList()
         {
             List<int> idList = new List<int>();
-            foreach(Tuple<int, IPEndPoint> display in DisplayEPDictionary.Values)
+            foreach(Tuple<int, string> display in DisplayEPDictionary.Values)
             {
                 idList.Add(display.Item1);
             }
@@ -95,7 +102,7 @@ namespace DisplayManagerAppLayer
             return idList;
         }
 
-        private int GenerateDisplayId()
+        public int GenerateDisplayId()
         {
             Logger.InfoFormat("Generating display id...");
             if (DisplayEPDictionary.Count == 0)

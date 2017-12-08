@@ -147,7 +147,7 @@ namespace CommunicationSubsystem
         /// </summary>
         public void RunListener()
         {
-            Envelope tempEnvelope = new Envelope();
+            int count = 0;
             while (_listening)
             {
                 if (_myEnvelope != null)
@@ -164,9 +164,16 @@ namespace CommunicationSubsystem
                             Logger.Info("Creating new queue and conversation");
                             StartConversationByMessageType(_myEnvelope);
                         }
+                        _myEnvelope = null;
                     }
                 }
-                CheckConversationStatus();
+                if (count == 50)
+                {
+                    CheckConversationStatus();
+                    count = 0;
+                }
+                else
+                    count++;
             }
         }
 
@@ -182,6 +189,8 @@ namespace CommunicationSubsystem
             EnqueueEnvelope(env);
 
             var conversation = _conversationFactory.CreateFromMessageType(env.Message);
+            if (conversation == null)
+                return;
             conversation.ReceivedEnvelope = env;
 
             conversation.EnvelopeQueue = envQueue;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Messages;
 using CommunicationSubsystem.Conversations;
 using SharedAppLayer.Entitities;
+using CommunicationSubsystem;
 
 namespace AdminClientAppLayer.Conversations
 {
@@ -31,10 +32,18 @@ namespace AdminClientAppLayer.Conversations
             return message;
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
             Canvases = (receivedMessage as CanvasListMessage)?.Canvases ?? new List<Canvas> { };
-            EnvelopeQueue.EndOfConversation = true;
+            return EnvelopeQueue.EndOfConversation = true;
+        }
+
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            if (queue.GetMessageType(typeof(CanvasMessage)) == typeof(CanvasMessage))
+                return true;
+
+            return false;
         }
     }
 }

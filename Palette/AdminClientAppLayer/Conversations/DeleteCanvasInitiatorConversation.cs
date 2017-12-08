@@ -1,16 +1,17 @@
 ﻿using System;
 using Messages;
 using CommunicationSubsystem.Conversations;
+using CommunicationSubsystem;
 
 namespace AdminClientAppLayer.Conversations
 {
     public class DeleteCanvasInitiatorConversation : InitiatorConversation
     {
-        public Tuple<int> CanvasId { get; set; }
+        public int CanvasId { get; set; }
 
         public DeleteCanvasInitiatorConversation()
         {
-            CanvasId = null;
+            CanvasId = -1;
         }
 
         protected override void ProcessFailure()
@@ -24,17 +25,25 @@ namespace AdminClientAppLayer.Conversations
             {
                 ConversationId = this.ConversationId,
                 MessageNumber = new Tuple<Guid, short>(this.ProcessId, 1),
-                CanvasId = CanvasId.Item1
+                CanvasId = this.CanvasId
             };
 
             return message;
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
             var message = (CanvasMessage)receivedMessage;
-            CanvasId = new Tuple<int>(message.CanvasId);
-            EnvelopeQueue.EndOfConversation = true;
+            CanvasId = message.CanvasId;
+            return EnvelopeQueue.EndOfConversation = true;
+        }
+
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            if (queue.GetMessageType(typeof(CanvasMessage)) == typeof(CanvasMessage))
+                return true;
+
+            return false;
         }
     }
 }

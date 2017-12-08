@@ -44,14 +44,20 @@ namespace CanvasManagerAppLayer.Conversations
             return message;
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
-            var message = (CanvasListMessage) receivedMessage;
-            _canvasList = message.Canvases;
+            if (receivedMessage.GetType() == typeof(CanvasListMessage))
+            {
+                var message = (CanvasListMessage)receivedMessage;
+                _canvasList = message.Canvases;
+                return true;
+            }
+            return false;
         }
 
         protected override Message CreateUpdate()
         {
+            InitialReceivedEnvelope.RemoteEP.Port = 11900;
             var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
             var message = new CanvasListMessage
             {
@@ -60,6 +66,14 @@ namespace CanvasManagerAppLayer.Conversations
             };
 
             return message;
+        }
+
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            if (queue.GetMessageType(typeof(CanvasListMessage)) == typeof(CanvasListMessage))
+                return true;
+
+            return false;
         }
     }
 }

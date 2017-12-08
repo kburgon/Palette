@@ -115,12 +115,6 @@ namespace CommunicationSubsystem
                 _receiveStarted = false;
                 _receiveThread.Join(MyTimeout);
                 _receiveThread = null;
-
-                if (_udpReceiveClient != null)
-                {
-                    _udpReceiveClient.Close();
-                    _udpReceiveClient = null;
-                }
             }
         }
 

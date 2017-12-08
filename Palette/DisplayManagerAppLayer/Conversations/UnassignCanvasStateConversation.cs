@@ -2,11 +2,22 @@
 using CommunicationSubsystem.Conversations;
 using Messages;
 using System;
+using System.Net;
 
 namespace DisplayManagerAppLayer.Conversations
 {
     public class UnassignCanvasStateConversation : StateConversation
     {
+        public UnassignCanvasStateConversation()
+        {
+            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12250);
+        }
+
+        protected override bool CheckMessageType(EnvelopeQueue queue)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override Message CreateAuthRequest()
         {
             throw new System.NotImplementedException();
@@ -26,6 +37,7 @@ namespace DisplayManagerAppLayer.Conversations
 
         protected override Message CreateUpdate()
         {
+            InitialReceivedEnvelope.RemoteEP.Port = 11900;
             var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
             var message = new CanvasUnassignMessage
             {
@@ -46,9 +58,11 @@ namespace DisplayManagerAppLayer.Conversations
             throw new System.NotImplementedException();
         }
 
-        protected override void ProcessReply(Message receivedMessage)
+        protected override bool ProcessReply(Message receivedMessage)
         {
             var message = receivedMessage;
+
+            return true;
         }
     }
 }

@@ -3,6 +3,8 @@ using CanvasStorageManager.DataPersistence;
 using CommunicationSubsystem.Conversations;
 using Messages;
 using SharedAppLayer.Entitities;
+using System;
+using System.Net;
 
 namespace CanvasStorageManager.Conversations
 {
@@ -15,6 +17,7 @@ namespace CanvasStorageManager.Conversations
         {
             var _dataStore = new FileDataStore();
             _canvasRepo = new CanvasRepository(_dataStore);
+            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12345);
         }
 
         protected override void ProcessFailure()
@@ -29,9 +32,13 @@ namespace CanvasStorageManager.Conversations
 
         protected override Message CreateReply()
         {
+            var message = EnvelopeQueue.Dequeue();
+            var messageNum = message.Message.MessageNumber.Item2 + 1;
             return new CanvasListMessage
             {
-                Canvases = _canvases
+                Canvases = _canvases,
+                ConversationId = message.Message.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(message.Message.MessageNumber.Item1, (short)messageNum)
             };
         }
     }

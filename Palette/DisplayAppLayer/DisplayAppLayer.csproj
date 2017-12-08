@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -57,7 +60,13 @@
       <Project>{CAE99195-E7F6-409E-A0C7-C03BD5EB7DFC}</Project>
       <Name>Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharedAppLayer\SharedAppLayer.csproj">
+      <Project>{A91EAD19-693A-4099-B565-7284F2FE3122}</Project>
+      <Name>SharedAppLayer</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

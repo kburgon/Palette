@@ -61,15 +61,14 @@ namespace AdminClientAppLayer
             {
                 var conversation = new CreateCanvasInitiatorConversation
                 {
-                    ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                     RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
                 };
 
                 Dispatcher.StartConversationByConversationType(conversation);
-                while (conversation.CanvasId == null)
+                while (conversation.CanvasId == -1)
                 { }
-                CreatedCanvasIdHandler?.Invoke(conversation.CanvasId.Item1);
-                Dispatcher.StopListener();
+                CreatedCanvasIdHandler?.Invoke(conversation.CanvasId);
+                //Dispatcher.StopListener();
             }
             catch (Exception e)
             {
@@ -90,13 +89,13 @@ namespace AdminClientAppLayer
                 {
                     ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                     RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber),
-                    CanvasId = new Tuple<int>(canvasId)
+                    CanvasId = canvasId
                 };
 
                 Dispatcher.StartConversationByConversationType(conversation);
-                while (conversation.CanvasId == null)
+                while (conversation.CanvasId == -1)
                 { }
-                DeleteCanvasHandler?.Invoke(conversation.CanvasId.Item1);
+                DeleteCanvasHandler?.Invoke(conversation.CanvasId);
             }
             catch (Exception e)
             {

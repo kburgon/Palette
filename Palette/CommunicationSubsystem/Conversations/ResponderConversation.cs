@@ -8,11 +8,6 @@ namespace CommunicationSubsystem.Conversations
     {
         protected IPEndPoint RequestEP;
 
-        public ResponderConversation(int waitTimeMs = 0) : base(waitTimeMs)
-        {
-
-        }
-
         protected override void StartConversation()
         {
             var message = ReceivedEnvelope.Message;
@@ -26,6 +21,8 @@ namespace CommunicationSubsystem.Conversations
                 Message = reply
             };
 
+            _communicator.Send(envelope);
+            
             EnvelopeQueue.EndOfConversation = true;
         }
 

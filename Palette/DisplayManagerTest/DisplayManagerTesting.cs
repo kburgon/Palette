@@ -15,14 +15,14 @@ namespace DisplayManagerTest
         public void AddDisplayTest()
         {
             DisplayManagerAppLayer.DisplayManager displayManager = new DisplayManagerAppLayer.DisplayManager();
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
+            displayManager.AddDisplay("127.0.0.1");
 
             Assert.AreEqual(1, displayManager.GetDisplayCount());
 
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
+            displayManager.AddDisplay("127.0.0.1");
+            displayManager.AddDisplay("127.0.0.1");
+            displayManager.AddDisplay("127.0.0.1");
+            displayManager.AddDisplay("127.0.0.1");
 
             Assert.AreEqual(5, displayManager.GetDisplayCount());
 
@@ -39,10 +39,10 @@ namespace DisplayManagerTest
         public void RemoveDisplayTest()
         {
             DisplayManagerAppLayer.DisplayManager displayManager = new DisplayManagerAppLayer.DisplayManager();
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
+            displayManager.AddDisplay("127.0.0.1");
+            displayManager.AddDisplay("127.0.0.1");
+            displayManager.AddDisplay("127.0.0.1");
+            displayManager.AddDisplay("127.0.0.1");
 
             Assert.AreEqual(4, displayManager.GetDisplayCount());
 
@@ -61,10 +61,10 @@ namespace DisplayManagerTest
         public void RemoveDisplayBadTest()
         {
             DisplayManagerAppLayer.DisplayManager displayManager = new DisplayManagerAppLayer.DisplayManager();
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
-            displayManager.AddDisplay(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12001));
+            displayManager.AddDisplay("127.0.0.1");
+            displayManager.AddDisplay("127.0.0.1");
+            displayManager.AddDisplay("127.0.0.1");
+            displayManager.AddDisplay("127.0.0.1");
 
             Assert.AreEqual(4, displayManager.GetDisplayCount());
 
