@@ -2,11 +2,15 @@
 using System;
 using Messages;
 using CommunicationSubsystem;
+using SharedAppLayer.Entitities;
 
 namespace DisplayAppLayer.Conversations
 {
     class SubscribeCanvasInitiatorConversation : InitiatorConversation
     {
+        public Canvas NewDisplayCanvas;
+
+
         protected override bool CheckMessageType(EnvelopeQueue queue)
         {
             throw new NotImplementedException();
@@ -19,12 +23,15 @@ namespace DisplayAppLayer.Conversations
 
         protected override void ProcessFailure()
         {
-            throw new NotImplementedException();
+            base.ProcessFailure();
         }
 
         protected override bool ProcessReply(Message receivedMessage)
         {
-            throw new NotImplementedException();
+            var message = (SendCanvasMessage)receivedMessage;
+            NewDisplayCanvas = message.Canvas;
+
+            return true;
         }
     }
 }

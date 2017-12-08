@@ -6,19 +6,31 @@ namespace DisplayAppLayer.Conversations
 {
     public class UnassignCanvasResponderConversation : ResponderConversation
     {
+        public int CanvasID;
+        private Tuple<Guid, short> nextMessageNumber;
+
         protected override Message CreateReply()
         {
-            throw new NotImplementedException();
+            var message = new CanvasMessage()
+            {
+                ConversationId = this.ConversationId,
+                MessageNumber = nextMessageNumber,
+                CanvasId = this.CanvasID
+            };
+
+            return message;
         }
 
         protected override void ProcessFailure()
         {
-            throw new NotImplementedException();
+            base.ProcessFailure();
         }
 
-        protected override void ProcessReceivedMessage(Message message)
+        protected override void ProcessReceivedMessage(Message receivedMessage)
         {
-            throw new NotImplementedException();
+            var message = (CanvasAssignMessage)receivedMessage;
+            CanvasID = message.CanvasId;
+            nextMessageNumber = new Tuple<Guid, short>(message.MessageNumber.Item1, (short)(message.MessageNumber.Item2 + 1));
         }
     }
 }
