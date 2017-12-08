@@ -34,7 +34,7 @@ namespace CommunicationSubsystem
         {
             try
             {
-                Logger.InfoFormat("Getting queue for conversation: {0} {1}", convId.Item1, convId.Item2);
+                //Logger.InfoFormat("Getting queue for conversation: {0} {1}", convId.Item1, convId.Item2);
                 EnvelopeQueue queue = null;
                 if (EnvelopeQueueDict.TryGetValue(convId, out queue))
                     return queue;
