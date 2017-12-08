@@ -8,8 +8,8 @@ namespace CommunicationSubsystem.Conversations
     public abstract class StateConversation : Conversation
     {
         public Envelope InitialReceivedEnvelope { get; set; }
-        public IPEndPoint RequestEP { get; set; }
-        public IPEndPoint AuthEP { get; set; }
+        public IPEndPoint RequestEp { get; set; }
+        public IPEndPoint AuthEp { get; set; }
 
         public StateConversation(int waitTimeMs = 4000) : base(waitTimeMs)
         {
@@ -27,7 +27,7 @@ namespace CommunicationSubsystem.Conversations
 
             var authEnvelope = new Envelope()
             {
-                RemoteEP = AuthEP,
+                RemoteEP = AuthEp,
                 Message = InitialReceivedEnvelope.Message
             };
 
@@ -46,7 +46,7 @@ namespace CommunicationSubsystem.Conversations
             var message = CreateRequest();
             var envelope = new Envelope()
             {
-                RemoteEP = RequestEP,
+                RemoteEP = RequestEp,
                 Message = message
             };
 

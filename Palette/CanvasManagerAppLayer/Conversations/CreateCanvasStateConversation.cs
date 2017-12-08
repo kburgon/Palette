@@ -10,7 +10,7 @@ namespace CanvasManagerAppLayer.Conversations
     {
         public CreateCanvasStateConversation()
         {
-            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12500);
+            RequestEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12500);
         }
 
         protected override void ProcessFailure()

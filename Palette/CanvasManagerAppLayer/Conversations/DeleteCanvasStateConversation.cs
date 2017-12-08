@@ -11,7 +11,7 @@ namespace CanvasManagerAppLayer.Conversations
 
         public DeleteCanvasStateConversation()
         {
-            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12500);
+            RequestEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12500);
         }
 
         protected override void ProcessFailure()

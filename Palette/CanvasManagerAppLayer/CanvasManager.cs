@@ -47,8 +47,8 @@ namespace CanvasManagerAppLayer
 
             if (conversation.GetType() == typeof(CreateCanvasStateConversation))
             {
-                (conversation as StateConversation).RequestEP = StorageEP;
-                (conversation as StateConversation).AuthEP = AuthManagerEp;
+                (conversation as StateConversation).RequestEp = StorageEP;
+                (conversation as StateConversation).AuthEp = AuthManagerEp;
             }
         }
 
