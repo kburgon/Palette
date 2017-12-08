@@ -25,23 +25,23 @@ namespace CommunicationSubsystem.Conversations
 
             ProcessReceivedMessage();
 
-            var authEnvelope = new Envelope()
-            {
-                RemoteEP = AuthEp,
-                Message = InitialReceivedEnvelope.Message
-            };
+            //var authEnvelope = new Envelope()
+            //{
+            //    RemoteEP = AuthEp,
+            //    Message = InitialReceivedEnvelope.Message
+            //};
 
-            var authSendreceiveSuccess = false;
-            for (int receiveAttempt = 0; receiveAttempt < 30 && !authSendreceiveSuccess; receiveAttempt++)
-            {
-                authSendreceiveSuccess = AttemptAuthVerification(authEnvelope);
-            }
+            //var authSendreceiveSuccess = false;
+            //for (int receiveAttempt = 0; receiveAttempt < 30 && !authSendreceiveSuccess; receiveAttempt++)
+            //{
+            //    authSendreceiveSuccess = AttemptAuthVerification(authEnvelope);
+            //}
 
-            if (!authSendreceiveSuccess)
-            {
-                ProcessFailure();
-                return;
-            }
+            //if (!authSendreceiveSuccess)
+            //{
+            //    ProcessFailure();
+            //    return;
+            //}
 
             var message = CreateRequest();
             var envelope = new Envelope()
