@@ -37,12 +37,19 @@ namespace CommunicationSubsystemTest
             Envelope envelope = new Envelope()
             {
                 RemoteEP = null,
-                Message = new BrushStrokeMessage() { ConversationId = new Tuple<Guid, short>(testProcessId, 1) }
+                Message = new BrushStrokeMessage() {
+                    ConversationId = new Tuple<Guid, short>(testProcessId, 1),
+                    MessageNumber = new Tuple<Guid, short>(testProcessId, 1)
+                }
             };
             Envelope envelope2 = new Envelope()
             {
                 RemoteEP = null,
-                Message = new CanvasMessage() { ConversationId = new Tuple<Guid, short>(testProcessId, 1) }
+                Message = new BrushStrokeMessage()
+                {
+                    ConversationId = new Tuple<Guid, short>(testProcessId, 1),
+                    MessageNumber = new Tuple<Guid, short>(testProcessId, 2)
+                }
             };
 
             EnvelopeQueue queue = dispatcher.GetQueue(envelope.Message.ConversationId);
