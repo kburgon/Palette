@@ -17,7 +17,7 @@ namespace CommunicationSubsystem.Conversations
         protected Task _conversationExecution;
         public UdpCommunicator _communicator;
 
-        private ILog Logger;
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(Conversation));
 
         public Conversation(int waitTimeMs = 5000)
         {
