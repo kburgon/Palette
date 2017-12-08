@@ -10,7 +10,7 @@ namespace DisplayManagerAppLayer.Conversations
     {
         public UnassignCanvasStateConversation()
         {
-            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12250);
+            RequestEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12250);
         }
 
         protected override bool CheckMessageType(EnvelopeQueue queue)

@@ -13,7 +13,7 @@ namespace DisplayManagerAppLayer.Conversations
 
         public AssignCanvasStateConversation()
         {
-            RequestEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12250);
+            RequestEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12250);
         }
 
         protected override bool CheckMessageType(EnvelopeQueue queue)
@@ -30,7 +30,7 @@ namespace DisplayManagerAppLayer.Conversations
         {
             var stepNumber = InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1;
             var address = _displayManager.GetDisplayAddress((InitialReceivedEnvelope.Message as CanvasAssignMessage).DisplayId);
-            RequestEP = new IPEndPoint(IPAddress.Parse(address), 12200);
+            RequestEp = new IPEndPoint(IPAddress.Parse(address), 12200);
             var message = new CanvasAssignMessage
             {
                 ConversationId = InitialReceivedEnvelope.Message.ConversationId,
