@@ -16,6 +16,7 @@ namespace CanvasManagerAppLayer
         private IPEndPoint StorageEP;
         private IPEndPoint AuthManagerEp;
         private Dictionary<int, string> DisplayList = new Dictionary<int, string>();
+        private Dictionary<int, int> CanvasSubscriptions = new Dictionary<int, int>(); // DisplayId is the key and CanvasId is the value.
 
         public CanvasManager()
         {
@@ -96,6 +97,7 @@ namespace CanvasManagerAppLayer
             {
                 var conv = (SubscribeCanvasStateConversation)conversation;
                 DisplayList.Add(conv.DisplayId, conv.DisplayAddress);
+                CanvasSubscriptions.Add(conv.DisplayId, conv.CanvasId);
             }
         }
     }
