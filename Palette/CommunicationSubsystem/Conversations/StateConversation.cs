@@ -9,7 +9,7 @@ namespace CommunicationSubsystem.Conversations
     {
         public Envelope InitialReceivedEnvelope { get; set; }
         public IPEndPoint RequestEp { get; set; }
-        public IPEndPoint AuthEp { get; set; }
+        public IPEndPoint AuthEp { get; set; } = new IPEndPoint(IPAddress.Parse("12.216.145.92"), 12001);
 
         public StateConversation(int waitTimeMs = 2000) : base(waitTimeMs)
         {
@@ -31,24 +31,26 @@ namespace CommunicationSubsystem.Conversations
                 return;
             }
 
-            //var authEnvelope = new Envelope()
-            //{
-            //    RemoteEP = AuthEp,
-            //    Message = InitialReceivedEnvelope.Message
-            //};
+            if (InitialReceivedEnvelope.Message.GetType() == typeof(AuthMessage))
+            {
+                var authEnvelope = new Envelope()
+                {
+                    RemoteEP = AuthEp,
+                    Message = InitialReceivedEnvelope.Message
+                };
 
-            //var authSendreceiveSuccess = false;
-            //for (int receiveAttempt = 0; receiveAttempt < 30 && !authSendreceiveSuccess; receiveAttempt++)
-            //{
-            //    authSendreceiveSuccess = AttemptAuthVerification(authEnvelope);
-            //}
+                var authSendreceiveSuccess = false;
+                for (int receiveAttempt = 0; receiveAttempt < 30 && !authSendreceiveSuccess; receiveAttempt++)
+                {
+                    authSendreceiveSuccess = AttemptAuthVerification(authEnvelope);
+                }
 
-            //if (!authSendreceiveSuccess)
-            //{
-            //    ProcessFailure();
-            //    return;
-            //}
-
+                if (!authSendreceiveSuccess)
+                {
+                    ProcessFailure();
+                    return;
+                }
+            }
             var message = CreateRequest();
             if (message != null)
             {
@@ -130,9 +132,11 @@ namespace CommunicationSubsystem.Conversations
         {
             try
             {
+                CheckAuthMessageType(EnvelopeQueue);
                 var envelope = EnvelopeQueue.Dequeue();
-                ProcessAuthReply(envelope.Message);
-                return true;
+                if(ProcessAuthReply(envelope.Message))
+                    return true;
+                return false;
             }
             catch (Exception)
             {
@@ -145,8 +149,25 @@ namespace CommunicationSubsystem.Conversations
             ConversationId = InitialReceivedEnvelope.Message.ConversationId;
         }
 
-        protected abstract Message CreateAuthRequest();
-        protected abstract void ProcessAuthReply(Message replyMessage);
+        protected bool CheckAuthMessageType(EnvelopeQueue queue)
+        {
+            if (queue.GetMessageType(typeof(TokenVerifyMessage)) == typeof(TokenVerifyMessage))
+                return true;
+
+            return false;
+        }
+        protected Message CreateAuthRequest()
+        {
+            return null;
+        }
+        protected bool ProcessAuthReply(Message replyMessage)
+        {
+            var message = (TokenVerifyMessage)replyMessage;
+            if (message.IsAuthorized)
+                return true;
+
+            return false;
+        }
         protected abstract Message CreateRequest();
         protected abstract bool ProcessReply(Message receivedMessage);
         protected abstract Message CreateUpdate();

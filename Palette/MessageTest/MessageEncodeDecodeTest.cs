@@ -195,7 +195,7 @@ namespace MessageTest
             {
                 MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                 ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
-                AuthToken = Guid.NewGuid()
+                AuthToken = Guid.NewGuid().ToByteArray()
             };
 
             byte[] bytes = message.Encode();
@@ -206,7 +206,7 @@ namespace MessageTest
 
             Assert.AreEqual(message.ConversationId, (message2 as GetCanvasListMessage).ConversationId);
             Assert.AreEqual(message.MessageNumber, (message2 as GetCanvasListMessage).MessageNumber);
-            Assert.AreEqual(message.AuthToken, (message2 as GetCanvasListMessage).AuthToken);
+            Assert.AreEqual(message.AuthToken.Length, (message2 as GetCanvasListMessage).AuthToken.Length);
         }
         [TestMethod]
         public void GetDisplayListMessage()
@@ -215,7 +215,7 @@ namespace MessageTest
             {
                 MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                 ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
-                AuthToken = Guid.NewGuid()
+                AuthToken = Guid.NewGuid().ToByteArray()
             };
 
             byte[] bytes = message.Encode();
@@ -226,7 +226,7 @@ namespace MessageTest
 
             Assert.AreEqual(message.ConversationId, (message2 as GetDisplayListMessage).ConversationId);
             Assert.AreEqual(message.MessageNumber, (message2 as GetDisplayListMessage).MessageNumber);
-            Assert.AreEqual(message.AuthToken, (message2 as GetDisplayListMessage).AuthToken);
+            Assert.AreEqual(message.AuthToken.Length, (message2 as GetDisplayListMessage).AuthToken.Length);
         }
         [TestMethod]
         public void RegisterAckMessage()
@@ -300,7 +300,7 @@ namespace MessageTest
                 MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                 ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 IsAuthorized = false,
-                AuthToken =Guid.NewGuid()
+                AuthToken = Guid.NewGuid()
             };
 
             byte[] bytes = message.Encode();
@@ -347,7 +347,7 @@ namespace MessageTest
                 ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 Username = "test",
                 Password = "password",
-                AuthToken = new Guid()
+                AuthToken = new Guid().ToByteArray()
             };
 
             byte[] bytes = message.Encode();
@@ -360,7 +360,7 @@ namespace MessageTest
             Assert.AreEqual(message.MessageNumber, (message2 as CreateUserMessage).MessageNumber);
             Assert.AreEqual(message.Username, (message2 as CreateUserMessage).Username);
             Assert.AreEqual(message.Password, (message2 as CreateUserMessage).Password);
-            Assert.AreEqual(message.AuthToken, (message2 as CreateUserMessage).AuthToken);
+            Assert.AreEqual(message.AuthToken.Length, (message2 as CreateUserMessage).AuthToken.Length);
         }
 
         [TestMethod]
@@ -372,7 +372,7 @@ namespace MessageTest
                 ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 2),
                 Username = "test",
                 Password = "password",
-                AuthToken = Guid.NewGuid()
+                AuthToken = Guid.NewGuid().ToByteArray()
             };
 
             byte[] bytes = message.Encode();
@@ -385,7 +385,7 @@ namespace MessageTest
             Assert.AreEqual(message.MessageNumber, (message2 as DeleteUserMessage).MessageNumber);
             Assert.AreEqual(message.Username, (message2 as DeleteUserMessage).Username);
             Assert.AreEqual(message.Password, (message2 as DeleteUserMessage).Password);
-            Assert.AreEqual(message.AuthToken, (message2 as DeleteUserMessage).AuthToken);
+            Assert.AreEqual(message.AuthToken.Length, (message2 as DeleteUserMessage).AuthToken.Length);
         }
     }
 }

@@ -7,6 +7,6 @@ namespace Messages
 {
     public class AttemptLoginMessage : UserMessage
     {
-
+        public Guid UserToken { get; set; }
     }
 }

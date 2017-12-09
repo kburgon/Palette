@@ -37,7 +37,7 @@ namespace AuthManagerAppLayer.Conversations
         private void SetAuthToken()
         {
             LoginSuccessful = true;
-            Token = Guid.NewGuid();
+            Token = ReceivedMessage.UserToken;
             TokenBank.AddToken(Token);
         }
 

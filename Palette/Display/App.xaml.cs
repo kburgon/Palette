@@ -1,4 +1,6 @@
-﻿using System;
+﻿using log4net;
+using log4net.Config;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +15,12 @@ namespace Display
     /// </summary>
     public partial class App : Application
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(App));
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            XmlConfigurator.Configure();
+            base.OnStartup(e);
+        }
     }
 }

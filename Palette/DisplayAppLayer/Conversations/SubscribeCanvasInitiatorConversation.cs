@@ -3,6 +3,7 @@ using System;
 using Messages;
 using CommunicationSubsystem;
 using SharedAppLayer.Entitities;
+using System.Net;
 
 namespace DisplayAppLayer.Conversations
 {
@@ -27,7 +28,8 @@ namespace DisplayAppLayer.Conversations
                 ConversationId = this.ConversationId,
                 MessageNumber = new Tuple<Guid, short>(ProcessId, 1),
                 CanvasId = SubCanvasId,
-                DisplayId = this.DisplayId
+                DisplayId = this.DisplayId,
+                DisplayAddress = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString()
             };
 
             return message;

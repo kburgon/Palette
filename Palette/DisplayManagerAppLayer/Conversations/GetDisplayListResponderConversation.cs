@@ -20,11 +20,6 @@ namespace DisplayManagerAppLayer.Conversations
             throw new NotImplementedException();
         }
 
-        protected override Message CreateAuthRequest()
-        {
-            return null;
-        }
-
         protected override Message CreateRequest()
         {
             return null;
@@ -60,11 +55,6 @@ namespace DisplayManagerAppLayer.Conversations
             };
 
             return message;
-        }
-
-        protected override void ProcessAuthReply(Message receivedMessage)
-        {
-            throw new NotImplementedException();
         }
 
         protected override void ProcessFailure()

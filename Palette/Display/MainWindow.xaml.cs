@@ -73,5 +73,16 @@ namespace Display
                 return;
             }
         }
+
+        private void RegisterBtn_Click(object sender, RoutedEventArgs e)
+        {
+            _displayAppLayer.StartDispatcher(12200);
+            _displayAppLayer.RegisterDisplay();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _displayAppLayer.StopDispatcher();
+        }
     }
 }

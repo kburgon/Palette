@@ -23,9 +23,9 @@ namespace AuthManagerAppLayer.Conversations
         protected override void ProcessReceivedMessage(Message message)
         {
             var deleteMessage = (DeleteUserMessage) message;
-            if (TokenBank.TokenExists(deleteMessage.AuthToken))
+            if (TokenBank.EncryptedTokenExists(deleteMessage.AuthToken))
             {
-                AuthToken = deleteMessage.AuthToken;
+                AuthToken = TokenBank.GetDecryptedToken(deleteMessage.AuthToken);
                 UserDataAccess.DeleteUser(UserDataAccess.GetUserId(deleteMessage.Username, deleteMessage.Password));
             }
         }

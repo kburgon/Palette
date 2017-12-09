@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using log4net;
+using log4net.Config;
 
 namespace DisplayManager
 {
     class Program
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(Program));
         private static DisplayManagerAppLayer.DisplayManager _displayManagerApp;
         static void Main(string[] args)
         {
-            const int defaultPortNumber = 12345;
+            XmlConfigurator.Configure();
+            const int defaultPortNumber = 12250;
             Console.WriteLine("Display Manager Started.");
             _displayManagerApp = new DisplayManagerAppLayer.DisplayManager();
 
@@ -35,6 +39,7 @@ namespace DisplayManager
                 }
             }
 
+            _displayManagerApp.StartDispatcher(12250);
             GetCommands();
         }
         private static void PrintInstructions()

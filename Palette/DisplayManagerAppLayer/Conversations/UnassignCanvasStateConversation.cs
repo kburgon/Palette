@@ -27,11 +27,6 @@ namespace DisplayManagerAppLayer.Conversations
             return false;
         }
 
-        protected override Message CreateAuthRequest()
-        {
-            throw new System.NotImplementedException();
-        }
-
         protected override void ProcessReceivedMessage()
         {
             if (InitialReceivedEnvelope.Message.GetType() != typeof(CanvasUnassignMessage))
@@ -76,11 +71,6 @@ namespace DisplayManagerAppLayer.Conversations
             };
 
             return message;
-        }
-
-        protected override void ProcessAuthReply(Message receivedMessage)
-        {
-            throw new System.NotImplementedException();
         }
 
         protected override void ProcessFailure()

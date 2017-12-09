@@ -33,6 +33,7 @@ namespace CommunicationSubsystem
         #region Protected Members
 
         protected readonly Dictionary<Tuple<Guid, short>, Conversation> ConversationDict = new Dictionary<Tuple<Guid, short>, Conversation>();
+        protected readonly Dictionary<Tuple<Guid, short>, Conversation> FinishedConversationDict = new Dictionary<Tuple<Guid, short>, Conversation>();
         protected EnvelopeQueueDictionary EnvelopeQueueDict = new EnvelopeQueueDictionary();
 
         #endregion
@@ -184,27 +185,28 @@ namespace CommunicationSubsystem
         /// </summary>
         /// <param name="env"></param>
         public void StartConversationByMessageType(Envelope env)
-        { 
-
-            EnvelopeQueue envQueue  = GetQueue(env.Message.ConversationId);
-
-            EnqueueEnvelope(env);
-
-            var conversation = _conversationFactory.CreateFromMessageType(env.Message);
-            if (conversation == null)
-                return;
-            conversation.ReceivedEnvelope = env;
-
-            conversation.EnvelopeQueue = envQueue;
-            conversation._communicator = UdpCommunicator;
-            ConversationCreationHandler?.Invoke(conversation);
-            conversation.Execute();
-
-            lock (_dictionaryLock)
+        {
+            if (!CheckFinishedConversations(env))
             {
-                ConversationDict.Add(env.Message.ConversationId, conversation);
-            }
+                EnvelopeQueue envQueue = GetQueue(env.Message.ConversationId);
 
+                EnqueueEnvelope(env);
+
+                var conversation = _conversationFactory.CreateFromMessageType(env.Message);
+                if (conversation == null)
+                    return;
+                conversation.ReceivedEnvelope = env;
+
+                conversation.EnvelopeQueue = envQueue;
+                conversation._communicator = UdpCommunicator;
+                ConversationCreationHandler?.Invoke(conversation);
+                conversation.Execute();
+
+                lock (_dictionaryLock)
+                {
+                    ConversationDict.Add(env.Message.ConversationId, conversation);
+                }
+            }
         }
 
         /// <summary>
@@ -275,7 +277,11 @@ namespace CommunicationSubsystem
                 {
                     EnvelopeQueue queue = GetQueue(conv.ConversationId);
                     if (queue != null && queue.EndOfConversation)
-                        convDeleteKeys.Add(conv.ConversationId);                   
+                    {
+                        convDeleteKeys.Add(conv.ConversationId);
+                        if(!FinishedConversationDict.ContainsKey(conv.ConversationId))
+                            FinishedConversationDict.Add(conv.ConversationId, conv);
+                    }
                 }
 
                 foreach(Tuple<Guid, short> key in convDeleteKeys)
@@ -285,6 +291,16 @@ namespace CommunicationSubsystem
             }
         }
 
+        private bool CheckFinishedConversations(Envelope env)
+        {
+            foreach(Conversation conversation in FinishedConversationDict.Values)
+            {
+                if (env.Message.ConversationId == conversation.ConversationId)
+                    return true;
+            }
+
+            return false;
+        }
         #endregion
     }
 }

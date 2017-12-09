@@ -7,6 +7,6 @@ namespace Messages
     public abstract class AuthMessage : Message
     {
         [DataMember]
-        public Guid AuthToken { get; set; }
+        public byte[] AuthToken { get; set; }
     }
 }

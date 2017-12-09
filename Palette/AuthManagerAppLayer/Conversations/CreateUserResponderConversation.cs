@@ -23,10 +23,10 @@ namespace AuthManagerAppLayer.Conversations
         protected override void ProcessReceivedMessage(Message message)
         {
             var createUserMessage = (CreateUserMessage)message;
-            if (TokenBank.TokenExists(createUserMessage.AuthToken))
+            if (TokenBank.EncryptedTokenExists(createUserMessage.AuthToken))
             {
                 UserDataAccess.CreateUser(createUserMessage.Username, createUserMessage.Password);
-                AuthToken = createUserMessage.AuthToken;
+                AuthToken = TokenBank.GetDecryptedToken(createUserMessage.AuthToken);
             }
         }
 

@@ -29,6 +29,7 @@ namespace AdminClientAppLayer
         public int AuthManagerPortNumber { get; set; }
         public List<User> AdminUsers { get; private set; }
 
+
         private static readonly ILog Logger = LogManager.GetLogger(typeof(AdminClient));
 
         public AdminClient()
@@ -87,7 +88,6 @@ namespace AdminClientAppLayer
             {
                 var conversation = new DeleteCanvasInitiatorConversation
                 {
-                    ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                     RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber),
                     CanvasId = canvasId
                 };
@@ -114,14 +114,13 @@ namespace AdminClientAppLayer
             {
                 var conversation = new GetCanvasListInitiatorConversation()
                 {
-                    ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                     RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
                 };
 
                 Dispatcher.StartConversationByConversationType(conversation);
                 while (conversation.Canvases == null)
                 { }
-
+                GetCanvasListHandler?.Invoke(conversation.Canvases);
             }
             catch (Exception e)
             {

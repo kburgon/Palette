@@ -1,19 +1,27 @@
 ﻿using CommunicationSubsystem;
 using CommunicationSubsystem.Conversations;
 using Messages;
+using SharedAppLayer.Entitities;
+using System;
+using System.Net;
 
 namespace CanvasManagerAppLayer.Conversations
 {
     public class SubscribeCanvasStateConversation : StateConversation
     {
+
+        public int CanvasId;
+        public int DisplayId;
+        public string DisplayAddress;
+        public Canvas Canvas;
+        public Tuple<Guid, short> NextMessageNumber;
+
         protected override bool CheckMessageType(EnvelopeQueue queue)
         {
-            throw new System.NotImplementedException();
-        }
+            if (queue.GetMessageType(typeof(SendCanvasMessage)) == typeof(SendCanvasMessage))
+                return true;
 
-        protected override Message CreateAuthRequest()
-        {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override void ProcessReceivedMessage()
@@ -22,6 +30,11 @@ namespace CanvasManagerAppLayer.Conversations
                 return;
 
             base.ProcessReceivedMessage();
+
+            CanvasId = (InitialReceivedEnvelope.Message as SubscriberCanvasMessage).CanvasId;
+            DisplayId = (InitialReceivedEnvelope.Message as SubscriberCanvasMessage).DisplayId;
+            DisplayAddress = (InitialReceivedEnvelope.Message as SubscriberCanvasMessage).DisplayAddress;
+            NextMessageNumber = new Tuple<Guid, short>(InitialReceivedEnvelope.Message.MessageNumber.Item1, (short)(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1));
         }
 
         protected override void ProcessFailure()
@@ -31,22 +44,41 @@ namespace CanvasManagerAppLayer.Conversations
 
         protected override Message CreateRequest()
         {
-            throw new System.NotImplementedException();
+            RequestEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12500);
+            var message = new SubscriberCanvasMessage()
+            {
+                ConversationId = this.ConversationId,
+                MessageNumber = NextMessageNumber,
+                CanvasId = this.CanvasId,
+                DisplayId = this.DisplayId
+            };
+
+            return message;
         }
 
         protected override Message CreateUpdate()
         {
-            throw new System.NotImplementedException();
-        }
+            InitialReceivedEnvelope.RemoteEP.Port = 12200;
+            var message = new SendCanvasMessage()
+            {
+                ConversationId = this.ConversationId,
+                MessageNumber = NextMessageNumber,
+                Canvas = this.Canvas
+            };
 
-        protected override void ProcessAuthReply(Message replyMessage)
-        {
-            throw new System.NotImplementedException();
+            return message;
         }
 
         protected override bool ProcessReply(Message receivedMessage)
         {
-            throw new System.NotImplementedException();
+            if (receivedMessage.GetType() != typeof(SendCanvasMessage))
+                return false;
+
+            var message = (SendCanvasMessage)receivedMessage;
+            Canvas = message.Canvas;
+            NextMessageNumber = new Tuple<Guid, short>(message.MessageNumber.Item1, (short)(message.MessageNumber.Item2 + 1));
+
+            return true;
         }
     }
 }

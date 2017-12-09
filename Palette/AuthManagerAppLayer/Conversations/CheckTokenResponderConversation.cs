@@ -25,12 +25,12 @@ namespace AuthManagerAppLayer.Conversations
         protected override void ProcessReceivedMessage(Message message)
         {
             var authMessage = (AuthMessage)message;
-            if (TokenBank.TokenExists(authMessage.AuthToken))
+            if (TokenBank.EncryptedTokenExists(authMessage.AuthToken))
             {
                 IsAuthorized = true;
             }
 
-            AuthToken = authMessage.AuthToken;
+            AuthToken = TokenBank.GetDecryptedToken(authMessage.AuthToken);
         }
 
         protected override Message CreateReply()

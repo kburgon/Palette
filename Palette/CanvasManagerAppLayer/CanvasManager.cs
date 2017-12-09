@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using CommunicationSubsystem.Conversations;
 using log4net;
 using CanvasManagerAppLayer.Conversations;
+using System;
+using System.Collections.Generic;
 
 namespace CanvasManagerAppLayer
 {
@@ -13,11 +15,16 @@ namespace CanvasManagerAppLayer
         private static Dispatcher _dispatcher;
         private IPEndPoint StorageEP;
         private IPEndPoint AuthManagerEp;
+        private Dictionary<int, string> DisplayList = new Dictionary<int, string>();
+        private Dictionary<int, int> CanvasSubscriptions = new Dictionary<int, int>(); // DisplayId is the key and CanvasId is the value.
 
         public CanvasManager()
         {
             Logger.InfoFormat("Starting Canvas Manager...");
-            _dispatcher = new Dispatcher();
+            _dispatcher = new Dispatcher()
+            {
+                ConversationCreationHandler = SetConversation
+            };
             AuthManagerEp = new IPEndPoint(IPAddress.Any, 0);
             StorageEP = new IPEndPoint(IPAddress.Any, 0);
         }
@@ -82,6 +89,16 @@ namespace CanvasManagerAppLayer
         public void UpdateCanvasManagerPort(int port)
         {
             _dispatcher.UdpCommunicator.SetPort(port);
+        }
+
+        public void SetConversation(Conversation conversation)
+        {
+            if(conversation.GetType() == typeof(SubscribeCanvasStateConversation))
+            {
+                var conv = (SubscribeCanvasStateConversation)conversation;
+                DisplayList.Add(conv.DisplayId, conv.DisplayAddress);
+                CanvasSubscriptions.Add(conv.DisplayId, conv.CanvasId);
+            }
         }
     }
 }

@@ -11,6 +11,8 @@ namespace DisplayAppLayer.Conversations
 
         protected override Message CreateReply()
         {
+            RequestEP = ReceivedEnvelope.RemoteEP;
+            RequestEP.Port = 12250;
             var message = new CanvasMessage()
             {
                 ConversationId = this.ConversationId,

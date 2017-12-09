@@ -1,6 +1,7 @@
 ﻿using System;
 using AuthManagerAppLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CommunicationSubsystem.Security;
 
 namespace AuthManagerAppTest
 {
@@ -39,6 +40,40 @@ namespace AuthManagerAppTest
             var testToken = Guid.NewGuid();
             bank1.AddToken(testToken);
             Assert.IsTrue(bank2.TokenExists(testToken));
+        }
+
+        [TestMethod]
+        public void CanFindEncryptedToken()
+        {
+            var bank = new KeyBank();
+            var tokenBank = TokenBank.GetInstance();
+            var key = tokenBank.PublicKey;
+
+            var token = Guid.NewGuid();
+            tokenBank.AddToken(token);
+
+            var encryptedToken = bank.Encrypt(key, token.ToByteArray());
+            Assert.IsTrue(tokenBank.EncryptedTokenExists(encryptedToken));
+        }
+
+        [TestMethod]
+        public void HandlesBadEncryptedToken()
+        {
+            var bank = new KeyBank();
+            var tokenBank = TokenBank.GetInstance();
+            var key = tokenBank.PublicKey;
+
+            var token = Guid.NewGuid();
+            var wrongToken = Guid.NewGuid();
+            tokenBank.AddToken(token);
+            var encryptedToken = bank.Encrypt(key, token.ToByteArray());
+            var wrongEncryptedToken = bank.Encrypt(key, wrongToken.ToByteArray());
+
+            Assert.IsFalse(tokenBank.EncryptedTokenExists(wrongEncryptedToken));
+
+            Assert.IsTrue(tokenBank.EncryptedTokenExists(encryptedToken));
+            encryptedToken[0] += 5;
+            Assert.IsFalse(tokenBank.EncryptedTokenExists(encryptedToken));
         }
     }
 }
