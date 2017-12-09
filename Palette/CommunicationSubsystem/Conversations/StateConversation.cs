@@ -145,8 +145,14 @@ namespace CommunicationSubsystem.Conversations
             ConversationId = InitialReceivedEnvelope.Message.ConversationId;
         }
 
-        protected abstract Message CreateAuthRequest();
-        protected abstract void ProcessAuthReply(Message replyMessage);
+        protected Message CreateAuthRequest()
+        {
+            return null;
+        }
+        protected void ProcessAuthReply(Message replyMessage)
+        {
+
+        }
         protected abstract Message CreateRequest();
         protected abstract bool ProcessReply(Message receivedMessage);
         protected abstract Message CreateUpdate();

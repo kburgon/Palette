@@ -23,16 +23,6 @@ namespace CanvasManagerAppLayer.Conversations
             base.ProcessFailure();
         }
 
-        protected override Message CreateAuthRequest()
-        {
-            return InitialReceivedEnvelope.Message;
-        }
-
-        protected override void ProcessAuthReply(Message receivedMessage)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void ProcessReceivedMessage()
         {
             if (InitialReceivedEnvelope.Message.GetType() != typeof(CreateCanvasMessage))
