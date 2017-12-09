@@ -9,16 +9,28 @@ namespace DisplayAppLayer.Conversations
     class SubscribeCanvasInitiatorConversation : InitiatorConversation
     {
         public Canvas NewDisplayCanvas;
-
+        public int SubCanvasId;
+        public int DisplayId;
 
         protected override bool CheckMessageType(EnvelopeQueue queue)
         {
-            throw new NotImplementedException();
+            if (queue.GetMessageType(typeof(SendCanvasMessage)) == typeof(SendCanvasMessage))
+                return true;
+
+            return false;
         }
 
         protected override Message CreateRequest()
         {
-            throw new NotImplementedException();
+            var message = new SubscriberCanvasMessage()
+            {
+                ConversationId = this.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(ProcessId, 1),
+                CanvasId = SubCanvasId,
+                DisplayId = this.DisplayId
+            };
+
+            return message;
         }
 
         protected override void ProcessFailure()

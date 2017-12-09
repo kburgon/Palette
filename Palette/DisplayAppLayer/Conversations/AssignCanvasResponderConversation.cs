@@ -11,7 +11,7 @@ namespace DisplayAppLayer.Conversations
 
         protected override Message CreateReply()
         {
-            var message = new CanvasMessage()
+            var message = new CanvasAssignMessage()
             {
                 ConversationId = this.ConversationId,
                 MessageNumber = nextMessageNumber,
@@ -28,6 +28,9 @@ namespace DisplayAppLayer.Conversations
 
         protected override void ProcessReceivedMessage(Message receivedMessage)
         {
+            if (receivedMessage.GetType() != typeof(CanvasAssignMessage))
+                return;
+
             var message = (CanvasAssignMessage)receivedMessage;
             CanvasID = message.CanvasId;
             nextMessageNumber = new Tuple<Guid, short>(message.MessageNumber.Item1, (short)(message.MessageNumber.Item2 + 1));

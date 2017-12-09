@@ -8,16 +8,16 @@ namespace DisplayManagerAppLayer.Conversations
 {
     public class GetDisplayListResponderConversation : StateConversation
     {
-        private IEnumerable<string> _displayList;
+        public IEnumerable<string> _displayList;
+
+        public GetDisplayListResponderConversation()
+        {
+            _displayList = null;
+        }
 
         protected override bool CheckMessageType(EnvelopeQueue queue)
         {
             throw new NotImplementedException();
-        }
-
-        protected override Message CreateAuthRequest()
-        {
-            return null;
         }
 
         protected override Message CreateRequest()
@@ -33,24 +33,28 @@ namespace DisplayManagerAppLayer.Conversations
             //return message;
         }
 
-        protected override Message CreateUpdate()
+        protected override void ProcessReceivedMessage()
         {
-            return null;
-            //InitialReceivedEnvelope.RemoteEP.Port = 11900;
-            //var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
-            //var message = new DisplayListMessage
-            //{
-            //    ConversationId = InitialReceivedEnvelope.Message.ConversationId,
-            //    MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber),
-            //    Displays = _displayList
-            //};
+            if (InitialReceivedEnvelope.Message.GetType() != typeof(GetDisplayListMessage))
+                return;
 
-            //return message;
+            base.ProcessReceivedMessage();
+
+            while (_displayList == null) { }
         }
 
-        protected override void ProcessAuthReply(Message receivedMessage)
+        protected override Message CreateUpdate()
         {
-            throw new System.NotImplementedException();
+            InitialReceivedEnvelope.RemoteEP.Port = 11900;
+            var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
+            var message = new DisplayListMessage
+            {
+                ConversationId = InitialReceivedEnvelope.Message.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber),
+                Displays = _displayList
+            };
+
+            return message;
         }
 
         protected override void ProcessFailure()

@@ -21,12 +21,10 @@ namespace DisplayManagerAppLayer.Conversations
 
         protected override bool CheckMessageType(EnvelopeQueue queue)
         {
-            throw new NotImplementedException();
-        }
+            if (queue.GetMessageType(typeof(CanvasUnassignMessage)) == typeof(CanvasUnassignMessage))
+                return true;
 
-        protected override Message CreateAuthRequest()
-        {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         protected override void ProcessReceivedMessage()
@@ -73,11 +71,6 @@ namespace DisplayManagerAppLayer.Conversations
             };
 
             return message;
-        }
-
-        protected override void ProcessAuthReply(Message receivedMessage)
-        {
-            throw new System.NotImplementedException();
         }
 
         protected override void ProcessFailure()

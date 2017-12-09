@@ -99,12 +99,12 @@ namespace DisplayManagerAppLayer
             return DisplayEPDictionary.Count;
         }
 
-        public List<int> GenerateIdList()
+        public IEnumerable<string> GenerateIdList()
         {
-            List<int> idList = new List<int>();
+            List<string> idList = new List<string>();
             foreach(Tuple<int, string> display in DisplayEPDictionary.Values)
             {
-                idList.Add(display.Item1);
+                idList.Add(display.Item1.ToString());
             }
 
             return idList;
@@ -131,12 +131,29 @@ namespace DisplayManagerAppLayer
                 var myConversation = (AssignCanvasStateConversation)conversation;
                 do
                 {
-                    myConversation.DisplayAddress = DisplayEPDictionary[myConversation.DisplayId].Item2;
+                    try
+                    {
+                        myConversation.DisplayAddress = DisplayEPDictionary[myConversation.DisplayId].Item2;
+                    }
+                    catch { }
                 } while (myConversation.DisplayId == -1);
             }
             else if(conversation.GetType() == typeof(UnassignCanvasStateConversation))
             {
-
+                var myConversation = (UnassignCanvasStateConversation)conversation;
+                do
+                {
+                    try
+                    {
+                        myConversation.DisplayAddress = DisplayEPDictionary[myConversation.DisplayId].Item2;
+                    }
+                    catch { }
+                } while (myConversation.DisplayId == -1);
+            }
+            else if(conversation.GetType() == typeof(GetDisplayListResponderConversation))
+            {
+                var myConversation = (GetDisplayListResponderConversation)conversation;
+                myConversation._displayList = GenerateIdList();
             }
         }
     }
