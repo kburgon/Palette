@@ -11,7 +11,7 @@ namespace CommunicationSubsystem.Conversations
         public IPEndPoint RequestEp { get; set; }
         public IPEndPoint AuthEp { get; set; }
 
-        public StateConversation(int waitTimeMs = 1500) : base(waitTimeMs)
+        public StateConversation(int waitTimeMs = 2000) : base(waitTimeMs)
         {
 
         }
@@ -51,7 +51,7 @@ namespace CommunicationSubsystem.Conversations
             };
 
             var sendReceiveSuccess = false;
-            for (int receiveAttempt = 0; receiveAttempt < 30 && !sendReceiveSuccess && !EnvelopeQueue.EndOfConversation; receiveAttempt++)
+            for (int receiveAttempt = 0; receiveAttempt < 10 && !sendReceiveSuccess && !EnvelopeQueue.EndOfConversation; receiveAttempt++)
             {
                 sendReceiveSuccess = AttemptSendReceive(envelope);
             }

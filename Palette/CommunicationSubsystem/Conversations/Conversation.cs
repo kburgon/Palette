@@ -33,7 +33,7 @@ namespace CommunicationSubsystem.Conversations
 
         protected virtual void ProcessFailure()
         {
-            Logger.Warn($"Conversation {this.GetType().ToString()} failed to send/receive message.");
+            Logger.Warn($"Conversation {this.GetType()} failed to send/receive message.");
             EnvelopeQueue.EndOfConversation = true;
         }
 
