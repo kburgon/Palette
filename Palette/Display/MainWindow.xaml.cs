@@ -22,7 +22,6 @@ namespace Display
         private IPAddress CMAddress;
         private int CMPort;
         private int DisplayPort;
-        private PaletteLine _line = new PaletteLine();
 
         public MainWindow()
         {
