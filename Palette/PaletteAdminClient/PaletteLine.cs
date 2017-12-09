@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Shapes;
 using Brushes = System.Windows.Media.Brushes;
@@ -45,9 +47,13 @@ namespace Display
             _isDrawing = false;
         }
 
-        public Line GetPoints()
+        public List<Tuple<int,int>> GetPoints()
         {
-            return _line;
+            return new List<Tuple<int, int>>
+            {
+                Tuple.Create((int)_line.X1, (int)_line.Y1),
+                Tuple.Create((int)_line.X2, (int)_line.Y2)
+            };
         }
     }
 }
