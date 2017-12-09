@@ -22,7 +22,7 @@ namespace DisplayManagerAppLayer
             Logger.InfoFormat("Display Manager Started....");
             _dispatcher = new Dispatcher()
             {
-                ConversationCreationHandler = SetConversation
+                ConversationCreationHandler = SetConversation,
             };
             DisplayEPDictionary = new Dictionary<int, Tuple<int, string>>();
             AuthManagerEP = new IPEndPoint(IPAddress.Any, 0);
@@ -64,7 +64,7 @@ namespace DisplayManagerAppLayer
             var convsersationFactory = new DisplayManagerConversationFactory();
             convsersationFactory.Initialize();
             _dispatcher.SetFactory(convsersationFactory);
-            _dispatcher.UdpCommunicator.SetPort(port);
+            _dispatcher.UdpCommunicator.SetPort(12250);
             _dispatcher.StartListener();
         }
 

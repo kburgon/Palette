@@ -279,7 +279,8 @@ namespace CommunicationSubsystem
                     if (queue != null && queue.EndOfConversation)
                     {
                         convDeleteKeys.Add(conv.ConversationId);
-                        FinishedConversationDict.Add(conv.ConversationId, conv);
+                        if(!FinishedConversationDict.ContainsKey(conv.ConversationId))
+                            FinishedConversationDict.Add(conv.ConversationId, conv);
                     }
                 }
 

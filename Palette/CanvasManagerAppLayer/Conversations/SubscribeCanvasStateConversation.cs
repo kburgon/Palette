@@ -3,6 +3,7 @@ using CommunicationSubsystem.Conversations;
 using Messages;
 using SharedAppLayer.Entitities;
 using System;
+using System.Net;
 
 namespace CanvasManagerAppLayer.Conversations
 {
@@ -41,6 +42,7 @@ namespace CanvasManagerAppLayer.Conversations
 
         protected override Message CreateRequest()
         {
+            RequestEp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12500);
             var message = new SubscriberCanvasMessage()
             {
                 ConversationId = this.ConversationId,
@@ -54,6 +56,7 @@ namespace CanvasManagerAppLayer.Conversations
 
         protected override Message CreateUpdate()
         {
+            InitialReceivedEnvelope.RemoteEP.Port = 12200;
             var message = new SendCanvasMessage()
             {
                 ConversationId = this.ConversationId,

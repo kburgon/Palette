@@ -13,6 +13,8 @@ namespace DisplayManagerAppLayer.Conversations
 
         protected override Message CreateReply()
         {
+            RequestEP = ReceivedEnvelope.RemoteEP;
+            RequestEP.Port = 12200;
             var message = new RegisterAckMessage()
             {
                 ConversationId = this.ConversationId,
