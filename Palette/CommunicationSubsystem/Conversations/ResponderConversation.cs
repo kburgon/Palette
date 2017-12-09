@@ -13,6 +13,8 @@ namespace CommunicationSubsystem.Conversations
             var message = ReceivedEnvelope.Message;
             ProcessId = message.ConversationId.Item1;
             ProcessReceivedMessage( message );
+            if (ConversationId == null)
+                return;
 
             var reply = CreateReply();
             var envelope = new Envelope

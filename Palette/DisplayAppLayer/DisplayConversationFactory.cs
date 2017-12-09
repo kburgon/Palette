@@ -1,5 +1,8 @@
 ﻿using CommunicationSubsystem.ConversationFactories;
-
+using System.Collections.Generic;
+using System;
+using Messages;
+using DisplayAppLayer.Conversations;
 
 namespace DisplayAppLayer
 {
@@ -7,7 +10,11 @@ namespace DisplayAppLayer
     {
         public override void Initialize()
         {
-            throw new System.NotImplementedException();
+            ResponderConversationTypes = new Dictionary<Type, Type>()
+            {
+                {typeof(CanvasAssignMessage), typeof(AssignCanvasResponderConversation)},
+                {typeof(CanvasUnassignMessage), typeof(UnassignCanvasResponderConversation)}
+            };
         }
     }
 }

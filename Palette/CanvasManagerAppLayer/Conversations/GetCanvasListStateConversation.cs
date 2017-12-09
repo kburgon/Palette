@@ -32,6 +32,14 @@ namespace CanvasManagerAppLayer.Conversations
             throw new NotImplementedException();
         }
 
+        protected override void ProcessReceivedMessage()
+        {
+            if (InitialReceivedEnvelope.Message.GetType() != typeof(GetCanvasListMessage))
+                return;
+
+            base.ProcessReceivedMessage();
+        }
+
         protected override Message CreateRequest()
         {
             var stepNumber = InitialReceivedEnvelope.Message.MessageNumber.Item2;
