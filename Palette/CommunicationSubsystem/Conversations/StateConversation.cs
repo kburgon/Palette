@@ -26,7 +26,10 @@ namespace CommunicationSubsystem.Conversations
             ProcessReceivedMessage();
 
             if (ConversationId == null)
+            {
+                EnvelopeQueue.EndOfConversation = true;
                 return;
+            }
 
             //var authEnvelope = new Envelope()
             //{
@@ -47,22 +50,25 @@ namespace CommunicationSubsystem.Conversations
             //}
 
             var message = CreateRequest();
-            var envelope = new Envelope()
+            if (message != null)
             {
-                RemoteEP = RequestEp,
-                Message = message
-            };
+                var envelope = new Envelope()
+                {
+                    RemoteEP = RequestEp,
+                    Message = message
+                };
 
-            var sendReceiveSuccess = false;
-            for (int receiveAttempt = 0; receiveAttempt < 10 && !sendReceiveSuccess && !EnvelopeQueue.EndOfConversation; receiveAttempt++)
-            {
-                sendReceiveSuccess = AttemptSendReceive(envelope);
-            }
+                var sendReceiveSuccess = false;
+                for (int receiveAttempt = 0; receiveAttempt < 10 && !sendReceiveSuccess && !EnvelopeQueue.EndOfConversation; receiveAttempt++)
+                {
+                    sendReceiveSuccess = AttemptSendReceive(envelope);
+                }
 
-            if (!sendReceiveSuccess)
-            {
-                ProcessFailure();
-                return;
+                if (!sendReceiveSuccess)
+                {
+                    ProcessFailure();
+                    return;
+                }
             }
 
             var updateEnvelope = new Envelope()

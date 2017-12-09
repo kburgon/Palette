@@ -22,7 +22,7 @@ namespace CanvasStorageManager.Conversations
 
         protected override void ProcessFailure()
         {
-            throw new System.NotImplementedException();
+            base.ProcessFailure();
         }
 
         protected override void ProcessReceivedMessage(Message message)

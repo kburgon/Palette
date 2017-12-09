@@ -14,7 +14,10 @@ namespace DisplayAppLayer.Conversations
 
         protected override bool CheckMessageType(EnvelopeQueue queue)
         {
-            return true;
+            if (queue.GetMessageType(typeof(RegisterAckMessage)) == typeof(RegisterAckMessage))
+                return true;
+
+            return false;
         }
 
         protected override Message CreateRequest()

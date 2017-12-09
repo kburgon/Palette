@@ -8,7 +8,12 @@ namespace DisplayManagerAppLayer.Conversations
 {
     public class GetDisplayListResponderConversation : StateConversation
     {
-        private IEnumerable<string> _displayList;
+        public IEnumerable<string> _displayList;
+
+        public GetDisplayListResponderConversation()
+        {
+            _displayList = null;
+        }
 
         protected override bool CheckMessageType(EnvelopeQueue queue)
         {
@@ -33,24 +38,33 @@ namespace DisplayManagerAppLayer.Conversations
             //return message;
         }
 
+        protected override void ProcessReceivedMessage()
+        {
+            if (InitialReceivedEnvelope.Message.GetType() != typeof(GetDisplayListMessage))
+                return;
+
+            base.ProcessReceivedMessage();
+
+            while (_displayList == null) { }
+        }
+
         protected override Message CreateUpdate()
         {
-            return null;
-            //InitialReceivedEnvelope.RemoteEP.Port = 11900;
-            //var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
-            //var message = new DisplayListMessage
-            //{
-            //    ConversationId = InitialReceivedEnvelope.Message.ConversationId,
-            //    MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber),
-            //    Displays = _displayList
-            //};
+            InitialReceivedEnvelope.RemoteEP.Port = 11900;
+            var stepNumber = Convert.ToInt16(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1);
+            var message = new DisplayListMessage
+            {
+                ConversationId = InitialReceivedEnvelope.Message.ConversationId,
+                MessageNumber = new Tuple<Guid, short>(ProcessId, stepNumber),
+                Displays = _displayList
+            };
 
-            //return message;
+            return message;
         }
 
         protected override void ProcessAuthReply(Message receivedMessage)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         protected override void ProcessFailure()

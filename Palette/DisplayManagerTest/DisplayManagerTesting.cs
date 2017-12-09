@@ -26,13 +26,13 @@ namespace DisplayManagerTest
 
             Assert.AreEqual(5, displayManager.GetDisplayCount());
 
-            List<int> displayList = displayManager.GenerateIdList();
+            List<string> displayList = (List<string>)displayManager.GenerateIdList();
 
-            Assert.AreEqual(1, displayList[0]);
-            Assert.AreEqual(2, displayList[1]);
-            Assert.AreEqual(3, displayList[2]);
-            Assert.AreEqual(4, displayList[3]);
-            Assert.AreEqual(5, displayList[4]);
+            Assert.AreEqual("1", displayList[0]);
+            Assert.AreEqual("2", displayList[1]);
+            Assert.AreEqual("3", displayList[2]);
+            Assert.AreEqual("4", displayList[3]);
+            Assert.AreEqual("5", displayList[4]);
         }
 
         [TestMethod]
@@ -49,12 +49,12 @@ namespace DisplayManagerTest
             displayManager.RemoveDisplay(3);
             Assert.AreEqual(3, displayManager.GetDisplayCount());
 
-            List<int> list = displayManager.GenerateIdList();
+            List<string> list = (List<string>)displayManager.GenerateIdList();
 
-            Assert.AreEqual(1, list[0]);
-            Assert.AreEqual(2, list[1]);
-            Assert.AreNotEqual(3, list[2]);
-            Assert.AreEqual(4, list[2]);
+            Assert.AreEqual("1", list[0]);
+            Assert.AreEqual("2", list[1]);
+            Assert.AreNotEqual("3", list[2]);
+            Assert.AreEqual("4", list[2]);
         }
 
         [TestMethod]

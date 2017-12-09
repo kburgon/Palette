@@ -21,7 +21,10 @@ namespace DisplayManagerAppLayer.Conversations
 
         protected override bool CheckMessageType(EnvelopeQueue queue)
         {
-            throw new NotImplementedException();
+            if (queue.GetMessageType(typeof(CanvasUnassignMessage)) == typeof(CanvasUnassignMessage))
+                return true;
+
+            return false;
         }
 
         protected override Message CreateAuthRequest()
