@@ -12,5 +12,7 @@ namespace Messages
         public int DisplayId { get; set; }
         [DataMember]
         public int CanvasId { get; set; }
+        [DataMember]
+        public string DisplayAddress { get; set; }
     }
 }

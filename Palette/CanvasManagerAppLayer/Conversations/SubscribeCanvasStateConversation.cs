@@ -12,6 +12,7 @@ namespace CanvasManagerAppLayer.Conversations
 
         public int CanvasId;
         public int DisplayId;
+        public string DisplayAddress;
         public Canvas Canvas;
         public Tuple<Guid, short> NextMessageNumber;
 
@@ -32,6 +33,7 @@ namespace CanvasManagerAppLayer.Conversations
 
             CanvasId = (InitialReceivedEnvelope.Message as SubscriberCanvasMessage).CanvasId;
             DisplayId = (InitialReceivedEnvelope.Message as SubscriberCanvasMessage).DisplayId;
+            DisplayAddress = (InitialReceivedEnvelope.Message as SubscriberCanvasMessage).DisplayAddress;
             NextMessageNumber = new Tuple<Guid, short>(InitialReceivedEnvelope.Message.MessageNumber.Item1, (short)(InitialReceivedEnvelope.Message.MessageNumber.Item2 + 1));
         }
 
