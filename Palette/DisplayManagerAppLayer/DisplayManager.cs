@@ -132,7 +132,7 @@ namespace DisplayManagerAppLayer
                 do
                 {
                     myConversation.DisplayAddress = DisplayEPDictionary[myConversation.DisplayId].Item2;
-                }while(myConversation.DisplayId == -1)
+                } while (myConversation.DisplayId == -1);
             }
             else if(conversation.GetType() == typeof(UnassignCanvasStateConversation))
             {
