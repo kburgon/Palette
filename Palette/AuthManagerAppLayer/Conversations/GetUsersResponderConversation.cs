@@ -26,9 +26,9 @@ namespace AuthManagerAppLayer.Conversations
         protected override void ProcessReceivedMessage(Message message)
         {
             var usersMessage = (GetUserListMessage) message;
-            if (TokenBank.TokenExists(usersMessage.AuthToken))
+            if (TokenBank.EncryptedTokenExists(usersMessage.AuthToken))
             {
-                AuthToken = usersMessage.AuthToken;
+                AuthToken = TokenBank.GetDecryptedToken(usersMessage.AuthToken);
                 Users = UserDataAccess.GetUsers();
             }
         }
@@ -39,7 +39,6 @@ namespace AuthManagerAppLayer.Conversations
             {
                 ConversationId = ReceivedEnvelope.Message.ConversationId,
                 MessageNumber = new Tuple<Guid, short>(Guid.NewGuid(), 1),
-                AuthToken = AuthToken,
                 Users = Users
             };
         }

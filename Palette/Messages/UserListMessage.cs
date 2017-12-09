@@ -5,7 +5,7 @@ using AuthManagerAppLayer;
 namespace Messages
 {
     [DataContract]
-    public class UserListMessage : AuthMessage
+    public class UserListMessage : Message
     {
         [DataMember]
         public List<User> Users { get; set; }

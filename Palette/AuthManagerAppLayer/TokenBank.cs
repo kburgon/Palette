@@ -50,6 +50,20 @@ namespace AuthManagerAppLayer
             }
         }
 
+        public Guid GetDecryptedToken(byte[] encryptedToken)
+        {
+            try
+            {
+                var tokenBytes = Keys.Decrypt(encryptedToken);
+                return new Guid(tokenBytes);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e);
+                return Guid.Empty;
+            }
+        }
+
         public bool TokenExists(Guid token) => Tokens.Any(t => t == token);
 
         public void AddToken(Guid token) => Tokens.Add(token);
