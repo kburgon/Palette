@@ -4,6 +4,7 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using AdminClientAppLayer;
+using Display;
 
 namespace PaletteAdminClient
 {
@@ -13,6 +14,7 @@ namespace PaletteAdminClient
     public partial class MainWindow : Window
     {
         private static AdminClient _adminClient;
+        private readonly PaletteLine _line = new PaletteLine();
 
         public MainWindow()
         {
@@ -171,6 +173,25 @@ namespace PaletteAdminClient
         private void Window_Closed(object sender, EventArgs e)
         {
             _adminClient.CloseDispatcher();
+        }
+
+        private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var pointOne = e.GetPosition(CanvasEditGrid);
+            _line.StartDrawing(CanvasEditGrid, pointOne);
+        }
+
+        private void Grid_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var position = e.GetPosition(CanvasEditGrid);
+            _line.Update(position);
+        }
+
+        private void Grid_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            _line.StopDrawing();
+            var points = _line.GetPoints();
+            // Send line to Canvas Manager
         }
     }
 }

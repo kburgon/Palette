@@ -165,5 +165,8 @@
                 </Grid>
             </Grid>
         </TabItem>
+        <TabItem x:Name="CanvasEditTab" Header="Palette" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="54">
+            <Grid x:Name="CanvasEditGrid" Background="White" MouseDown="Grid_MouseDown" MouseMove="Grid_MouseMove" MouseUp="Grid_MouseUp"/>
+        </TabItem>
     </TabControl>
 </Window>
