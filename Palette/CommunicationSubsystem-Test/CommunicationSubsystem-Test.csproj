@@ -54,6 +54,7 @@
     <Compile Include="DispatcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UdpCommunicatorTest.cs" />
+    <Compile Include="EncryptionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommunicationSubsystem\CommunicationSubsystem.csproj">
