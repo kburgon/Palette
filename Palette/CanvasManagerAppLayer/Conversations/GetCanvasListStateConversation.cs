@@ -22,16 +22,6 @@ namespace CanvasManagerAppLayer.Conversations
             throw new NotImplementedException();
         }
 
-        protected override Message CreateAuthRequest()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void ProcessAuthReply(Message receivedMessage)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void ProcessReceivedMessage()
         {
             if (InitialReceivedEnvelope.Message.GetType() != typeof(GetCanvasListMessage))

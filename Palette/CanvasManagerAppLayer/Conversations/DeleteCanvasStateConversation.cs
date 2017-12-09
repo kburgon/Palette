@@ -27,16 +27,6 @@ namespace CanvasManagerAppLayer.Conversations
             base.ProcessReceivedMessage();
         }
 
-        protected override Message CreateAuthRequest()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void ProcessAuthReply(Message receivedMessage)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override Message CreateRequest()
         {
             var stepNumber = InitialReceivedEnvelope.Message.MessageNumber.Item2;
