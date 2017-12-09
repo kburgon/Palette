@@ -194,7 +194,6 @@ namespace AdminClientAppLayer
         {
             var convo = new EditCanvasConversation( canvasId, points)
             {
-                ConversationId = new Tuple<Guid, short>(Guid.NewGuid(), 1),
                 RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
             };
             Dispatcher.StartConversationByConversationType(convo);

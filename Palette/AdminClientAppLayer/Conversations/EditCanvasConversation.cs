@@ -23,7 +23,9 @@ namespace AdminClientAppLayer.Conversations
             {
                 BrushType = "",
                 CanvasId = _canvasId,
-                Points = _points
+                Points = _points,
+                MessageNumber = ConversationId,
+                ConversationId = ConversationId
             };
         }
 
