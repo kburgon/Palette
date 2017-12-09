@@ -19,7 +19,7 @@ namespace CanvasManagerAppLayer.Conversations
 
         protected override void ProcessFailure()
         {
-            throw new NotImplementedException();
+            base.ProcessFailure();
         }
 
         protected override void ProcessReceivedMessage()
