@@ -25,6 +25,9 @@ namespace CommunicationSubsystem.Conversations
 
             ProcessReceivedMessage();
 
+            if (ConversationId == null)
+                return;
+
             //var authEnvelope = new Envelope()
             //{
             //    RemoteEP = AuthEp,

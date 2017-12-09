@@ -22,6 +22,7 @@ namespace CommunicationSubsystem.Conversations
         public Conversation(int waitTimeMs = 5000)
         {
             GetMessageWaitAmount = waitTimeMs;
+            ConversationId = null;
         }
 
         public void Execute()

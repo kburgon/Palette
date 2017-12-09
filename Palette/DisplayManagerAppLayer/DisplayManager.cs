@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using log4net;
+using CommunicationSubsystem.Conversations;
+using DisplayManagerAppLayer.Conversations;
 
 namespace DisplayManagerAppLayer
 {
@@ -13,21 +15,27 @@ namespace DisplayManagerAppLayer
         private static Dispatcher _dispatcher;
         private Dictionary<int, Tuple<int, string>> DisplayEPDictionary;
         private IPEndPoint AuthManagerEP;
+        public Conversation Conversation;
 
         public DisplayManager()
         {
             Logger.InfoFormat("Display Manager Started....");
-            _dispatcher = new Dispatcher();
+            _dispatcher = new Dispatcher()
+            {
+                ConversationCreationHandler = SetConversation
+            };
             DisplayEPDictionary = new Dictionary<int, Tuple<int, string>>();
             AuthManagerEP = new IPEndPoint(IPAddress.Any, 0);
         }
 
-        public void AddDisplay(string displayIP)
+        public int AddDisplay(string displayIP)
         {
             var id = GenerateDisplayId();
             var display = new Tuple<int, string>(id, displayIP);
             DisplayEPDictionary.Add(id, display);
             Logger.InfoFormat("Adding display to Display Manager: {0} {1}", id, displayIP);
+
+            return id;
         }
 
         public string GetDisplayAddress(int id)
@@ -109,6 +117,27 @@ namespace DisplayManagerAppLayer
                 return 1;
             else
                 return DisplayEPDictionary.Count + 1;
+        }
+
+        public void SetConversation(Conversation conversation)
+        {
+            if(conversation.GetType() == typeof(RegisterDisplayResponderConversation))
+            {
+                var myConversation = (RegisterDisplayResponderConversation)conversation;
+                myConversation.DisplayId = AddDisplay(myConversation.DisplayAddress);
+            }
+            else if(conversation.GetType() == typeof(AssignCanvasStateConversation))
+            {
+                var myConversation = (AssignCanvasStateConversation)conversation;
+                do
+                {
+                    myConversation.DisplayAddress = DisplayEPDictionary[myConversation.DisplayId].Item2;
+                }while(myConversation.DisplayId == -1)
+            }
+            else if(conversation.GetType() == typeof(UnassignCanvasStateConversation))
+            {
+
+            }
         }
     }
 }

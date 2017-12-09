@@ -21,7 +21,10 @@ namespace CanvasManagerAppLayer.Conversations
 
         protected override void ProcessReceivedMessage()
         {
-            throw new NotImplementedException();
+            if (InitialReceivedEnvelope.Message.GetType() != typeof(DeleteCanvasMessage))
+                return;
+
+            base.ProcessReceivedMessage();
         }
 
         protected override Message CreateAuthRequest()

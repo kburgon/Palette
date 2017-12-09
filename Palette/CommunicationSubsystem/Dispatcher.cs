@@ -9,6 +9,8 @@ using System.Net;
 
 namespace CommunicationSubsystem
 {
+    public delegate void ConversationCreationHandler(Conversation conversation);
+
     /// <summary>
     /// This class is in charge of directing where envelopes go when 
     /// they are received and maintaining all the conversation queues
@@ -37,7 +39,7 @@ namespace CommunicationSubsystem
 
 
         #region Public Members
-
+        public ConversationCreationHandler ConversationCreationHandler;
         public UdpCommunicator UdpCommunicator;
         public bool ConversationEnd;
         public IPEndPoint AuthEP { get; set; } = null;
@@ -195,6 +197,7 @@ namespace CommunicationSubsystem
 
             conversation.EnvelopeQueue = envQueue;
             conversation._communicator = UdpCommunicator;
+            ConversationCreationHandler?.Invoke(conversation);
             conversation.Execute();
 
             lock (_dictionaryLock)
@@ -214,6 +217,7 @@ namespace CommunicationSubsystem
             Conversation conversation = conver;
             conversation.EnvelopeQueue = envQueue;
             conversation._communicator = UdpCommunicator;
+            ConversationCreationHandler?.Invoke(conversation);
             conversation.Execute();
 
             lock (_dictionaryLock)

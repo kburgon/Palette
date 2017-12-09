@@ -10,7 +10,6 @@ namespace DisplayManagerAppLayer.Conversations
         public string DisplayAddress;
         public int DisplayId;
         private Tuple<Guid, short> NextMessageNumber;
-        private DisplayManager DisplayManager = new DisplayManager();
 
         protected override Message CreateReply()
         {
@@ -31,8 +30,10 @@ namespace DisplayManagerAppLayer.Conversations
 
         protected override void ProcessReceivedMessage(Message message)
         {
+            if (message.GetType() != typeof(RegisterDisplayMessage))
+                return;
             DisplayAddress = (message as RegisterDisplayMessage).IPAddress;
-            DisplayManager.AddDisplay((message as RegisterDisplayMessage).IPAddress);
+
             var nextNum = message.MessageNumber.Item2 + 1;
             NextMessageNumber = new Tuple<Guid, short>(message.MessageNumber.Item1, (short)nextNum);
         }
