@@ -63,6 +63,10 @@
       <Project>{AE69EF03-D766-4050-A961-F5843B5C20A3}</Project>
       <Name>AuthManagerAppLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CommunicationSubsystem\CommunicationSubsystem.csproj">
+      <Project>{2460E5F2-2673-4E6E-ACF9-3C6BEBCDE060}</Project>
+      <Name>CommunicationSubsystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedAppLayer\SharedAppLayer.csproj">
       <Project>{a91ead19-693a-4099-b565-7284f2fe3122}</Project>
       <Name>SharedAppLayer</Name>
