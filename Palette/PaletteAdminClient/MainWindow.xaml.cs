@@ -4,6 +4,8 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using AdminClientAppLayer;
+using AdminClientAppLayer.Conversations;
+using Display;
 
 namespace PaletteAdminClient
 {
@@ -13,6 +15,8 @@ namespace PaletteAdminClient
     public partial class MainWindow : Window
     {
         private static AdminClient _adminClient;
+        private readonly PaletteLine _line = new PaletteLine();
+        private int _canvasId;
 
         public MainWindow()
         {
@@ -21,8 +25,11 @@ namespace PaletteAdminClient
             _adminClient = new AdminClient
             {
                 CreatedCanvasIdHandler = HandleCanvasIdUpdate,
-                DeleteCanvasHandler = HandleCanvasDelete
+                DeleteCanvasHandler = HandleCanvasDelete,
+                CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text,
+                CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text)
             };
+
         }
 
         private static bool IsValidIpAddress(string ip)
@@ -43,8 +50,7 @@ namespace PaletteAdminClient
             if (!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke(new CreatedCanvasIdHandler(HandleCanvasIdUpdate), canvasId);
-                ListBoxItem item = new ListBoxItem();
-                item.Content = canvasId;
+                var item = new ListBoxItem {Content = canvasId};
                 CanvasIdListBox.Items.Add(item);
                 CanvasIdListBox.UpdateLayout();
                 return;
@@ -77,7 +83,11 @@ namespace PaletteAdminClient
 
         private void ConnectCanvasButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (int.TryParse(CanvasIdTextBox.Text, out _canvasId))
+                PaletteClientTabItem.Visibility = Visibility.Visible;
+            else
+                //Show Invalid Message
+                return;
         }
 
         private void CancelCanvasConnectButton_Click(object sender, RoutedEventArgs e)
@@ -100,7 +110,6 @@ namespace PaletteAdminClient
 
         private void SubmitAdminLoginButton_Click(object sender, RoutedEventArgs e)
         {
-            PaletteClientTabItem.Visibility = Visibility.Visible;
             AdminClientTabItem.Visibility = Visibility.Visible;
             AdminClientUsersTab.Visibility = Visibility.Visible;
         }
@@ -118,9 +127,6 @@ namespace PaletteAdminClient
                 MessageBox.Show("Please enter a valid IP address and port.");
                 return;
             }
-
-            _adminClient.CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text;
-            _adminClient.CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text);
             _adminClient.StartDispatcher(11900);
             _adminClient.RequestCanvasList();
         }
@@ -132,9 +138,6 @@ namespace PaletteAdminClient
                 MessageBox.Show("Please enter a valid IP address and port.");
                 return;
             }
-
-            _adminClient.CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text;
-            _adminClient.CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text);
             _adminClient.StartDispatcher(11900);
             _adminClient.CreateCanvas();
         }
@@ -146,9 +149,6 @@ namespace PaletteAdminClient
                 MessageBox.Show("Please enter a valid IP address and port.");
                 return;
             }
-
-            _adminClient.CanvasManagerIpAddress = CanvasManagerIpAddressTextBox.Text;
-            _adminClient.CanvasManagerPortNumber = Convert.ToInt32(CanvasManagerPort.Text);
             _adminClient.StartDispatcher(11900);
 
             try
@@ -171,6 +171,24 @@ namespace PaletteAdminClient
         private void Window_Closed(object sender, EventArgs e)
         {
             _adminClient.CloseDispatcher();
+        }
+
+        private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var pointOne = e.GetPosition(CanvasEditGrid);
+            _line.StartDrawing(CanvasEditGrid, pointOne);
+        }
+
+        private void Grid_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var position = e.GetPosition(CanvasEditGrid);
+            _line.Update(position);
+        }
+
+        private void Grid_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            _line.StopDrawing();
+            _adminClient.SendBrushStroke(_canvasId, _line.GetPoints());
         }
     }
 }

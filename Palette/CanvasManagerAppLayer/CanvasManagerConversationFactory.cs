@@ -14,7 +14,8 @@ namespace CanvasManagerAppLayer
             {
                 {typeof(CreateCanvasMessage), typeof(CreateCanvasStateConversation)},
                 {typeof(DeleteCanvasMessage), typeof(DeleteCanvasStateConversation)},
-                {typeof(GetCanvasListMessage), typeof(GetCanvasListStateConversation)}
+                {typeof(GetCanvasListMessage), typeof(GetCanvasListStateConversation)},
+                {typeof(BrushStrokeMessage), typeof(EditCanvasConversation)}
             };
         }
     }

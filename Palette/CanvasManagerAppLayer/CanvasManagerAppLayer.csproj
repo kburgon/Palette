@@ -49,7 +49,10 @@
     <Compile Include="CanvasManagerConversationFactory.cs" />
     <Compile Include="Conversations\CreateCanvasStateConversation.cs" />
     <Compile Include="Conversations\DeleteCanvasStateConversation.cs" />
+    <Compile Include="Conversations\DisplayUpdateConversation.cs" />
+    <Compile Include="Conversations\EditCanvasConversation.cs" />
     <Compile Include="Conversations\GetCanvasListStateConversation.cs" />
+    <Compile Include="Conversations\StoreEditConversation.cs" />
     <Compile Include="Conversations\SubscribeCanvasStateConversation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

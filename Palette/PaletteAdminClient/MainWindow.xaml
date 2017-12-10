@@ -109,7 +109,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Content="Canvas Manager IP Address:" HorizontalAlignment="Right"/>
-                        <TextBox Grid.Column="1" x:Name="CanvasManagerIpAddressTextBox" IsEnabled="False" Text="18.221.148.97" Width="100" VerticalContentAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="CanvasManagerIpAddressTextBox" IsEnabled="False" Text="127.0.0.1" Width="100" VerticalContentAlignment="Center"/>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
@@ -164,6 +164,9 @@
                     </Grid>
                 </Grid>
             </Grid>
+        </TabItem>
+        <TabItem x:Name="CanvasEditTab" Header="Palette" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="54">
+            <Grid x:Name="CanvasEditGrid" Background="White" MouseDown="Grid_MouseDown" MouseMove="Grid_MouseMove" MouseUp="Grid_MouseUp"/>
         </TabItem>
     </TabControl>
 </Window>

@@ -189,6 +189,15 @@ namespace AdminClientAppLayer
             }
         }
 
+        public void SendBrushStroke(int canvasId, List<Tuple<int, int>> points)
+        {
+            var convo = new EditCanvasConversation( canvasId, points)
+            {
+                RemoteEndPoint = new IPEndPoint(IPAddress.Parse(CanvasManagerIpAddress), CanvasManagerPortNumber)
+            };
+            Dispatcher.StartConversationByConversationType(convo);
+        }
+
         public void CloseDispatcher()
         {
             Dispatcher.StopListener();

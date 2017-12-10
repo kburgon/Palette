@@ -3,6 +3,9 @@ using DisplayAppLayer;
 using System.Net;
 using System;
 using System.Drawing;
+using System.Windows.Shapes;
+using Brushes = System.Windows.Media.Brushes;
+using Point = System.Windows.Point;
 
 namespace Display
 {
